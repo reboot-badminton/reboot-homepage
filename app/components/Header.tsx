@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Header() {
   return (
-    <div className="flex justify-center items-center py-2 bg-white">
+    <Link href="/" className="flex justify-center items-center py-2 bg-white">
       <Image
         className="mr-2"
         src="/antroke.jpg"
@@ -12,6 +13,6 @@ export default function Header() {
         priority
       />
       리부트 배드민턴 전용구장
-    </div>
+    </Link>
   );
 }
