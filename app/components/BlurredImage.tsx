@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 interface Props {
   src: string;
@@ -11,13 +11,18 @@ interface Props {
 // 2. 한 번은 이미지가 컨테이너 사이즈에 딱 맞게 그리기
 export default function BlurredImage({ src }: Props) {
   return (
-    <div>
+    <div className="relative w-full h-full overflow-hidden">
       <Image
-        src="/antroke.jpg"
-        alt="리부트 배드민턴장 로고"
-        layout="fill"
-        objectFit="contain"
-        priority
+        src={src}
+        alt={`blured badminton${src}`}
+        fill
+        className="blur-lg z-[-1] object-cover"
+      />
+      <Image
+        src={src}
+        alt={`badminton${src}`}
+        fill
+        className="object-contain"
       />
     </div>
   );
