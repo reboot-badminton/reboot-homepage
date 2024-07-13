@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <Link href="/" className="flex justify-center items-center py-2 bg-white">
       <Image
-        className="mr-2"
+        className="mr-2 rounded-full"
         src="/antroke.jpg"
         alt="리부트 배드민턴장 로고"
         width={50}
