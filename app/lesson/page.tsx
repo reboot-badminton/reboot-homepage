@@ -15,6 +15,17 @@ const timeSlots = Array.from(
   }
 );
 
+function getNextMonth() {
+  const today = new Date();
+  const nextMonth = new Date(today);
+
+  nextMonth.setMonth(today.getMonth() + 1, 1);
+
+  const year = nextMonth.getFullYear();
+  const month = String(nextMonth.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+}
+
 export default function Lesson() {
   const router = useRouter();
   const pathname = usePathname();
@@ -27,7 +38,7 @@ export default function Lesson() {
 
   useEffect(() => {
     if (q == null || q === '') {
-      router.replace(pathname + '?q=2024-08');
+      router.replace(pathname + '?q=' + getNextMonth());
       return;
     }
 
