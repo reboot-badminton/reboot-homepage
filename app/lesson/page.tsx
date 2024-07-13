@@ -3,6 +3,18 @@
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const headers = ['', '월', '화', '수', '목', '금', '토', '일'];
+const startTime = 6; // Starting hour (6:00 AM)
+const endTime = 23; // Ending hour (11:00 PM)
+
+const timeSlots = Array.from(
+  { length: endTime - startTime + 1 },
+  (_, index) => {
+    const hour = startTime + index;
+    return `${hour <= 12 ? hour : hour - 12}시`;
+  }
+);
+
 export default function Lesson() {
   const router = useRouter();
   const pathname = usePathname();
@@ -12,18 +24,6 @@ export default function Lesson() {
 
   const [year, setYear] = useState<number>();
   const [month, setMonth] = useState<number>();
-
-  const headers = ['', '월', '화', '수', '목', '금', '토', '일'];
-  const startTime = 6; // Starting hour (6:00 AM)
-  const endTime = 23; // Ending hour (11:00 PM)
-
-  const timeSlots = Array.from(
-    { length: endTime - startTime + 1 },
-    (_, index) => {
-      const hour = startTime + index;
-      return `${hour <= 12 ? hour : hour - 12}시`;
-    }
-  );
 
   useEffect(() => {
     if (q == null || q === '') {
