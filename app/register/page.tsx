@@ -1,13 +1,18 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Registration } from './registration';
 import FieldInput from './FieldInput';
 import { firestore } from '../firebase/firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import Dialog from '../components/Dialog';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+  const router = useRouter();
   const registration = useRef(new Registration());
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const register = useCallback(() => {
     return addDoc(collection(firestore, 'registration'), {
@@ -19,9 +24,13 @@ export default function Register() {
   }, [registration]);
 
   const onSubmit = useCallback(() => {
-    // TODO: Start loading
+    setIsRegistering(true);
     register().then(() => {
-      // TODO: End loading
+      setIsRegistering(false);
+      setIsSuccess(true);
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     });
   }, []);
 
@@ -43,6 +52,10 @@ export default function Register() {
       >
         신청하기
       </button>
+      {isRegistering && <Dialog text="신청중입니다" useDotAnimation={true} />}
+      {isSuccess && (
+        <Dialog text="신청 완료했습니다." useDotAnimation={false} />
+      )}
     </div>
   );
 }
