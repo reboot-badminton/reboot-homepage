@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import Slot from './Slot';
 import TimeSlot from '@/app/data/TimeSlot';
+import { LessonMonth } from '@/app/data/LessonMonth';
 
 interface Props {
   slots: TimeSlot[];
   onSlotClick: (slot: TimeSlot) => void;
+  onEmptySlotClick: (time: number) => void;
 }
 
 const hours = Array.from({ length: 24 }, (_, i) => {
@@ -13,21 +15,30 @@ const hours = Array.from({ length: 24 }, (_, i) => {
   return `${ampm} ${hour}시`;
 });
 
-export default function TimeTable({ slots, onSlotClick }: Props) {
+export default function TimeTable({
+  slots,
+  onSlotClick,
+  onEmptySlotClick,
+}: Props) {
   return (
     <table className="w-full bg-white">
       <tbody>
-        {hours.map((hour, i) => (
-          <tr key={hour} className={'border' + (i === 12 ? ' border-t-8' : '')}>
+        {hours.map((hour, time) => (
+          <tr
+            key={hour}
+            className={'border' + (time === 12 ? ' border-t-8' : '')}
+          >
             <td className="border px-2 py-1 w-16 whitespace-nowrap text-xs">
               {hour}
             </td>
             <td>
               <Slot
-                slot={slots.find((slot) => slot.time === i)}
+                slot={slots.find((slot) => slot.time === time)}
                 onClick={(slot) => {
                   if (slot) {
                     onSlotClick(slot);
+                  } else {
+                    onEmptySlotClick(time);
                   }
                 }}
               />

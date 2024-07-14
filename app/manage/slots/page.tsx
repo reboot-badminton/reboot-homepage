@@ -7,7 +7,6 @@ import DaySelector from './DaySelector';
 import TimeTable from './TimeTable';
 import TimeSlot from '@/app/data/TimeSlot';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';
-import Dialog from '@/app/components/Dialog';
 import SlotDialog from './SlotDialog';
 
 export default function ManageSlots() {
@@ -15,6 +14,7 @@ export default function ManageSlots() {
   const [lessonMonth, setLessonMonth] = useState<LessonMonth>();
   const [slots, setSlots] = useState<TimeSlot[]>([]);
   const [clickedSlot, setClickedSlot] = useState<TimeSlot | null>(null);
+  const [isAddMode, setIsAddMode] = useState(false);
 
   const refresh = useCallback(() => {
     if (!lessonMonth) return;
@@ -30,12 +30,29 @@ export default function ManageSlots() {
       {lessonMonth && (
         <TimeTable
           slots={getSlotsForDay(slots, day)}
-          onSlotClick={setClickedSlot}
+          onSlotClick={(slot) => {
+            setIsAddMode(false);
+            setClickedSlot(slot);
+          }}
+          onEmptySlotClick={(time) => {
+            setIsAddMode(true);
+            setClickedSlot({
+              lessonMonth,
+              days: [day],
+              time,
+              title: '',
+              coach: '',
+              price: 0,
+              capacity: 2,
+              students: [],
+            });
+          }}
         />
       )}
       {clickedSlot && (
         <SlotDialog
           slot={clickedSlot}
+          isAddMode={isAddMode}
           onClose={(isEdited) => {
             if (isEdited) {
               refresh();

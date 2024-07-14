@@ -18,6 +18,31 @@ export async function getSlotsForMonth(lessonMonth: LessonMonth) {
   return snapshot.data()[lessonMonth.month] ?? [];
 }
 
+export async function deleteSlot(timeSlot: TimeSlot) {
+  const year = timeSlot.lessonMonth.year;
+  const month = timeSlot.lessonMonth.month;
+
+  const snapshot = await getDoc(doc(firestore, 'slots', year.toString()));
+
+  if (snapshot.exists()) {
+    const data: {
+      [field: number]: TimeSlot[];
+    } = {};
+
+    const snapshotData: DocumentData = snapshot.data();
+
+    data[month] = snapshotData[month].filter(
+      (slot: TimeSlot) =>
+        slot.lessonMonth.year !== year ||
+        slot.lessonMonth.month !== month ||
+        slot.days.join() !== timeSlot.days.join() ||
+        slot.time !== timeSlot.time
+    );
+
+    setDoc(doc(firestore, 'slots', year.toString()), data);
+  }
+}
+
 export async function updateSlot(newTimeSlot: TimeSlot, oldTimeSlot: TimeSlot) {
   const year = newTimeSlot.lessonMonth.year;
   const month = newTimeSlot.lessonMonth.month;

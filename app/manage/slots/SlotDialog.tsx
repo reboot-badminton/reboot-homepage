@@ -4,15 +4,16 @@ import Dialog from '@/app/components/Dialog';
 import TimeSlot from '@/app/data/TimeSlot';
 import SlotDialogField from './SlotDialogField';
 import { useCallback, useRef, useState } from 'react';
-import { updateSlot } from './getSlot';
+import { deleteSlot, updateSlot } from './getSlot';
 
 interface Props {
   slot: TimeSlot;
+  isAddMode: boolean;
   onClose: (isEdited: boolean) => void;
 }
 
-export default function SlotDialog({ slot, onClose }: Props) {
-  const [isEditMode, setIsEditMode] = useState(false);
+export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
+  const [isEditMode, setIsEditMode] = useState(isAddMode);
   const [isEditLoading, setIsEditLoading] = useState(false);
   const isEditedRef = useRef(false);
 
@@ -65,6 +66,18 @@ export default function SlotDialog({ slot, onClose }: Props) {
             <>
               <button
                 className="p-2 font-bold text-gray-500"
+                onClick={() => {
+                  setIsEditLoading(true);
+                  deleteSlot(slot).then(() => {
+                    setIsEditLoading(false);
+                    onClose(true);
+                  });
+                }}
+              >
+                삭제
+              </button>
+              <button
+                className="p-2 font-bold text-gray-500"
                 onClick={() => setIsEditMode(true)}
               >
                 수정
@@ -82,8 +95,12 @@ export default function SlotDialog({ slot, onClose }: Props) {
               <button
                 className="p-2 font-bold text-gray-500"
                 onClick={() => {
-                  initialize();
-                  setIsEditMode(false);
+                  if (isAddMode) {
+                    onClose(false);
+                  } else {
+                    initialize();
+                    setIsEditMode(false);
+                  }
                 }}
               >
                 취소
@@ -102,9 +119,7 @@ export default function SlotDialog({ slot, onClose }: Props) {
                     },
                     slot
                   ).then(() => {
-                    setIsEditLoading(false);
-                    setIsEditMode(false);
-                    isEditedRef.current = true;
+                    onClose(true);
                   });
                 }}
               >
