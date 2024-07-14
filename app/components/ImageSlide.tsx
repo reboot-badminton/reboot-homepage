@@ -64,12 +64,11 @@ export default function ImageSlide({ srcs }: Props) {
       >
         &#10095;
       </button>
-
       <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-2 w-10 mx-1 rounded-xl ${
+            className={`h-2 w-2 sm:w-4 lg:w-10 mx-1 rounded-xl ${
               index === currentIndex ? 'bg-[#beff46]' : 'bg-gray-300'
             } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}

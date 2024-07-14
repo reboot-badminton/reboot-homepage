@@ -13,8 +13,8 @@ export interface ImageProps {
 export default function BlurredImage({ src, alt }: ImageProps) {
   return (
     <div className="relative w-full h-full overflow-hidden">
-      <Image src={src} alt={alt} fill className="blur-lg z-[-1] object-cover" />
-      <Image src={src} alt={alt} fill className="object-contain" />
+      <Image src={src} alt={alt} fill priority className="blur-lg z-[-1] object-cover" />
+      <Image src={src} alt={alt} fill priority className="object-contain" />
     </div>
   );
 }
