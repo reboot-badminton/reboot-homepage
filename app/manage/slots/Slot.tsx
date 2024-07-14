@@ -2,17 +2,23 @@ import TimeSlot from '@/app/data/TimeSlot';
 
 interface Props {
   slot: TimeSlot | undefined;
+  onClick: (slot: TimeSlot | null) => void;
 }
 
-export default function Slot({ slot }: Props) {
+export default function Slot({ slot, onClick }: Props) {
   if (slot == null) {
     return (
-      <div className="text-xs h-10 flex justify-center items-center">-</div>
+      <div
+        className="text-xs h-10 flex justify-center items-center"
+        onClick={() => onClick(null)}
+      >
+        -
+      </div>
     );
   }
 
   return (
-    <div className="text-sm px-2 py-1">
+    <div className="text-sm px-2 py-1" onClick={() => onClick(slot)}>
       <b className="block mb-1">{slot.title}</b>
       <span>{slot.coach}</span>
       <span className="ml-1 text-gray-500">₩{slot.price}</span>

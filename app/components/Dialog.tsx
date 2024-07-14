@@ -1,13 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 interface Props {
-  text: string;
-  useDotAnimation: boolean;
+  text?: string;
+  useDotAnimation?: boolean;
 }
 
-export default function Dialog({ text, useDotAnimation }: Props) {
+export default function Dialog({
+  text,
+  useDotAnimation,
+  children,
+}: PropsWithChildren<Props>) {
   const [dotCount, setDotCount] = useState(useDotAnimation ? 1 : 0);
 
   useEffect(() => {
@@ -21,9 +25,14 @@ export default function Dialog({ text, useDotAnimation }: Props) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
-        {text}
-        {new Array(dotCount).fill('.').join('')}
+      <div className="bg-white rounded-lg shadow-lg flex items-center">
+        {text != null && (
+          <div className="p-6">
+            {text}
+            {new Array(dotCount).fill('.').join('')}
+          </div>
+        )}
+        {children}
       </div>
     </div>
   );

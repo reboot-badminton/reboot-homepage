@@ -1,8 +1,10 @@
+import { useCallback } from 'react';
 import Slot from './Slot';
 import TimeSlot from '@/app/data/TimeSlot';
 
 interface Props {
   slots: TimeSlot[];
+  onSlotClick: (slot: TimeSlot) => void;
 }
 
 const hours = Array.from({ length: 24 }, (_, i) => {
@@ -11,7 +13,7 @@ const hours = Array.from({ length: 24 }, (_, i) => {
   return `${ampm} ${hour}시`;
 });
 
-export default function TimeTable({ slots }: Props) {
+export default function TimeTable({ slots, onSlotClick }: Props) {
   return (
     <table className="w-full bg-white">
       <tbody>
@@ -21,7 +23,14 @@ export default function TimeTable({ slots }: Props) {
               {hour}
             </td>
             <td>
-              <Slot slot={slots.find((slot) => slot.time === i)} />
+              <Slot
+                slot={slots.find((slot) => slot.time === i)}
+                onClick={(slot) => {
+                  if (slot) {
+                    onSlotClick(slot);
+                  }
+                }}
+              />
             </td>
           </tr>
         ))}
