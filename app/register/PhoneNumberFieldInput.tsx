@@ -12,7 +12,10 @@ export default function PhoneNumberFieldInput({ field }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const parsePhoneNumber = useCallback((num: string) => {
+    // Remove all non-digit characters
     const cleaned = num.replace(/[^0-9]/g, '');
+
+    // Handle different phone number formats
     const match = cleaned.match(/^(01[016789]|02|0[3-9][0-9])(\d{3,4})(\d{4})$/);
     if (match) {
       const [, areaCode, firstPart, secondPart] = match;

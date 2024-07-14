@@ -29,7 +29,7 @@ export default function DateFieldInput({ field }: Props) {
         toggleCalendarOnIconClick
         selected={selectedDate}
         onChange={handleChange}
-        maxDate={new Date()} // 오늘 이전의 날짜 선택 불가능하게 설정
+        maxDate={new Date()}
       />
     </div>
   );
