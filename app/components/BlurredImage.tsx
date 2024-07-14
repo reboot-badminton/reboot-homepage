@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
-interface Props {
+export interface ImageProps {
   src: string;
+  alt: string;
 }
 
 // 이미지를 컨테이너 크기에 맞게 그려주고,
@@ -9,16 +10,11 @@ interface Props {
 // 이미지를 두 번 그리는데,
 // 1. 한 번은 이미지가 전체 공간을 다 덮게 그리고 블러 처리
 // 2. 한 번은 이미지가 컨테이너 사이즈에 딱 맞게 그리기
-export default function BlurredImage({ src }: Props) {
+export default function BlurredImage({ src, alt }: ImageProps) {
   return (
-    <div>
-      <Image
-        src="/antroke.jpg"
-        alt="리부트 배드민턴장 로고"
-        layout="fill"
-        objectFit="contain"
-        priority
-      />
+    <div className="relative w-full h-full overflow-hidden">
+      <Image src={src} alt={alt} fill className="blur-lg z-[-1] object-cover" />
+      <Image src={src} alt={alt} fill className="object-contain" />
     </div>
   );
 }

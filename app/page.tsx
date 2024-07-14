@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import ImageSlide from './components/ImageSlide';
 
+const slideImages = Array.from({ length: 19 }, (_, index) => ({
+  src: `/slide/${index + 1}.jpg`,
+  alt: `blurred slide Image ${index + 1}`
+}));
+
 export default function Home() {
   return (
     <>
-      <ImageSlide srcs={[]} />
+      <ImageSlide srcs={slideImages} />
       <div className="text-center m-5">
         <Link
           href="/register"
