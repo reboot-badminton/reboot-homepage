@@ -64,7 +64,7 @@ export default function ImageSlide({ srcs }: Props) {
         &#10095;
       </button>
 
-      <div className="flex justify-center mt-4">
+      <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
