@@ -3,6 +3,7 @@ import Image from 'next/image';
 export interface ImageProps {
   src: string;
   alt: string;
+  priority?: boolean;
 }
 
 // 이미지를 컨테이너 크기에 맞게 그려주고,
@@ -10,11 +11,11 @@ export interface ImageProps {
 // 이미지를 두 번 그리는데,
 // 1. 한 번은 이미지가 전체 공간을 다 덮게 그리고 블러 처리
 // 2. 한 번은 이미지가 컨테이너 사이즈에 딱 맞게 그리기
-export default function BlurredImage({ src, alt }: ImageProps) {
+export default function BlurredImage({ src, alt, priority }: ImageProps) {
   return (
     <div className="relative w-full h-full overflow-hidden">
-      <Image src={src} alt={alt} fill priority className="blur-lg z-[-1] object-cover" />
-      <Image src={src} alt={alt} fill priority className="object-contain" />
+      <Image src={src} alt={alt} fill priority={priority} className="blur-lg z-[-1] object-cover" />
+      <Image src={src} alt={alt} fill priority={priority} className="object-contain" />
     </div>
   );
 }
