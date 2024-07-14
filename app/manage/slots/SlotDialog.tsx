@@ -5,6 +5,7 @@ import TimeSlot from '@/app/data/TimeSlot';
 import SlotDialogField from './SlotDialogField';
 import { useCallback, useRef, useState } from 'react';
 import { deleteSlot, updateSlot } from './getSlot';
+import SlotDialogDaysField from './SlotDialotDaysField';
 
 interface Props {
   slot: TimeSlot;
@@ -18,12 +19,14 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
   const isEditedRef = useRef(false);
 
   const titleRef = useRef(slot.title);
+  const daysRef = useRef<number[]>(slot.days);
   const coachRef = useRef(slot.coach);
   const priceRef = useRef(slot.price);
   const capacityRef = useRef(slot.capacity);
 
   const initialize = useCallback(() => {
     titleRef.current = slot.title;
+    daysRef.current = slot.days;
     coachRef.current = slot.coach;
     priceRef.current = slot.price;
     capacityRef.current = slot.capacity;
@@ -31,13 +34,14 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
 
   return (
     <Dialog>
-      <div className="w-48 text-sm mx-4 mt-4 mb-2">
+      <div className="w-64 text-sm mx-4 mt-4 mb-2">
         <SlotDialogField
           title=""
           valueRef={titleRef}
           isEditMode={isEditMode}
           className="text-base mb-2"
         />
+        <SlotDialogDaysField daysRef={daysRef} isEditMode={isEditMode} />
         <SlotDialogField
           title="코치"
           valueRef={coachRef}
@@ -113,6 +117,7 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
                     {
                       ...slot,
                       title: titleRef.current,
+                      days: daysRef.current,
                       coach: coachRef.current,
                       price: priceRef.current,
                       capacity: capacityRef.current,
