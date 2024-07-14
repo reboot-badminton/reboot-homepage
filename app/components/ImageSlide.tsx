@@ -1,9 +1,10 @@
-"use client"
-import BlurredImage from "./BlurredImage";
-import { useState, useEffect } from "react";
+'use client'
+import BlurredImage, { ImageProps } from './BlurredImage';
+import { useState, useEffect, useCallback } from 'react';
+
 interface Props {
-  srcs: string[]
-};
+  srcs: ImageProps[];
+}
 
 // 여러 개의 이미지를 슬라이드 형식으로 보여주는 컴포넌트
 // 좌우 화살표와 인디케이터 표시
@@ -11,43 +12,45 @@ interface Props {
 // 인디케이터는 총 몇 개의 이미지가 있고, 지금 몇 번째 이미지인지 알 수 있게끔 표시
 // 일정 시간이 지날때마다 다음 이미지로 이동
 export default function ImageSlide({ srcs }: Props) {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const prevSlide = (): void => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + srcs.length) % srcs.length)
-  };
-  const nextSlide = (): void => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % srcs.length)
-  };
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + srcs.length) % srcs.length);
+  }, [srcs.length]);
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % srcs.length);
+  }, [srcs.length]);
+
   useEffect(() => {
     if (!isHovered) {
       const interval = setInterval(() => {
-        nextSlide()
-      }, 3000)
+        nextSlide();
+      }, 3000);
 
       return () => {
-        clearInterval(interval)
-      }
+        clearInterval(interval);
+      };
     }
-  }, [isHovered])
+  }, [isHovered, nextSlide]);
 
-  const handleMouseOver = (): void => {
-    setIsHovered(true)
-  }
-  const handleMouseLeave = (): void => {
-    setIsHovered(false)
-  }
-  const goToSlide = (index: number): void => {
+  const handleMouseOver = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+  const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
-  };
+  }, []);
+
   return (
     <div
       className="w-full h-80 relative"
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <BlurredImage src={`/slide/${srcs[currentIndex]}.jpg`} />
+      <BlurredImage imageProps={srcs[currentIndex]} />
       <button
         className="absolute left-0 top-1/2 transform h-10 rounded-xl hover:bg-[#1a222f] mx-1 -mt-[10px] -translate-y-1/2 bg-[#111927] text-white p-2 group"
         onClick={prevSlide}
@@ -65,15 +68,15 @@ export default function ImageSlide({ srcs }: Props) {
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-2 w-10 mx-1 ${
+            className={`h-2 w-10 mx-1 rounded-xl ${
               index === currentIndex
-                ? "bg-[#beff46] rounded-xl"
-                : "bg-gray-300 rounded-xl"
+                ? "bg-[#beff46]"
+                : "bg-gray-300"
             } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}
           ></div>
         ))}
       </div>
     </div>
-  )
+  );
 }
