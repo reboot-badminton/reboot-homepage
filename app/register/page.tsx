@@ -3,13 +3,26 @@
 import { useCallback, useRef } from 'react';
 import { Registration } from './registration';
 import FieldInput from './FieldInput';
+import { firestore } from '../firebase/firebase';
+import { addDoc, collection } from 'firebase/firestore';
 
 export default function Register() {
   const registration = useRef(new Registration());
 
+  const register = useCallback(() => {
+    return addDoc(collection(firestore, 'registration'), {
+      times: registration.current.times.value,
+      name: registration.current.name.value,
+      birthday: registration.current.birthday.value,
+      phone: registration.current.phone.value,
+    });
+  }, [registration]);
+
   const onSubmit = useCallback(() => {
-    // TODO: Firebase에 저장 - https://github.com/reboot-badminton/reboot-homepage/issues/5
-    console.log(JSON.stringify(registration));
+    // TODO: Start loading
+    register().then(() => {
+      // TODO: End loading
+    });
   }, []);
 
   return (
