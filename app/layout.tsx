@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -75,7 +76,9 @@ export default function RootLayout({
           <div className="mb-4 text-xs">
             © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
           </div>
-          <div className="mb-4 text-xs text-gray-300">관리자 로그인</div>
+          <Link href="/manage">
+            <div className="mb-4 text-xs text-gray-300">관리자 로그인</div>
+          </Link>
         </footer>
       </body>
     </html>

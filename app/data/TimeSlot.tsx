@@ -1,5 +1,14 @@
+import { LessonMonth } from './LessonMonth';
+
 export default interface TimeSlot {
-  start: number;
+  lessonMonth: LessonMonth;
+  days: number[];
+  time: number;
+
+  title: string;
+  coach: string;
+  price: number;
+
   capacity: number;
-  occupied: number;
+  students: string[];
 }
