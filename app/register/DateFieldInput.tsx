@@ -10,12 +10,12 @@ interface Props {
 }
 
 export default function DateFieldInput({ field }: Props) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(field.value);
+  const [selectedDate, setSelectedDate] = useState<Date>(field.value);
 
   const handleChange = useCallback(
     (date: Date | null) => {
-      setSelectedDate(date);
-      if (date) {
+      if (date !== null) {
+        setSelectedDate(date);
         field.value = date;
       }
     },
@@ -27,6 +27,9 @@ export default function DateFieldInput({ field }: Props) {
       <DatePicker
         showIcon
         toggleCalendarOnIconClick
+        showYearDropdown
+        showMonthDropdown
+        dropdownMode="select"
         selected={selectedDate}
         onChange={handleChange}
         maxDate={new Date()}
