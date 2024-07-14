@@ -16,10 +16,12 @@ export default function ManageSlots() {
   const [slots, setSlots] = useState<TimeSlot[]>([]);
   const [clickedSlot, setClickedSlot] = useState<TimeSlot | null>(null);
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
     if (!lessonMonth) return;
     getSlotsForMonth(lessonMonth).then((slots) => setSlots(slots));
   }, [lessonMonth]);
+
+  useEffect(() => refresh(), [refresh]);
 
   return (
     <div className="p-4">
@@ -32,7 +34,15 @@ export default function ManageSlots() {
         />
       )}
       {clickedSlot && (
-        <SlotDialog slot={clickedSlot} onClose={() => setClickedSlot(null)} />
+        <SlotDialog
+          slot={clickedSlot}
+          onClose={(isEdited) => {
+            if (isEdited) {
+              refresh();
+            }
+            setClickedSlot(null);
+          }}
+        />
       )}
     </div>
   );

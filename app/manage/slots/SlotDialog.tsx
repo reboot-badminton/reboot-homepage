@@ -3,7 +3,8 @@
 import Dialog from '@/app/components/Dialog';
 import TimeSlot from '@/app/data/TimeSlot';
 import SlotDialogField from './SlotDialogField';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { updateSlot } from './getSlot';
 
 interface Props {
   slot: TimeSlot;
@@ -12,25 +13,44 @@ interface Props {
 
 export default function SlotDialog({ slot, onClose }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
+  const isEditedRef = useRef(false);
+
+  const titleRef = useRef(slot.title);
+  const coachRef = useRef(slot.coach);
+  const priceRef = useRef(slot.price);
+  const capacityRef = useRef(slot.capacity);
+
+  const initialize = useCallback(() => {
+    titleRef.current = slot.title;
+    coachRef.current = slot.coach;
+    priceRef.current = slot.price;
+    capacityRef.current = slot.capacity;
+  }, [slot]);
 
   return (
     <Dialog>
       <div className="w-48 text-sm mx-4 mt-4 mb-2">
-        <h1 className="text-base mb-2">{slot.title}</h1>
+        <SlotDialogField
+          title=""
+          valueRef={titleRef}
+          isEditMode={isEditMode}
+          className="text-base mb-2"
+        />
         <SlotDialogField
           title="코치"
-          initialValue={slot.coach}
+          valueRef={coachRef}
           isEditMode={isEditMode}
         />
         <SlotDialogField
           title="가격"
-          initialValue={slot.price}
+          valueRef={priceRef}
           suffix="원"
           isEditMode={isEditMode}
         />
         <SlotDialogField
           title="정원"
-          initialValue={slot.capacity}
+          valueRef={capacityRef}
           suffix="명"
           isEditMode={isEditMode}
         />
@@ -51,7 +71,7 @@ export default function SlotDialog({ slot, onClose }: Props) {
               </button>
               <button
                 className="p-2 font-bold text-gray-500"
-                onClick={() => onClose(false)}
+                onClick={() => onClose(isEditedRef.current)}
               >
                 닫기
               </button>
@@ -61,13 +81,32 @@ export default function SlotDialog({ slot, onClose }: Props) {
             <>
               <button
                 className="p-2 font-bold text-gray-500"
-                onClick={() => setIsEditMode(false)}
+                onClick={() => {
+                  initialize();
+                  setIsEditMode(false);
+                }}
               >
                 취소
               </button>
               <button
                 className="p-2 font-bold text-gray-500"
-                onClick={() => onClose(false)}
+                onClick={() => {
+                  setIsEditLoading(true);
+                  updateSlot(
+                    {
+                      ...slot,
+                      title: titleRef.current,
+                      coach: coachRef.current,
+                      price: priceRef.current,
+                      capacity: capacityRef.current,
+                    },
+                    slot
+                  ).then(() => {
+                    setIsEditLoading(false);
+                    setIsEditMode(false);
+                    isEditedRef.current = true;
+                  });
+                }}
               >
                 완료
               </button>
@@ -75,6 +114,7 @@ export default function SlotDialog({ slot, onClose }: Props) {
           )}
         </div>
       </div>
+      {isEditLoading && <Dialog text="수정 중" useDotAnimation={true} />}
     </Dialog>
   );
 }
