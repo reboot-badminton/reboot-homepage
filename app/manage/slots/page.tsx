@@ -15,7 +15,7 @@ export default function ManageSlots() {
 
   useEffect(() => {
     if (!lessonMonth) return;
-    setSlots(getSlotsForMonth(lessonMonth));
+    getSlotsForMonth(lessonMonth).then((slots) => setSlots(slots));
   }, [lessonMonth]);
 
   return (
