@@ -35,8 +35,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         {children}
-        <footer className="mt-4 pt-4 border-t text-center">
-          <h1 className="text-lg mb-2">Follow Us</h1>
+        <footer className="mt-4 pt-4 border-t text-center  text-gray-500">
+          <h1 className="text-lg mb-2 font-bold">Follow Us</h1>
           <div className="text-sm mb-4">
             <a href="https://www.youtube.com/@An_troke" className="mr-6">
               <Image
@@ -69,12 +69,13 @@ export default function RootLayout({
               <span className="hidden sm:inline">네이버 블로그</span>
             </a>
           </div>
-          <div className="mb-4">
+          <div className="mb-4 text-sm">
             경기 남양주시 진건읍 진건오남로390번길 89 1층
           </div>
-          <div className="mb-4 text-sm">
+          <div className="mb-4 text-xs">
             © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
           </div>
+          <div className="mb-4 text-xs text-gray-300">관리자 로그인</div>
         </footer>
       </body>
     </html>
