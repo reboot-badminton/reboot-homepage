@@ -1,4 +1,5 @@
 'use client'
+
 import BlurredImage, { ImageProps } from './BlurredImage';
 import { useState, useEffect, useCallback } from 'react';
 
@@ -23,15 +24,15 @@ export default function ImageSlide({ srcs }: Props) {
   }, [srcs.length]);
 
   useEffect(() => {
-    if (!isHovered) {
-      const interval = setInterval(() => {
-        nextSlide();
-      }, 3000);
+    if (isHovered) return;
 
-      return () => {
-        clearInterval(interval);
-      };
-    }
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [isHovered, nextSlide]);
 
   const handleMouseOver = useCallback(() => {
