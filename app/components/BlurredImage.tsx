@@ -10,21 +10,11 @@ export interface ImageProps {
 // 이미지를 두 번 그리는데,
 // 1. 한 번은 이미지가 전체 공간을 다 덮게 그리고 블러 처리
 // 2. 한 번은 이미지가 컨테이너 사이즈에 딱 맞게 그리기
-export default function BlurredImage({ imageProps }: { imageProps: ImageProps }) {
+export default function BlurredImage({ src, alt }: ImageProps) {
   return (
     <div className="relative w-full h-full overflow-hidden">
-      <Image
-        src={imageProps.src}
-        alt={imageProps.alt}
-        fill
-        className="blur-lg z-[-1] object-cover"
-      />
-      <Image
-        src={imageProps.src}
-        alt={imageProps.alt}
-        fill
-        className="object-contain"
-      />
+      <Image src={src} alt={alt} fill className="blur-lg z-[-1] object-cover" />
+      <Image src={src} alt={alt} fill className="object-contain" />
     </div>
   );
 }
