@@ -7,8 +7,22 @@ import Image from 'next/image';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '리부트 배드민턴',
-  description: '리부트 배드민턴 레슨 전용구장',
+  title: '리부트 배드민턴 전용구장 | 남양주시 최고의 배드민턴 레슨',
+  description:
+    '리부트 배드민턴 레슨 전용구장은 남양주시에 위치한 레슨 전용 배드민턴장입니다. 최고의 코치진이 맞춤형 집중 레슨을 제공합니다. 지금 예약하세요!',
+  openGraph: {
+    title: '리부트 배드민턴 전용구장',
+    description: '남양주시 최고의 배드민턴 레슨',
+    url: '', // 실제 URL로 바꾸기
+    siteName: '리부트 배드민턴 전용구장',
+    images: [
+      {
+        url: 'https://scontent-gmp1-1.cdninstagram.com/v/t39.30808-6/447861963_2201454360207116_5210493627184318316_n.jpg?stp=c0.64.1536.1920a_cp6_dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNTM2eDIwNDguc2RyLmYzMDgwOCJ9&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=XZAb32szmpMQ7kNvgE8Py07&edm=ACWDqb8AAAAA&ccb=7-5&ig_cache_key=MzM4Nzk4ODEyNDE1MDY3OTIzNA%3D%3D.2-ccb7-5&oh=00_AYDyTQF4FUZkBBM2UF5qaW1yeB4SzOiQ4r8tkLEDsQOPKw&oe=669917DE&_nc_sid=ee9879',
+        width: 800,
+        height: 600,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -17,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={inter.className}>
         <Header />
         {children}
