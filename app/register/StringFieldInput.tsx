@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, ChangeEventHandler, useCallback } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { Field } from './registration';
 
 interface Props {
@@ -15,5 +15,5 @@ export default function StringFieldInput({ field }: Props) {
     [field]
   );
 
-  return <input className='w-full' onChange={onChange} />;
+  return <input className="w-full" onChange={onChange} />;
 }
