@@ -14,13 +14,13 @@ export default function DateFieldInput({ field }: Props) {
 
   const handleChange = useCallback(
     (date: Date | null) => {
-      if (date !== null) {
-        setSelectedDate(date);
-        field.value = date;
-      }
+      if (date == null) return;
+      setSelectedDate(date);
+      field.value = date;
     },
     [field]
   );
+  
 
   return (
     <div className="relative">

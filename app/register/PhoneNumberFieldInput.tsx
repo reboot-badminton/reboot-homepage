@@ -14,18 +14,19 @@ export default function PhoneNumberFieldInput({ field }: Props) {
   const parsePhoneNumber = useCallback((num: string) => {
     // Remove all non-digit characters
     const cleaned = num.replace(/[^0-9]/g, '');
-
+  
     // Handle different phone number formats
     const match = cleaned.match(/^(01[016789]|02|0[3-9][0-9])(\d{3,4})(\d{4})$/);
-    if (match) {
-      const [, areaCode, firstPart, secondPart] = match;
-      setError(null);
-      return `${areaCode}-${firstPart}-${secondPart}`;
+    if (!match) {
+      setError('유효하지 않은 전화번호');
+      return num;
     }
-
-    setError('유효하지 않은 전화번호');
-    return num;
-  },[]);
+  
+    const [, areaCode, firstPart, secondPart] = match;
+    setError(null);
+    return `${areaCode}-${firstPart}-${secondPart}`;
+  }, []);
+  
   
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
