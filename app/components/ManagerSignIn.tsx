@@ -12,6 +12,17 @@ enum SignInStatus {
   SIGNED_IN_ADMIN,
 }
 
+function Button({ text, onClick }: { text: string; onClick: () => void }) {
+  return (
+    <div
+      className="mb-4 ml-4 text-xs text-gray-300 inline-block cursor-pointer"
+      onClick={onClick}
+    >
+      {text}
+    </div>
+  );
+}
+
 export default function ManagerSignIn() {
   const router = useRouter();
   const [status, setStatus] = useState(SignInStatus.SIGNED_OUT);
@@ -48,32 +59,34 @@ export default function ManagerSignIn() {
 
   return (
     <>
-      <div
-        className="mb-4 text-xs text-gray-300 inline-block cursor-pointer"
-        onClick={async () => {
-          if (status === SignInStatus.SIGNED_OUT) {
-            if (!(await managerSignIn())) return;
-          }
+      {status === SignInStatus.SIGNED_OUT && (
+        <Button
+          text="관리자 로그인"
+          onClick={async () => {
+            if (status === SignInStatus.SIGNED_OUT) {
+              if (!(await managerSignIn())) return;
+            }
 
-          const role = await updateRole();
-          if (role === 'admin' || role === 'manager') {
-            router.push('/manage');
-          }
-        }}
-      >
-        {status === SignInStatus.SIGNED_OUT && <>관리자 로그인</>}
-        {status === SignInStatus.SIGNED_IN_MANAGER ||
-          (status === SignInStatus.SIGNED_IN_ADMIN && <>관리자 페이지</>)}
-      </div>
-      <div
-        className="mb-4 ml-4 text-xs text-gray-300 inline-block cursor-pointer"
-        onClick={async () => {
-          await signOut(getAuth());
-          router.push('/');
-        }}
-      >
-        {status !== SignInStatus.SIGNED_OUT && <>로그아웃</>}
-      </div>
+            const role = await updateRole();
+            if (role === 'admin' || role === 'manager') {
+              router.push('/manage');
+            }
+          }}
+        />
+      )}
+      {(status === SignInStatus.SIGNED_IN_MANAGER ||
+        status === SignInStatus.SIGNED_IN_ADMIN) && (
+        <Button text="관리자 페이지" onClick={() => router.push('/manage')} />
+      )}
+      {status !== SignInStatus.SIGNED_OUT && (
+        <Button
+          text="로그아웃"
+          onClick={async () => {
+            await signOut(getAuth());
+            router.push('/');
+          }}
+        />
+      )}
     </>
   );
 }
