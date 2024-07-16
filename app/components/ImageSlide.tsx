@@ -51,7 +51,7 @@ export default function ImageSlide({ srcs }: Props) {
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <BlurredImage src={srcs[currentIndex].src} alt={srcs[currentIndex].alt} />
+      <BlurredImage src={srcs[currentIndex].src} alt={srcs[currentIndex].alt} priority={currentIndex === 0}/>
       <button
         className="absolute left-0 top-1/2 transform h-10 rounded-xl hover:bg-[#1a222f] mx-1 -mt-[10px] -translate-y-1/2 bg-[#111927] text-white p-2 group"
         onClick={prevSlide}
@@ -64,12 +64,11 @@ export default function ImageSlide({ srcs }: Props) {
       >
         &#10095;
       </button>
-
       <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-2 w-10 mx-1 rounded-xl ${
+            className={`h-2 w-2 sm:w-4 lg:w-10 mx-1 rounded-xl ${
               index === currentIndex ? 'bg-[#beff46]' : 'bg-gray-300'
             } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}

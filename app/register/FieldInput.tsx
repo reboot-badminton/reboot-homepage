@@ -1,4 +1,6 @@
 import { Field } from './registration';
+import DateFieldInput from './DateFieldInput';
+import PhoneNumberFieldInput from './PhoneNumberFieldInput';
 import StringFieldInput from './StringFieldInput';
 
 interface Props<T> {
@@ -12,7 +14,16 @@ export default function FieldInput<T>({ field }: Props<T>) {
         {field.name} {field.isRequired ? '*' : ''}
       </label>
       {typeof field.value === 'string' && (
-        <StringFieldInput field={field as Field<string>} />
+        <>
+          {field.name === '전화번호' ? (
+            <PhoneNumberFieldInput field={field as Field<string>} />
+          ) : (
+            <StringFieldInput field={field as Field<string>} />
+          )}
+        </>
+      )}
+      {field.value instanceof Date && (
+        <DateFieldInput field={field as Field<Date>} />
       )}
     </div>
   );
