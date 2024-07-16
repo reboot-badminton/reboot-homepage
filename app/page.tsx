@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import ImageSlide from './components/ImageSlide';
 
-const slideImages = Array.from({ length: 19 }, (_, index) => ({
-  src: `/slide/${index + 1}.jpg`,
+const slideImages = Array.from({ length: 4 }, (_, index) => ({
+  src: `/slide/${index + 1}.jpeg`,
   alt: `blurred slide Image ${index + 1}`
 }));
 
