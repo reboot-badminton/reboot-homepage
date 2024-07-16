@@ -36,6 +36,13 @@ export class Registration {
     type: FieldType.OPTIONS,
     data: ['남자', '여자'],
   };
+  level = {
+    name: '급수',
+    value: null,
+    isRequired: true,
+    type: FieldType.OPTIONS,
+    data: ['A', 'B', 'C', 'D', '초심', '입문'],
+  };
   birthday = {
     name: '생년월일',
     value: new Date(),
@@ -47,5 +54,18 @@ export class Registration {
     value: '',
     isRequired: true,
     type: FieldType.PHONE,
+  };
+  goal = {
+    name: '목적',
+    value: null,
+    isRequired: true,
+    type: FieldType.OPTIONS,
+    data: ['실력 향상', '자세 교정', '대회 입상', '다이어트', '기타'],
+  };
+  others = {
+    name: '하고 싶은 말',
+    value: '',
+    isRequired: false,
+    type: FieldType.STRING,
   };
 }

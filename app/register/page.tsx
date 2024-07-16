@@ -15,13 +15,13 @@ export default function Register() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const register = useCallback(() => {
-    return addDoc(collection(firestore, 'registration'), {
-      times: registration.current.times.value,
-      name: registration.current.name.value,
-      gender: registration.current.gender.value,
-      birthday: registration.current.birthday.value,
-      phone: registration.current.phone.value,
+    const data: {
+      [index: string]: any;
+    } = {};
+    Object.entries(registration.current).forEach(([key, field]) => {
+      data[key] = field.value;
     });
+    return addDoc(collection(firestore, 'registration'), data);
   }, [registration]);
 
   const onSubmit = useCallback(() => {
