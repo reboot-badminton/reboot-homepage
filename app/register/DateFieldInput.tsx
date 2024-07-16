@@ -22,15 +22,24 @@ export default function DateFieldInput({ field }: Props) {
   );
 
   return (
-    <DatePicker
-      showIcon
-      toggleCalendarOnIconClick
-      showYearDropdown
-      showMonthDropdown
-      dropdownMode="select"
-      selected={selectedDate}
-      onChange={handleChange}
-      maxDate={new Date()}
-    />
+    <>
+      <style jsx global>{`
+        .react-datepicker__input-container .react-datepicker__calendar-icon {
+          padding: 10px;
+          fill: grey;
+        }
+      `}</style>
+      <DatePicker
+        className="border-[hsl(0,0%,80%)] border rounded-md !p-1.5 !pl-8"
+        showIcon
+        toggleCalendarOnIconClick
+        showYearDropdown
+        showMonthDropdown
+        dropdownMode="select"
+        selected={selectedDate}
+        onChange={handleChange}
+        maxDate={new Date()}
+      />
+    </>
   );
 }
