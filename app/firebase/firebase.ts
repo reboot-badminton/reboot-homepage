@@ -6,13 +6,13 @@ import firebaseConfig from '@/firebase-config';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export async function getRole() {
-    const user = getAuth().currentUser;
-    if (user == null) return null;
+  const user = getAuth().currentUser;
+  if (user == null) return null;
 
-    const result = await getDoc(doc(firestore, 'users', user.uid));
-    if (!result.exists()) return null;
+  const result = await getDoc(doc(firestore, 'users', user.uid));
+  if (!result.exists()) return null;
 
-    return result.data().role;
+  return result.data().role;
 }
 
 export async function managerSignIn() {
