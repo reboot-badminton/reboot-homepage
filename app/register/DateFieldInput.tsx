@@ -22,17 +22,15 @@ export default function DateFieldInput({ field }: Props) {
   );
 
   return (
-    <div className="relative">
-      <DatePicker
-        showIcon
-        toggleCalendarOnIconClick
-        showYearDropdown
-        showMonthDropdown
-        dropdownMode="select"
-        selected={selectedDate}
-        onChange={handleChange}
-        maxDate={new Date()}
-      />
-    </div>
+    <DatePicker
+      showIcon
+      toggleCalendarOnIconClick
+      showYearDropdown
+      showMonthDropdown
+      dropdownMode="select"
+      selected={selectedDate}
+      onChange={handleChange}
+      maxDate={new Date()}
+    />
   );
 }
