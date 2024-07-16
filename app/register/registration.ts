@@ -17,6 +17,11 @@ export class Registration {
     value: '',
     isRequired: true,
   };
+  gender = {
+    name: '성별',
+    value: null,
+    isRequired: true,
+  };
   birthday = {
     name: '생년월일',
     value: new Date(),

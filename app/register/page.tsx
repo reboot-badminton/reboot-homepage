@@ -18,6 +18,7 @@ export default function Register() {
     return addDoc(collection(firestore, 'registration'), {
       times: registration.current.times.value,
       name: registration.current.name.value,
+      gender: registration.current.gender.value,
       birthday: registration.current.birthday.value,
       phone: registration.current.phone.value,
     });
@@ -37,7 +38,7 @@ export default function Register() {
   return (
     <div className="p-2">
       <p className="text-sm mb-4">
-        아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 실무님 확인 후
+        아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
         회신해드리겠습니다.
       </p>
       <p className="text-xs mb-1 italic">
