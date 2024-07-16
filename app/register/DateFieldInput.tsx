@@ -20,7 +20,6 @@ export default function DateFieldInput({ field }: Props) {
     },
     [field]
   );
-  
 
   return (
     <div className="relative">
