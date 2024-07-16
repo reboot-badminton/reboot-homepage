@@ -51,15 +51,19 @@ export default function ImageSlide({ srcs }: Props) {
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <BlurredImage src={srcs[currentIndex].src} alt={srcs[currentIndex].alt} priority={currentIndex === 0}/>
+      <BlurredImage
+        src={srcs[currentIndex].src}
+        alt={srcs[currentIndex].alt}
+        priority={currentIndex === 0}
+      />
       <button
-        className="absolute left-0 top-1/2 transform h-10 rounded-xl hover:bg-[#1a222f] mx-1 -mt-[10px] -translate-y-1/2 bg-[#111927] text-white p-2 group"
+        className="absolute left-0 top-1/2 transform h-10 rounded-xl bg-blue-400 hover:bg-blue-300 mx-1 -mt-[10px] -translate-y-1/2 text-white p-2 group"
         onClick={prevSlide}
       >
         &#10094;
       </button>
       <button
-        className="absolute right-0 top-1/2 transform h-10 rounded-xl hover:bg-[#1a222f] mx-1 -mt-[10px] -translate-y-1/2 bg-[#111927] text-white p-2 group"
+        className="absolute right-0 top-1/2 transform h-10 rounded-xl bg-blue-400 hover:bg-blue-300 mx-1 -mt-[10px] -translate-y-1/2 text-white p-2 group"
         onClick={nextSlide}
       >
         &#10095;
@@ -68,8 +72,8 @@ export default function ImageSlide({ srcs }: Props) {
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-2 w-2 sm:w-4 lg:w-10 mx-1 rounded-xl ${
-              index === currentIndex ? 'bg-[#beff46]' : 'bg-gray-300'
+            className={`h-3 w-3 mx-1 rounded-full border-2 ${
+              index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
             } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}
           ></div>
