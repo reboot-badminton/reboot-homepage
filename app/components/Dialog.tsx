@@ -24,10 +24,10 @@ export default function Dialog({
   }, [useDotAnimation]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg flex items-center">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg shadow-lg">
         {text != null && (
-          <div className="p-6">
+          <div className="flex items-center p-6">
             {text}
             {new Array(dotCount).fill('.').join('')}
           </div>

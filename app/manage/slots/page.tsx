@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { LessonMonth } from '@/app/data/LessonMonth';
 import MonthSelector from './MonthSelector';
-import DaySelector from './DaySelector';
+import DaySelector from '../../components/DaySelector';
 import TimeTable from './TimeTable';
 import TimeSlot from '@/app/data/TimeSlot';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';

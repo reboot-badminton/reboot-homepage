@@ -34,14 +34,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className={inter.className}>
         <Header />
         {children}
@@ -55,6 +47,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">유튜브 (@An_troke)</span>
             </a>
@@ -65,6 +58,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">인스타그램 (an_troke)</span>
             </a>
@@ -75,6 +69,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">네이버 블로그</span>
             </a>

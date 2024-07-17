@@ -4,17 +4,9 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 225, 242, 255;
   --background-end-rgb: 255, 255, 255;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -30,4 +22,39 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+button,
+.button {
+  background-color: rgb(147 197 253);
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition-duration: 300ms;
+  transition-property: filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(1.1);
+}
+
+button.sm,
+.button.sm {
+  padding: 0.5rem;
+  font-size: 14px;
+}
+
+input {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid rgb(59 130 246);
 }

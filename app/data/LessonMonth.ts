@@ -3,6 +3,14 @@ export interface LessonMonth {
   month: number;
 }
 
+export function currentLessonMonth(): LessonMonth {
+  const date = new Date();
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+  };
+}
+
 export function nextLessonMonth(lessonMonth: LessonMonth): LessonMonth {
   const month = lessonMonth.month + 1;
   if (month > 12) {
