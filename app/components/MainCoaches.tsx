@@ -122,11 +122,12 @@ function Coach({
       onClick={onClick}
     >
       <div
-        className={
-          `w-full h-full bg-[linear-gradient(${
+        className={`w-full h-full` + opacity}
+        style={{
+          background: `linear-gradient(${
             align === 'left' ? '75deg' : '-75deg'
-          },rgba(0,0,0,0.9),rgba(0,0,0,0.3))]` + opacity
-        }
+          },rgba(0,0,0,0.9),rgba(0,0,0,0.3))`,
+        }}
       />
 
       <div
