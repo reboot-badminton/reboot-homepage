@@ -123,8 +123,9 @@ function Coach({
     >
       <div
         className={
-          'w-full h-full bg-[linear-gradient(75deg,rgba(0,0,0,0.9),rgba(0,0,0,0.3))]' +
-          opacity
+          `w-full h-full bg-[linear-gradient(${
+            align === 'left' ? '75deg' : '-75deg'
+          },rgba(0,0,0,0.9),rgba(0,0,0,0.3))]` + opacity
         }
       />
 
@@ -220,7 +221,9 @@ export default function MainCoaches() {
           onClick={() => handleClick('right')}
         />
       </div>
-      <span className='block text-xs text-end mt-1 mr-2 text-gray-400'>※ 좌우 이미지를 클릭하세요</span>
+      <span className="block text-xs text-end mt-1 mr-2 text-gray-400">
+        ※ 좌우 이미지를 클릭하세요
+      </span>
     </>
   );
 }
