@@ -55,6 +55,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">유튜브 (@An_troke)</span>
             </a>
@@ -65,6 +66,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">인스타그램 (an_troke)</span>
             </a>
@@ -75,6 +77,7 @@ export default function RootLayout({
                 width={20}
                 height={20}
                 className="inline mr-1"
+                priority
               />
               <span className="hidden sm:inline">네이버 블로그</span>
             </a>
