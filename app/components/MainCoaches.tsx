@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { src } from '../image_utils';
+import { Open_Sans } from 'next/font/google';
 
 interface Section {
   title: string;
@@ -146,7 +147,8 @@ function Coach({
       </div>
       <div
         className={
-          'absolute bottom-0 w-full p-4 sm:p-8 text-white whitespace-nowrap' + opacity
+          'absolute bottom-0 w-full p-4 sm:p-8 text-white whitespace-nowrap' +
+          opacity
         }
       >
         {coach.sections.map((section) => (
@@ -166,6 +168,8 @@ function Coach({
   );
 }
 
+const openSans = Open_Sans({ subsets: ['latin'] });
+
 export default function MainCoaches() {
   const [expandedSide, setExpandedSide] = useState('left');
   const [leftOpen, setLeftOpen] = useState(true);
@@ -183,28 +187,39 @@ export default function MainCoaches() {
   };
 
   return (
-    <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[560px] overflow-hidden">
-      <Coach
-        coach={an}
-        thumbnailSrc="/antroke.jpg"
-        backgroundSrc="/slide/1.jpeg"
-        align="left"
-        open={expandedSide === 'left' && leftOpen}
-        onClick={() => handleClick('left')}
-      />
-      <Coach
-        coach={yoon}
-        thumbnailSrc="/antroke.jpg"
-        backgroundSrc="/slide/2.jpeg"
-        align="right"
-        open={expandedSide === 'right' && rightOpen}
-        clipPath={
-          expandedSide === 'left'
-            ? 'polygon(80% 0, 100% 0, 100% 100%, 95% 100%)'
-            : 'polygon(20% 0, 100% 0, 100% 100%, 5% 100%)'
+    <>
+      <h1
+        className={
+          'ml-1 mt-6 mb-4 text-gray-700 text-center text-xl ' +
+          openSans.className
         }
-        onClick={() => handleClick('right')}
-      />
-    </div>
+      >
+        Main Coaches
+      </h1>
+      <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[560px] overflow-hidden">
+        <Coach
+          coach={an}
+          thumbnailSrc="/antroke.jpg"
+          backgroundSrc="/slide/1.jpeg"
+          align="left"
+          open={expandedSide === 'left' && leftOpen}
+          onClick={() => handleClick('left')}
+        />
+        <Coach
+          coach={yoon}
+          thumbnailSrc="/antroke.jpg"
+          backgroundSrc="/slide/2.jpeg"
+          align="right"
+          open={expandedSide === 'right' && rightOpen}
+          clipPath={
+            expandedSide === 'left'
+              ? 'polygon(80% 0, 100% 0, 100% 100%, 95% 100%)'
+              : 'polygon(20% 0, 100% 0, 100% 100%, 5% 100%)'
+          }
+          onClick={() => handleClick('right')}
+        />
+      </div>
+      <span className='block text-xs text-end mt-1 mr-2 text-gray-400'>※ 좌우 이미지를 클릭하세요</span>
+    </>
   );
 }
