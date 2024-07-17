@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { src } from '../image_utils';
+import { Do_Hyeon } from 'next/font/google';
+
+const doHyeon = Do_Hyeon({ weight: '400', subsets: ['latin'] });
 
 export default function Header() {
   return (
@@ -11,25 +14,11 @@ export default function Header() {
           src={src('/reboot-icon.png')}
           alt="리부트 배드민턴장 로고"
           width={28}
-          height={28}
+          height={34}
           priority
         />
-        <span
-          className="block"
-          style={{
-            fontFamily: 'Do Hyeon',
-          }}
-        >
-          REBOOT
-        </span>
-        <span
-          className="block text-sm"
-          style={{
-            fontFamily: 'Do Hyeon',
-          }}
-        >
-          BADMINTON
-        </span>
+        <span className={'block ' + doHyeon.className}>REBOOT</span>
+        <span className={'block text-sm ' + doHyeon.className}>BADMINTON</span>
       </div>
     </Link>
   );
