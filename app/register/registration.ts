@@ -18,7 +18,7 @@ export interface Field<T> {
 
 export class Registration {
   times = {
-    name: '시간대',
+    name: '관심 레슨',
     value: <TimeSlot[]>[],
     isRequired: true,
     type: FieldType.TIME_SLOT,

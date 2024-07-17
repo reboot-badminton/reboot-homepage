@@ -3,6 +3,8 @@ import DateFieldInput from './DateFieldInput';
 import PhoneNumberFieldInput from './PhoneNumberFieldInput';
 import StringFieldInput from './StringFieldInput';
 import DropdownFieldInput from './DropdownFieldInput';
+import TimeSlotFieldInput from './TimeSlotFieldInput';
+import TimeSlot from '../data/TimeSlot';
 
 interface Props<T> {
   field: Field<T>;
@@ -14,7 +16,9 @@ export default function FieldInput<T>({ field }: Props<T>) {
       <label className="block">
         {field.name} {field.isRequired ? '*' : ''}
       </label>
-      {field.type === FieldType.TIME_SLOT && <></>}
+      {field.type === FieldType.TIME_SLOT && (
+        <TimeSlotFieldInput field={field as Field<TimeSlot[]>} />
+      )}
       {field.type === FieldType.STRING && (
         <StringFieldInput field={field as Field<string>} />
       )}

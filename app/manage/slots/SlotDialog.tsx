@@ -68,7 +68,7 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
         <div className="text-right">
           {!isEditMode && (
             <>
-              <button
+              <div
                 className="p-2 font-bold text-gray-500"
                 onClick={() => {
                   setIsEditLoading(true);
@@ -79,24 +79,24 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
                 }}
               >
                 삭제
-              </button>
-              <button
+              </div>
+              <div
                 className="p-2 font-bold text-gray-500"
                 onClick={() => setIsEditMode(true)}
               >
                 수정
-              </button>
-              <button
+              </div>
+              <div
                 className="p-2 font-bold text-gray-500"
                 onClick={() => onClose(isEditedRef.current)}
               >
                 닫기
-              </button>
+              </div>
             </>
           )}
           {isEditMode && (
             <>
-              <button
+              <div
                 className="p-2 font-bold text-gray-500"
                 onClick={() => {
                   if (isAddMode) {
@@ -108,8 +108,8 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
                 }}
               >
                 취소
-              </button>
-              <button
+              </div>
+              <div
                 className="p-2 font-bold text-gray-500"
                 onClick={() => {
                   setIsEditLoading(true);
@@ -129,7 +129,7 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
                 }}
               >
                 완료
-              </button>
+              </div>
             </>
           )}
         </div>

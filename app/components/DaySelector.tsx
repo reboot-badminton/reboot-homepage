@@ -28,9 +28,9 @@ export default function DaySelector({ onDayChange }: Props) {
           )}
           <div
             className={
-              'flex-grow text-center py-1' +
+              'flex-grow text-center py-1 cursor-pointer' +
               (index === selectedDay
-                ? ' bg-white rounded-t-md'
+                ? ' bg-white rounded-t-md text-blue-600'
                 : ' border-b border-gray-400')
             }
             onClick={() => setSelectedDay(index)}
