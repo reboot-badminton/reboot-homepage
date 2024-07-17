@@ -7,7 +7,7 @@ if (env === 'production') {
   nextConfig['basePath'] = '/reboot-homepage';
   nextConfig['assetPrefix'] = '/reboot-homepage';
   nextConfig['images'] = {
-    path: 'https://reboot-badminton.github.io/reboot-homepage',
+    path: '/reboot-homepage',
   };
 }
 
