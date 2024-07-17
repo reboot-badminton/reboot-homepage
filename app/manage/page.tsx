@@ -9,6 +9,12 @@ export default function Manage() {
       >
         레슨 슬롯 관리
       </Link>
+      <Link
+        href="/manage/registrations"
+        className="inline-block py-2 px-4 bg-blue-300 rounded-lg text-white transition duration-300 ease-in-out hover:brightness-110"
+      >
+        레슨 신청 관리
+      </Link>
     </div>
   );
 }
