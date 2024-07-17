@@ -128,8 +128,8 @@ function Coach({
 
       <div
         className={
-          'absolute top-2 flex items-start gap-4 ' +
-          (align === 'left' ? 'left-2' : 'right-2 flex-row-reverse')
+          'absolute p-3 sm:p-6 top-0 w-full flex items-center gap-4' +
+          (align === 'left' ? '' : ' flex-row-reverse')
         }
       >
         <Image
@@ -137,14 +137,18 @@ function Coach({
           alt={coach.name}
           width={48}
           height={48}
-          className="inline-block"
+          className="inline-block max-w-[12vw]"
         />
         <div className={'inline-block text-white' + opacity}>
           <h2 className="text-2xl font-bold tracking-wider">{coach.name}</h2>
           <span className="text-sm">{coach.title}</span>
         </div>
       </div>
-      <div className={'absolute bottom-4 w-full px-4 text-white' + opacity}>
+      <div
+        className={
+          'absolute bottom-0 w-full p-4 sm:p-8 text-white whitespace-nowrap' + opacity
+        }
+      >
         {coach.sections.map((section) => (
           <React.Fragment key={coach.name + '-' + section.title}>
             <h3 className="text-sm mt-4 mb-2 bold">{section.title}</h3>
@@ -179,7 +183,7 @@ export default function MainCoaches() {
   };
 
   return (
-    <div className="relative w-full h-[400px] overflow-hidden">
+    <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[560px] overflow-hidden">
       <Coach
         coach={an}
         thumbnailSrc="/antroke.jpg"
