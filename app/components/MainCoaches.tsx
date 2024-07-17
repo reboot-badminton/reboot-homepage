@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { src } from '../image_utils';
 
 interface Section {
@@ -84,6 +84,7 @@ interface CoachProps {
   thumbnailSrc: string;
   backgroundSrc: string;
   align: 'left' | 'right';
+  open: boolean;
   clipPath?: string;
   onClick: () => void;
 }
@@ -92,9 +93,20 @@ function Coach({
   thumbnailSrc,
   backgroundSrc,
   align,
+  open,
   clipPath,
   onClick,
 }: CoachProps) {
+  const [opacity, setOpacity] = useState('opacity-0');
+
+  useEffect(() => {
+    if (open) {
+      setOpacity(' transition-opacity duration-300');
+    } else {
+      setOpacity(' transition-opacity duration-300 opacity-0');
+    }
+  }, [open]);
+
   return (
     <div
       className={
@@ -102,13 +114,18 @@ function Coach({
         (align === 'left' ? 'text-left' : 'text-right')
       }
       style={{
-        backgroundImage: `linear-gradient(${
-          align === 'left' ? '75deg' : '-75deg'
-        }, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)), url(${src(backgroundSrc)})`,
+        backgroundImage: `url(${src(backgroundSrc)})`,
         clipPath: clipPath,
       }}
       onClick={onClick}
     >
+      <div
+        className={
+          'w-full h-full bg-[linear-gradient(75deg,rgba(0,0,0,0.9),rgba(0,0,0,0.3))]' +
+          opacity
+        }
+      />
+
       <div
         className={
           'absolute top-2 flex items-start gap-4 ' +
@@ -122,12 +139,12 @@ function Coach({
           height={48}
           className="inline-block"
         />
-        <div className="inline-block text-white ">
+        <div className={'inline-block text-white' + opacity}>
           <h2 className="text-2xl font-bold tracking-wider">{coach.name}</h2>
           <span className="text-sm">{coach.title}</span>
         </div>
       </div>
-      <div className="absolute bottom-4 w-full px-4 text-white">
+      <div className={'absolute bottom-4 w-full px-4 text-white' + opacity}>
         {coach.sections.map((section) => (
           <React.Fragment key={coach.name + '-' + section.title}>
             <h3 className="text-sm mt-4 mb-2 bold">{section.title}</h3>
@@ -146,10 +163,19 @@ function Coach({
 }
 
 export default function MainCoaches() {
-  const [isLeftExpanded, setIsLeftExpanded] = useState(true);
+  const [expandedSide, setExpandedSide] = useState('left');
+  const [leftOpen, setLeftOpen] = useState(true);
+  const [rightOpen, setRightOpen] = useState(true);
 
   const handleClick = (side: string) => {
-    setIsLeftExpanded(side === 'left');
+    if (expandedSide === side) {
+      if (side === 'left') {
+        setLeftOpen((open) => !open);
+      } else {
+        setRightOpen((open) => !open);
+      }
+    }
+    setExpandedSide(side);
   };
 
   return (
@@ -159,6 +185,7 @@ export default function MainCoaches() {
         thumbnailSrc="/antroke.jpg"
         backgroundSrc="/slide/1.jpeg"
         align="left"
+        open={expandedSide === 'left' && leftOpen}
         onClick={() => handleClick('left')}
       />
       <Coach
@@ -166,8 +193,9 @@ export default function MainCoaches() {
         thumbnailSrc="/antroke.jpg"
         backgroundSrc="/slide/2.jpeg"
         align="right"
+        open={expandedSide === 'right' && rightOpen}
         clipPath={
-          isLeftExpanded
+          expandedSide === 'left'
             ? 'polygon(80% 0, 100% 0, 100% 100%, 95% 100%)'
             : 'polygon(20% 0, 100% 0, 100% 100%, 5% 100%)'
         }
