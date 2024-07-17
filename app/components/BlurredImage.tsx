@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { src as imageSrc } from '../image_utils';
 
 export interface ImageProps {
   src: string;
@@ -14,8 +15,20 @@ export interface ImageProps {
 export default function BlurredImage({ src, alt, priority }: ImageProps) {
   return (
     <div className="relative w-full h-full overflow-hidden">
-      <Image src={src} alt={alt} fill priority={priority} className="blur-lg z-[-1] object-cover" />
-      <Image src={src} alt={alt} fill priority={priority} className="object-contain" />
+      <Image
+        src={imageSrc(src)}
+        alt={alt}
+        fill
+        priority={priority}
+        className="blur-lg z-[-1] object-cover"
+      />
+      <Image
+        src={imageSrc(src)}
+        alt={alt}
+        fill
+        priority={priority}
+        className="object-contain"
+      />
     </div>
   );
 }

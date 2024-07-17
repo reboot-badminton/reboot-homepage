@@ -1,5 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+import { src } from '../image_utils';
 
 export default function Header() {
   return (
@@ -7,7 +8,7 @@ export default function Header() {
       <div className="text-center relative">
         <Image
           className="mr-2 rounded-full absolute -left-9 mt-1"
-          src="/reboot-icon.png"
+          src={src('/reboot-icon.png')}
           alt="리부트 배드민턴장 로고"
           width={28}
           height={28}
@@ -16,7 +17,7 @@ export default function Header() {
         <span
           className="block"
           style={{
-            fontFamily: "Do Hyeon",
+            fontFamily: 'Do Hyeon',
           }}
         >
           REBOOT
@@ -24,7 +25,7 @@ export default function Header() {
         <span
           className="block text-sm"
           style={{
-            fontFamily: "Do Hyeon",
+            fontFamily: 'Do Hyeon',
           }}
         >
           BADMINTON

@@ -4,6 +4,7 @@ import './globals.css';
 import Header from './components/Header';
 import Image from 'next/image';
 import ManagerSignIn from './components/ManagerSignIn';
+import { src } from './image_utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,7 +50,7 @@ export default function RootLayout({
           <div className="text-sm mb-4">
             <a href="https://www.youtube.com/@An_troke" className="mr-6">
               <Image
-                src="/youtube-icon.png"
+                src={src('/youtube-icon.png')}
                 alt="안트로크 유튜브"
                 width={20}
                 height={20}
@@ -59,7 +60,7 @@ export default function RootLayout({
             </a>
             <a href="https://www.instagram.com/an_troke" className="mr-6">
               <Image
-                src="/instagram-icon.png"
+                src={src('/instagram-icon.png')}
                 alt="안트로크 인스타그램"
                 width={20}
                 height={20}
@@ -69,7 +70,7 @@ export default function RootLayout({
             </a>
             <a href="https://blog.naver.com/dkswls5946">
               <Image
-                src="/naver-blog-icon.svg"
+                src={src('/naver-blog-icon.svg')}
                 alt="안트로크 네이버 블로그"
                 width={20}
                 height={20}
