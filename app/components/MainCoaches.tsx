@@ -97,7 +97,7 @@ function Coach({
   clipPath,
   onClick,
 }: CoachProps) {
-  const [opacity, setOpacity] = useState('opacity-0');
+  const [opacity, setOpacity] = useState(open ? '' : ' opacity-0');
 
   useEffect(() => {
     if (open) {
