@@ -15,5 +15,5 @@ export default function StringFieldInput({ field }: Props) {
     [field]
   );
 
-  return <input className="w-full border-[hsl(0,0%,80%)] border rounded-[4px] px-2 py-1.5 box-border" onChange={onChange} />;
+  return <input className="w-full" onChange={onChange} />;
 }

@@ -30,7 +30,7 @@ export default function DateFieldInput({ field }: Props) {
         }
       `}</style>
       <DatePicker
-        className="border-[hsl(0,0%,80%)] border rounded-[4px] !p-1.5 !pl-8"
+        className="!p-1.5 !pl-8"
         showIcon
         toggleCalendarOnIconClick
         showYearDropdown

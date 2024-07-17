@@ -14,20 +14,21 @@ export default function PhoneNumberFieldInput({ field }: Props) {
   const parsePhoneNumber = useCallback((num: string) => {
     // Remove all non-digit characters
     const cleaned = num.replace(/[^0-9]/g, '');
-  
+
     // Handle different phone number formats
-    const match = cleaned.match(/^(01[016789]|02|0[3-9][0-9])(\d{3,4})(\d{4})$/);
+    const match = cleaned.match(
+      /^(01[016789]|02|0[3-9][0-9])(\d{3,4})(\d{4})$/
+    );
     if (!match) {
       setError('유효하지 않은 전화번호');
       return num;
     }
-  
+
     const [, areaCode, firstPart, secondPart] = match;
     setError(null);
     return `${areaCode}-${firstPart}-${secondPart}`;
   }, []);
-  
-  
+
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const formattedValue = parsePhoneNumber(e.target.value);
@@ -39,15 +40,15 @@ export default function PhoneNumberFieldInput({ field }: Props) {
 
   return (
     <div>
-    <input
-      type="tel"
-      maxLength={13}
-      className="w-full pl-2 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-      value={inputValue}
-      onChange={handleChange}
-      placeholder="010(또는 지역번호)-1234-5678"
-    />
-    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-  </div>
+      <input
+        type="tel"
+        maxLength={13}
+        className="w-full"
+        value={inputValue}
+        onChange={handleChange}
+        placeholder="010(또는 지역번호)-1234-5678"
+      />
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    </div>
   );
 }
