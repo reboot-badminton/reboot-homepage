@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { src } from './image_utils';
+import { Open_Sans } from 'next/font/google';
 
 interface MemberProps {
   name: string;
@@ -25,10 +26,19 @@ function Member({ name, imageSrc, description }: MemberProps) {
   );
 }
 
+const openSans = Open_Sans({ subsets: ['latin'] });
+
 export default function Members() {
   return (
     <>
-      <h1 className="ml-1 mt-4 mb-2 font-bold text-gray-700 text-center text-lg">Reboot Members</h1>
+      <h1
+        className={
+          'ml-1 mt-6 mb-4 text-gray-700 text-center text-xl ' +
+          openSans.className
+        }
+      >
+        Reboot Members
+      </h1>
       <div className="flex justify-center mx-1 gap-1 sm:gap-3">
         <Member
           name="조승훈"
