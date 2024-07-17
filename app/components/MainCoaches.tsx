@@ -22,7 +22,7 @@ export default function MainCoaches() {
   return (
     <div className="relative w-full h-[400px] overflow-hidden">
       <div
-        className="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-in-out bg-cover bg-center cursor-pointer "
+        className="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-in-out bg-cover bg-center cursor-pointer"
         style={{
           backgroundImage: `url(${src('/slide/1.jpeg')})`,
           clipPath: leftClipPath,
