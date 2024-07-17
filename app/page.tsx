@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ImageSlide from './components/ImageSlide';
+import Members from './members';
 
 const slideImages = Array.from({ length: 4 }, (_, index) => ({
   src: `/slide/${index + 1}.jpeg`,
@@ -15,6 +16,7 @@ export default function Home() {
           레슨 신청하기
         </Link>
       </div>
+      <Members />
     </>
   );
 }
