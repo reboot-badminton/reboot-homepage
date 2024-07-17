@@ -102,9 +102,9 @@ function Coach({
         (align === 'left' ? 'text-left' : 'text-right')
       }
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${src(
-          backgroundSrc
-        )})`,
+        backgroundImage: `linear-gradient(${
+          align === 'left' ? '75deg' : '-75deg'
+        }, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)), url(${src(backgroundSrc)})`,
         clipPath: clipPath,
       }}
       onClick={onClick}
