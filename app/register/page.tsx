@@ -47,10 +47,7 @@ export default function Register() {
       {Object.entries(registration.current).map(([_, field]) => (
         <FieldInput key={'input-' + field.name} field={field} />
       ))}
-      <button
-        className="w-full py-2 px-4 mt-4 bg-blue-300 rounded-lg text-white transition duration-300 ease-in-out hover:brightness-110"
-        onClick={onSubmit}
-      >
+      <button className="w-full mt-4" onClick={onSubmit}>
         신청하기
       </button>
       {isRegistering && <Dialog text="신청중입니다" useDotAnimation={true} />}

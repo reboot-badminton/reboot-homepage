@@ -23,3 +23,26 @@ body {
     text-wrap: balance;
   }
 }
+
+button,
+.button {
+  background-color: rgb(147 197 253);
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition-duration: 300ms;
+  transition-property: filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(1.1);
+}
+
+button.sm,
+.button.sm {
+  padding: 0.5rem;
+  font-size: 14px;
+}
