@@ -1,15 +1,19 @@
 'use client';
 
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { Field } from './registration';
 
 interface Props {
   field: Field<string>;
+  setError: (error: string) => void;
 }
 
-export default function PhoneNumberFieldInput({ field }: Props) {
+export default function PhoneNumberFieldInput({ field, setError }: Props) {
   const [inputValue, setInputValue] = useState(field.value);
-  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setError('값을 입력해 주세요');
+  }, []);
 
   const parsePhoneNumber = useCallback((num: string) => {
     // Remove all non-digit characters
@@ -25,7 +29,7 @@ export default function PhoneNumberFieldInput({ field }: Props) {
     }
 
     const [, areaCode, firstPart, secondPart] = match;
-    setError(null);
+    setError('');
     return `${areaCode}-${firstPart}-${secondPart}`;
   }, []);
 
@@ -39,16 +43,13 @@ export default function PhoneNumberFieldInput({ field }: Props) {
   );
 
   return (
-    <div>
-      <input
-        type="tel"
-        maxLength={13}
-        className="w-full"
-        value={inputValue}
-        onChange={handleChange}
-        placeholder="010(또는 지역번호)-1234-5678"
-      />
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
+    <input
+      type="tel"
+      maxLength={13}
+      className="w-full"
+      value={inputValue}
+      onChange={handleChange}
+      placeholder="010(또는 지역번호)-1234-5678"
+    />
   );
 }

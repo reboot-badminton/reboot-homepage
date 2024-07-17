@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
-import { Registration } from './registration';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
 import { firestore } from '../firebase/firebase';
 import { addDoc, collection } from 'firebase/firestore';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 export default function Register() {
   const router = useRouter();
   const registration = useRef(new Registration());
+  const [showError, setShowError] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -24,7 +25,19 @@ export default function Register() {
     return addDoc(collection(firestore, 'registration'), data);
   }, [registration]);
 
+  const validate = useCallback(() => {
+    const isInvalid = !!Object.values(registration.current).find(
+      (field: Field<any>) => field.isRequired && !field.value
+    );
+    if (isInvalid) {
+      setShowError(true);
+      return false;
+    }
+    return true;
+  }, []);
+
   const onSubmit = useCallback(() => {
+    if (!validate()) return;
     setIsRegistering(true);
     register().then(() => {
       setIsRegistering(false);
@@ -45,7 +58,11 @@ export default function Register() {
         별표 (*) 표시된 항목은 필수 입력 항목입니다.
       </p>
       {Object.entries(registration.current).map(([_, field]) => (
-        <FieldInput key={'input-' + field.name} field={field} />
+        <FieldInput
+          key={'input-' + field.name}
+          field={field}
+          showError={showError}
+        />
       ))}
       <button className="w-full mt-4" onClick={onSubmit}>
         신청하기

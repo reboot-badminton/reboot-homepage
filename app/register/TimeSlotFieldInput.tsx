@@ -8,14 +8,20 @@ import { formatHour } from '../time_utils';
 
 interface Props {
   field: Field<TimeSlot[]>;
+  setError: (error: string) => void;
 }
 
-export default function TimeSlotFieldInput({ field }: Props) {
+export default function TimeSlotFieldInput({ field, setError }: Props) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedTimeSlots, setSelectedTimeSlots] = useState(field.value);
 
   useEffect(() => {
     field.value = selectedTimeSlots;
+    if (selectedTimeSlots.length === 0) {
+      setError('레슨을 선택해주세요');
+    } else {
+      setError('');
+    }
   }, [selectedTimeSlots]);
 
   return (
