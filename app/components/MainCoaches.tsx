@@ -190,7 +190,7 @@ export default function MainCoaches() {
     <>
       <h1
         className={
-          'ml-1 mt-6 mb-4 text-gray-700 text-center text-xl ' +
+          'ml-1 mt-12 mb-4 text-gray-700 text-center text-xl ' +
           openSans.className
         }
       >
