@@ -3,7 +3,7 @@ import { src } from '../image_utils';
 
 export default function Introduction() {
   return (
-    <div className="flex justify-center w-full bg-white py-4 mt-8">
+    <div className="flex justify-center w-full bg-white mt-8 py-4 sm:py-8 lg:py-12">
       <div className="max-w-xl flex">
         <Image
           src={src('/이용대_짤2.jpg')}
@@ -11,7 +11,7 @@ export default function Introduction() {
           height={400}
           alt="소개"
         />
-        <div className="flex-grow mx-2 flex flex-col justify-between">
+        <div className="flex-grow flex flex-col justify-between mx-2 sm:mx-4 lg:mx-8">
           <h2>리부트 배드민턴장은...</h2>
           <p
             className="text-xs"
