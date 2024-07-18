@@ -2,6 +2,7 @@ import Link from 'next/link';
 import ImageSlide from './components/ImageSlide';
 import Members from './members';
 import MainCoaches from './components/MainCoaches';
+import Introduction from './components/Introduction';
 
 const slideImages = Array.from({ length: 4 }, (_, index) => ({
   src: `/slide/${index + 1}.jpeg`,
@@ -18,7 +19,8 @@ export default function Home() {
         </Link>
       </div>
       <hr />
-      <MainCoaches/>
+      <Introduction />
+      <MainCoaches />
       <Members />
     </>
   );
