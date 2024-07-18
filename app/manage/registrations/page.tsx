@@ -18,7 +18,7 @@ function formatDate(timestamp: Timestamp) {
     month: '2-digit',
     day: '2-digit',
   });
-};
+}
 
 const handleAccept = async (slot: TimeSlot) => {
   try {
@@ -40,7 +40,7 @@ const handleAccept = async (slot: TimeSlot) => {
       );
       if (slotByDayTime) updateSlot(newSlot, slotByDayTime);
     });
-    console.log('슬롯이 업데이트되었습니다.');
+    window.alert('슬롯이 업데이트되었습니다.');
   } catch (error) {
     console.error('Error updating slot: ', error);
   }
@@ -70,7 +70,6 @@ export default function ManageRegistrations() {
 
     fetchRegistrations();
   }, []);
-  console.log(registrations);
 
   if (isLoading) {
     return <Dialog text="로딩 중입니다..." useDotAnimation={true} />;
