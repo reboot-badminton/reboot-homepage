@@ -10,6 +10,7 @@ export default function Introduction() {
           width={150}
           height={400}
           alt="소개"
+          priority
         />
         <div className="flex-grow flex flex-col justify-between mx-2 sm:mx-4 lg:mx-8">
           <h2>리부트 배드민턴장은...</h2>
@@ -39,6 +40,7 @@ export default function Introduction() {
               height={50}
               alt="서명"
               className="inline-block"
+              priority
             />
           </div>
         </div>
