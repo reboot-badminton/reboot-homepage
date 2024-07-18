@@ -32,7 +32,7 @@ export default function Introduction() {
               }}
             >
               <div className="text-xs">리부트 배드민턴장 대표</div>
-              <span>안진욱</span>
+              <span className="tracking-[0.3em]">안진욱</span>
             </div>
             <Image
               src={src('/signature.png')}
