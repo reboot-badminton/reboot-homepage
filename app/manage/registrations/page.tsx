@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import Dialog from '@/app/components/Dialog';
 import { firestore } from '@/app/firebase/firebase';
@@ -25,30 +25,13 @@ const handleAccept = async (slot: TimeSlot, registrationName: string) => {
   }
 };
 
-const handleReject = async (
-  registration: RegistrationDataType,
-  index: number
-) => {
-  try {
-    // 신청서의 times 배열에서 해당 slot을 삭제
-    const updatedTimes = registration.times.filter(
-      (_: TimeSlot, i: number) => i !== index
-    );
-    await updateRegistration(registration.id, { times: [...updatedTimes] });
-
-    window.alert('신청서에서 슬롯이 삭제되었습니다.');
-  } catch (error) {
-    console.error('Error updating registration: ', error);
-  }
-};
-
 export default function ManageRegistrations() {
   const [registrations, setRegistrations] = useState<RegistrationDataType[]>(
     []
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchRegistrations = async () => {
+  const fetchRegistrations = useCallback(async () => {
     try {
       const querySnapshot = await getDocs(
         collection(firestore, 'registration')
@@ -63,10 +46,28 @@ export default function ManageRegistrations() {
       console.error('Error fetching registrations: ', error);
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  const handleReject = useCallback(
+    async (registration: RegistrationDataType, index: number) => {
+      try {
+        const updatedTimes = registration.times.filter(
+          (_: TimeSlot, i: number) => i !== index
+        );
+        await updateRegistration(registration.id, { times: [...updatedTimes] });
+        window.alert('신청서에서 슬롯이 삭제되었습니다.');
+        // 데이터를 다시 불러옵니다.
+        await fetchRegistrations();
+      } catch (error) {
+        console.error('Error updating registration: ', error);
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     fetchRegistrations();
-  }, [fetchRegistrations]);
+  }, []);
 
   if (isLoading) {
     return <Dialog text="로딩 중입니다..." useDotAnimation={true} />;
