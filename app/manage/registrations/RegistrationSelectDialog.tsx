@@ -1,5 +1,3 @@
-'use client';
-
 import Dialog from '@/app/components/Dialog';
 
 interface Props {
