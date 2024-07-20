@@ -6,30 +6,17 @@ import Dialog from '@/app/components/Dialog';
 import { firestore } from '@/app/firebase/firebase';
 import { updateSlot } from '../slots/getSlot';
 import TimeSlot from '@/app/data/TimeSlot';
-import {
-  formatDate,
-  RegistrationDataType,
-  updateRegistration,
-} from './getRegistration';
-
-const handleAccept = async (slot: TimeSlot, registrationName: string) => {
-  try {
-    const newSlot = {
-      ...slot,
-      students: [...slot.students, registrationName],
-    };
-    updateSlot(newSlot, slot);
-    window.alert('슬롯이 업데이트되었습니다.');
-  } catch (error) {
-    console.error('Error updating slot: ', error);
-  }
-};
+import { RegistrationDataType, updateRegistration } from './getRegistration';
+import { formatDate } from './date_utils';
+import RegistrationDecisionDialog from './RegistrationSelectDialog';
 
 export default function ManageRegistrations() {
   const [registrations, setRegistrations] = useState<RegistrationDataType[]>(
     []
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isDecisionClicked, setIsDecisionClicked] = useState(false);
+  const [decisionFeedback, setDecisionFeedback] = useState('');
 
   const fetchRegistrations = useCallback(async () => {
     try {
@@ -48,16 +35,44 @@ export default function ManageRegistrations() {
     }
   }, []);
 
+  const handleAccept = useCallback(
+    async (
+      slot: TimeSlot,
+      registration: RegistrationDataType,
+      index: number
+    ) => {
+      try {
+        const newSlot = {
+          ...slot,
+          students: [...slot.students, registration.name],
+        };
+        updateSlot(newSlot, slot);
+        const updatedTimes = registration.times.map(
+          (time: TimeSlot, i: number) =>
+            i === index ? { ...time, isRegistered: true } : time
+        );
+
+        await updateRegistration(registration.id, { times: [...updatedTimes] });
+        setIsDecisionClicked(true);
+        setDecisionFeedback('수락되었습니다.');
+      } catch (error) {
+        console.error('Error updating slot: ', error);
+      }
+    },
+    []
+  );
+
   const handleReject = useCallback(
     async (registration: RegistrationDataType, index: number) => {
       try {
-        const updatedTimes = registration.times.filter(
-          (_: TimeSlot, i: number) => i !== index
+        const updatedTimes = registration.times.map(
+          (time: TimeSlot, i: number) =>
+            i === index ? { ...time, isRegistered: false } : time
         );
+
         await updateRegistration(registration.id, { times: [...updatedTimes] });
-        window.alert('신청서에서 슬롯이 삭제되었습니다.');
-        // 데이터를 다시 불러옵니다.
-        await fetchRegistrations();
+        setIsDecisionClicked(true);
+        setDecisionFeedback('거절되었습니다.');
       } catch (error) {
         console.error('Error updating registration: ', error);
       }
@@ -67,7 +82,7 @@ export default function ManageRegistrations() {
 
   useEffect(() => {
     fetchRegistrations();
-  }, []);
+  }, [decisionFeedback]);
 
   if (isLoading) {
     return <Dialog text="로딩 중입니다..." useDotAnimation={true} />;
@@ -76,6 +91,12 @@ export default function ManageRegistrations() {
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">등록된 신청서 관리</h1>
+      {isDecisionClicked && (
+        <RegistrationDecisionDialog
+          text={decisionFeedback}
+          onConfirm={() => setIsDecisionClicked(false)}
+        />
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {registrations.map((registration, index) => (
           <div key={registration.id} className="p-4 rounded shadow">
@@ -113,23 +134,26 @@ export default function ManageRegistrations() {
                       key={index}
                       className="flex lg:flex-col gap-2 items-center justify-between"
                     >
-                      {slot.title}/{slot.coach}/{slot.time}
+                      <p>
+                        {slot.title}/{slot.coach}/{slot.time}
+                        {slot.isRegistered !== undefined && (
+                          <span>
+                            /{slot.isRegistered ? '수락됨' : '거절됨'}
+                          </span>
+                        )}
+                      </p>
                       <div className="flex gap-4 my-1 justify-center sm:justify-start">
                         <div
                           className="cursor-pointer hover:text-blue-400"
-                          onClick={() => {
-                            handleAccept(slot, registration.name);
-                            console.log('수락합니다.');
-                          }}
+                          onClick={() =>
+                            handleAccept(slot, registration, index)
+                          }
                         >
                           수락
                         </div>
                         <div
                           className="cursor-pointer hover:text-red-400"
-                          onClick={() => {
-                            handleReject(registration, index);
-                            console.log('거절합니다.');
-                          }}
+                          onClick={() => handleReject(registration, index)}
                         >
                           거절
                         </div>
