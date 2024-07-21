@@ -7,7 +7,6 @@ import { firestore } from '@/app/firebase/firebase';
 import { updateSlot } from '../slots/getSlot';
 import TimeSlot from '@/app/data/TimeSlot';
 import { RegistrationDataType, updateRegistration } from './getRegistration';
-import RegistrationDecisionDialog from './RegistrationSelectDialog';
 import { formatDate } from '@/app/date_utils';
 
 export default function ManageRegistrations() {
@@ -15,18 +14,27 @@ export default function ManageRegistrations() {
     []
   );
   const [isLoading, setIsLoading] = useState(true);
-  const [isDecisionClicked, setIsDecisionClicked] = useState(false);
-  const [decisionFeedback, setDecisionFeedback] = useState('');
-
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [dialogText, setDialogText] = useState('');
   const fetchRegistrations = useCallback(async () => {
     try {
       const querySnapshot = await getDocs(
         collection(firestore, 'registration')
       );
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as RegistrationDataType[];
+      const data = querySnapshot.docs.map((doc) => {
+        const registrationData = doc.data() as RegistrationDataType;
+        registrationData.id = doc.id;
+        if (registrationData.times) {
+          registrationData.times.sort((a, b) => {
+            if (a.isRegistered === undefined && b.isRegistered !== undefined)
+              return -1;
+            if (a.isRegistered !== undefined && b.isRegistered === undefined)
+              return 1;
+            return 0;
+          });
+        }
+        return registrationData;
+      });
       setRegistrations(data);
       setIsLoading(false);
     } catch (error) {
@@ -38,7 +46,7 @@ export default function ManageRegistrations() {
   const updateSlotRegistration = useCallback(
     async (
       registration: RegistrationDataType,
-      index: number,
+      slotIndexToUpdate: number,
       isAccepted: boolean,
       slot?: TimeSlot
     ) => {
@@ -52,19 +60,16 @@ export default function ManageRegistrations() {
           updateSlot(newSlot, slot);
         }
         const updatedTimes = registration.times.map((time, i) =>
-          i === index ? { ...time, isRegistered: isAccepted } : time
+          i === slotIndexToUpdate ? { ...time, isRegistered: isAccepted } : time
         );
-        // updatedTimes 배열을 정렬
-        updatedTimes.sort((a, b) => {
-          if (a.isRegistered === undefined && b.isRegistered !== undefined)
-            return -1;
-          if (a.isRegistered !== undefined && b.isRegistered === undefined)
-            return 1;
-          return 0;
-        });
-        await updateRegistration(registration.id, { times: [...updatedTimes] });
-        setIsDecisionClicked(true);
-        setDecisionFeedback(isAccepted ? '수락되었습니다.' : '거절되었습니다.');
+        await updateRegistration(registration.id, { times: updatedTimes });
+        setDialogText(isAccepted ? '수락 완료했습니다' : '거절 완료했습니다');
+        setIsSuccess(true);
+        await fetchRegistrations();
+        setTimeout(() => {
+          setDialogText('');
+          setIsSuccess(false);
+        }, 1000);
       } catch (error) {
         console.error('Error updating slot: ', error);
       }
@@ -74,7 +79,7 @@ export default function ManageRegistrations() {
 
   useEffect(() => {
     fetchRegistrations();
-  }, [decisionFeedback]);
+  }, []);
 
   if (isLoading) {
     return <Dialog text="로딩 중입니다..." useDotAnimation={true} />;
@@ -83,69 +88,64 @@ export default function ManageRegistrations() {
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">등록된 신청서 관리</h1>
-      {isDecisionClicked && (
-        <RegistrationDecisionDialog
-          text={decisionFeedback}
-          onConfirm={() => setIsDecisionClicked(false)}
-        />
-      )}
+      {isSuccess && <Dialog text={dialogText} useDotAnimation={false} />}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {registrations.map((registration, index) => (
+        {registrations.map((registration, registrationIndex) => (
           <div key={registration.id} className="p-4 rounded shadow">
-            <div>{'#' + (index + 1)}</div>
+            <div>{'#' + (registrationIndex + 1)}</div>
             <div className="p-2 text-sm whitespace-nowrap">
               <div className="flex gap-4">
                 <div>이름 :</div>
-                <div>{registration.name || '-'}</div>
+                <div>{registration.name ?? '-'}</div>
               </div>
               <div className="flex gap-4">
                 <div>성별 :</div>
-                <div>{registration.gender || '-'}</div>
+                <div>{registration.gender ?? '-'}</div>
               </div>
               <div className="flex gap-4">
                 <div>전화번호 :</div>
-                <div>{registration.phone || '-'}</div>
+                <div>{registration.phone ?? '-'}</div>
               </div>
               <div className="flex gap-4">
                 <div>생년월일 :</div>
-                <div>{formatDate(registration.birthday) || '-'}</div>
+                <div>{formatDate(registration.birthday) ?? '-'}</div>
               </div>
               <div className="flex gap-4">
                 <div>급수 :</div>
-                <div>{registration.level || '-'}</div>
+                <div>{registration.level ?? '-'}</div>
               </div>
               <div className="flex gap-4">
                 <div>목표 :</div>
-                <div>{registration.goal || '-'}</div>
+                <div>{registration.goal ?? '-'}</div>
               </div>
               <div className="w-full whitespace-normal flex gap-4">
                 <div className="whitespace-nowrap">하고 싶은 말 :</div>
-                <div>{registration.others || '-'}</div>
+                <div>{registration.others ?? '-'}</div>
               </div>
               <div>
                 <div>신청시간 :</div>
                 <div className="text-center">
-                  {registration.times?.map((slot, index) => (
+                  {registration.times?.map((slot, slotIndexToUpdate) => (
                     <div
-                      key={index}
+                      key={slotIndexToUpdate}
                       className="flex lg:flex-col gap-2 items-center justify-between"
                     >
                       <p>
                         {slot.title}/{slot.coach}/{slot.time}
-                        {slot.isRegistered !== undefined && (
+                        {slot.isRegistered != null && (
                           <span>
                             /{slot.isRegistered ? '수락됨' : '거절됨'}
                           </span>
                         )}
                       </p>
-                      {slot.isRegistered == undefined && (
+                      {slot.isRegistered == null && (
                         <div className="flex gap-4 my-1 justify-center sm:justify-start">
                           <div
                             className="cursor-pointer hover:text-blue-400"
                             onClick={() =>
                               updateSlotRegistration(
                                 registration,
-                                index,
+                                slotIndexToUpdate,
                                 true,
                                 slot
                               )
@@ -156,7 +156,11 @@ export default function ManageRegistrations() {
                           <div
                             className="cursor-pointer hover:text-red-400"
                             onClick={() =>
-                              updateSlotRegistration(registration, index, false)
+                              updateSlotRegistration(
+                                registration,
+                                slotIndexToUpdate,
+                                false
+                              )
                             }
                           >
                             거절
