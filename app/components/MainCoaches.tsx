@@ -18,31 +18,30 @@ interface Coach {
 
 const an: Coach = {
   name: '안진욱',
-  title: '레슨 경력 10년차 코치',
+  title: '레슨 경력 10년차 선수 출신 코치',
   sections: [
     {
       title: '레슨 이력',
       items: [
-        '리부트배드민턴장 대표 코치',
-        '서울과학기술대학교 코치',
-        '블루코트배드민턴장 코치',
-        '바로배드민턴장 아카데미 코치',
-        '와우실내배드민턴장 야간 코치',
-        '엘리트 선수 개인 코치',
+        '현) 리부트배드민턴장 대표 코치',
+        ' · ',
+        '전) 서울과학기술대학교 코치',
+        '전) 블루코트배드민턴장 코치',
+        '전) 바로배드민턴장 아카데미 코치',
+        '전) 와우실내배드민턴장 야간 코치',
+        '전) 엘리트 선수 개인 코치',
         '... 외 다수',
       ],
     },
     {
       title: '수상 이력',
       items: [
-        '2024 제 2회 변두리콕 전국 대회 준자강 준우승',
         '2023 코리아민턴사랑 프리미엄 리그 (4차) 준자강 우승',
         '2023 제7회 인제내린천배 오픈 준자강 우승',
-        '2022 제2회 올곧은병원장배 대구광역시 준자강 준우승',
-        '2022 제2회 올곧은병원장배 대구광역시 자강조 준우승',
         '2021 코리아민턴사랑 프리미엄 리그 (1차) 준자강 우승',
         '2021 제 19회 다이요컵 전국 대회 준자강 우승',
         '2021 잼TV 미니게임 준자강 우승',
+        '2019 제2회 제이나이스코리아오픈 최강조 우승',
         '...외 다수',
       ],
     },
@@ -51,31 +50,30 @@ const an: Coach = {
 
 const yoon: Coach = {
   name: '윤재원',
-  title: '레슨 경력 10년차 코치',
+  title: '레슨 경력 6년차 선수 출신 코치',
   sections: [
     {
       title: '레슨 이력',
       items: [
-        '리부트배드민턴장 대표 코치',
-        '서울과학기술대학교 코치',
-        '블루코트배드민턴장 코치',
-        '바로배드민턴장 아카데미 코치',
-        '와우실내배드민턴장 야간 코치',
-        '엘리트 선수 개인 코치',
+        '현) 블랙배드민턴센터 코치',
+        '현) 리부트배드민턴센터 코치',
+        ' · ',
+        '전) 블루코트배드민턴장 코치',
+        '전) 와우배드민턴센터 코치',
+        '전) 더쎈배드민턴 아카데미 코치',
         '... 외 다수',
       ],
     },
     {
-      title: '수상 이력',
+      title: '선수 경력',
       items: [
-        '2023 코리아민턴사랑 프리미엄 리그 (4차) 준자강 우승',
-        '2023 제7회 인제내린천배 오픈 준자강 우승',
-        '2022 제2회 올곧은병원장배 대구광역시 준자강 준우승',
-        '2022 제2회 올곧은병원장배 대구광역시 자강조 준우승',
-        '2021 코리아민턴사랑 프리미엄 리그 (1차) 준자강 우승',
-        '2021 제 19회 다이요컵 전국대회 준자강 우승',
-        '2021 잼TV 미니게임 준자강 우승',
-        '...외 다수',
+        '주니어 국가대표 후보선수',
+        '중등부 가을철 단체전 2위',
+        '고등부 가을철 단체전 1위',
+        '고등부 학교대항전 혼합복식 3위',
+        '대학부 학교대항전 단체전 3위',
+        '대학부 학교대항전 혼합복식 3위',
+        '... 외 다수',
       ],
     },
   ],
@@ -136,13 +134,17 @@ function Coach({
           (align === 'left' ? '' : ' flex-row-reverse')
         }
       >
-        <Image
-          src={src(thumbnailSrc)}
-          alt={coach.name}
-          width={48}
-          height={48}
-          className="inline-block max-w-[12vw]"
-        />
+        <div className="max-w-[12vw] aspect-square bg-white max-h-[48px] w-[48px] h-[48px] relative">
+          <Image
+            src={src(thumbnailSrc)}
+            alt={coach.name}
+            layout="fill"
+            objectFit="cover"
+            style={{
+              objectPosition: 'top',
+            }}
+          />
+        </div>
         <div className={'inline-block text-white' + opacity}>
           <h2 className="text-2xl font-bold tracking-wider">{coach.name}</h2>
           <span className="text-sm">{coach.title}</span>
@@ -210,7 +212,7 @@ export default function MainCoaches() {
         />
         <Coach
           coach={yoon}
-          thumbnailSrc="/antroke.jpg"
+          thumbnailSrc="/yoon.jpeg"
           backgroundSrc="/slide/2.jpeg"
           align="right"
           open={expandedSide === 'right' && rightOpen}
