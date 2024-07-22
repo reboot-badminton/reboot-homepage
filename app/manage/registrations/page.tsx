@@ -10,9 +10,9 @@ import { RegistrationDataType, updateRegistration } from './getRegistration';
 import { formatDate } from '@/app/date_utils';
 import { ConfirmDialogButton } from '@/app/components/DialogButtons';
 
-const UPDATING_TEXT = '업데이트 중입니다...';
+const UPDATING_TEXT = '업데이트 중입니다';
 const ACCEPT_TEXT = '수락 완료했습니다';
-const NOTACCEPT_TEXT = '거절 완료했습니다';
+const REJECT_TEXT = '거절 완료했습니다';
 
 export default function ManageRegistrations() {
   const [registrations, setRegistrations] = useState<RegistrationDataType[]>(
@@ -69,7 +69,7 @@ export default function ManageRegistrations() {
           i === timeSlotIndex ? { ...time, isRegistered: isAccepted } : time
         );
         await updateRegistration(registration.id, { times: updatedTimes });
-        setDialogText(isAccepted ? ACCEPT_TEXT : NOTACCEPT_TEXT);
+        setDialogText(isAccepted ? ACCEPT_TEXT : REJECT_TEXT);
         await fetchRegistrations();
       } catch (error) {
         console.error('Error updating slot: ', error);
