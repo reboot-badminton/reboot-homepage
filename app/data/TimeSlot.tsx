@@ -11,6 +11,8 @@ export default interface TimeSlot {
 
   capacity: number;
   students: string[];
+
+  isRegistered?: boolean;
 }
 
 export function isSameSlot(slot1: TimeSlot, slot2: TimeSlot) {
