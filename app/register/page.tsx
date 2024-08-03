@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
 import { firestore } from '../firebase/firebase';
@@ -15,6 +15,9 @@ export default function Register() {
   const [showError, setShowError] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [isValid, setIsValid] = useState(false);
+  const fieldIsValidMap = useRef(new Map<string, boolean>());
 
   const register = useCallback(() => {
     const data: {
@@ -44,7 +47,22 @@ export default function Register() {
       setIsRegistering(false);
       setIsSuccess(true);
     });
-  }, []);
+  }, [register, validate]);
+
+  const checkFormValidity = useCallback(() => {
+    let isValid = true;
+    for (const [name, field] of Object.entries(registration.current)) {
+      if (!field.isRequired) continue;
+
+      console.log(name + ': ' + fieldIsValidMap.current.get(name))
+      if (fieldIsValidMap.current.get(name) != true) {
+        isValid = false;
+        break;
+      }
+    }
+
+    setIsValid(isValid);
+  }, [registration, fieldIsValidMap, setIsValid]);
 
   return (
     <div className='p-2'>
@@ -55,17 +73,21 @@ export default function Register() {
       <p className='text-xs mb-1 italic'>
         별표 (*) 표시된 항목은 필수 입력 항목입니다.
       </p>
-      {Object.entries(registration.current).map(([_, field]) => (
+      {Object.entries(registration.current).map(([name, field]) => (
         <FieldInput
           key={'input-' + field.name}
           field={field}
           showError={showError}
+          onUpdate={(isValid) => {
+            fieldIsValidMap.current.set(name, isValid);
+            checkFormValidity();
+          }}
         />
       ))}
-      <button className='w-full mt-4' onClick={onSubmit}>
+      <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
         신청하기
       </button>
-      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true} />}
+      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
       {isSuccess && (
         <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
           <div className='text-right pr-2'>

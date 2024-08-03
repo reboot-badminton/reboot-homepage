@@ -12,9 +12,10 @@ import { useState } from 'react';
 interface Props<T> {
   field: Field<T>;
   showError: boolean;
+  onUpdate: (isValid: boolean) => void;
 }
 
-export default function FieldInput<T>({ field, showError }: Props<T>) {
+export default function FieldInput<T>({ field, showError, onUpdate }: Props<T>) {
   const [error, setError] = useState<string>('');
 
   return (
@@ -26,25 +27,34 @@ export default function FieldInput<T>({ field, showError }: Props<T>) {
         <TimeSlotFieldInput
           field={field as Field<TimeSlot[]>}
           setError={setError}
+          onUpdate={onUpdate}
         />
       )}
       {field.type === FieldType.STRING && (
-        <StringFieldInput field={field as Field<string>} setError={setError} />
+        <StringFieldInput
+          field={field as Field<string>}
+          setError={setError}
+          onUpdate={onUpdate} />
       )}
       {field.type === FieldType.OPTIONS && (
         <DropdownFieldInput
           field={field as Field<string | null>}
           options={field.data}
           setError={setError}
+          onUpdate={onUpdate}
         />
       )}
       {field.type === FieldType.DATE && (
-        <DateFieldInput field={field as Field<Date>} setError={setError} />
+        <DateFieldInput
+          field={field as Field<Date>}
+          setError={setError}
+          onUpdate={onUpdate} />
       )}
       {field.type === FieldType.PHONE && (
         <PhoneNumberFieldInput
           field={field as Field<string>}
           setError={setError}
+          onUpdate={onUpdate}
         />
       )}
       {showError && error && (

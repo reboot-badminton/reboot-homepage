@@ -41,6 +41,12 @@ button:hover,
   filter: brightness(1.1);
 }
 
+button:disabled,
+.button:disabled {
+  background-color: rgb(200, 215, 230);
+  filter: none;
+}
+
 button.sm,
 .button.sm {
   padding: 0.5rem;

@@ -9,9 +9,10 @@ import { formatHour } from '../time_utils';
 interface Props {
   field: Field<TimeSlot[]>;
   setError: (error: string) => void;
+  onUpdate: (isValid: boolean) => void;
 }
 
-export default function TimeSlotFieldInput({ field, setError }: Props) {
+export default function TimeSlotFieldInput({ field, setError, onUpdate }: Props) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedTimeSlots, setSelectedTimeSlots] = useState(field.value);
 
@@ -48,6 +49,7 @@ export default function TimeSlotFieldInput({ field, setError }: Props) {
           onConfirm={(selected) => {
             setSelectedTimeSlots(selected);
             setIsSelecting(false);
+            onUpdate(selected.length > 0);
           }}
           onCancel={() => {
             setIsSelecting(false);
