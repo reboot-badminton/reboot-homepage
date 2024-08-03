@@ -54,7 +54,6 @@ export default function Register() {
     for (const [name, field] of Object.entries(registration.current)) {
       if (!field.isRequired) continue;
 
-      console.log(name + ': ' + fieldIsValidMap.current.get(name))
       if (fieldIsValidMap.current.get(name) != true) {
         isValid = false;
         break;
