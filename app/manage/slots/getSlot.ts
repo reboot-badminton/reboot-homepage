@@ -62,13 +62,13 @@ export async function updateSlot(newTimeSlot: TimeSlot, oldTimeSlot: TimeSlot) {
   if (snapshot.exists()) {
     const snapshotData: DocumentData = snapshot.data();
 
-    data[month] = snapshotData[month].filter(
+    data[month] = snapshotData[month]?.filter(
       (slot: TimeSlot) =>
         slot.lessonMonth.year !== year ||
         slot.lessonMonth.month !== month ||
         slot.days.join() !== oldTimeSlot.days.join() ||
         slot.time !== oldTimeSlot.time
-    );
+    ) ?? [];
   }
 
   data[month] = [newTimeSlot].concat(...(data[month] ?? []));
