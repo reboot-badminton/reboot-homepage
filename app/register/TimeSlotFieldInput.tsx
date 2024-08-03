@@ -23,7 +23,7 @@ export default function TimeSlotFieldInput({ field, setError, onUpdate }: Props)
     } else {
       setError('');
     }
-  }, [selectedTimeSlots]);
+  }, [field, selectedTimeSlots, setError]);
 
   return (
     <div className="ml-2">

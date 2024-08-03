@@ -39,6 +39,7 @@ export default function DateFieldInput({ field, setError, onUpdate }: Props) {
     [field, onDateChange]
   );
 
+  // noinspection CssUnusedSymbol CSS classes are used in DatePicker
   return (
     <>
       <style jsx global>{`
