@@ -3,8 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getRole } from './app/firebase/firebase';
 
 export async function middleware(request: NextRequest) {
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const user = getAuth().currentUser;
 
   if (!user) {
     return NextResponse.redirect(new URL('/', request.url));
