@@ -1,4 +1,3 @@
-// middleware.js
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase/auth';
 import { getRole } from './app/firebase/firebase';
