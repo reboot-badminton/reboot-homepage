@@ -3,8 +3,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
-import { firestore } from '../firebase/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { registerUser } from '../firebase/firebase';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
 import { ConfirmDialogButton } from '../components/DialogButtons';
@@ -15,19 +14,8 @@ export default function Register() {
   const [showError, setShowError] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
   const [isValid, setIsValid] = useState(false);
   const fieldIsValidMap = useRef(new Map<string, boolean>());
-
-  const register = useCallback(() => {
-    const data: {
-      [index: string]: any;
-    } = {};
-    Object.entries(registration.current).forEach(([key, field]) => {
-      data[key] = field.value;
-    });
-    return addDoc(collection(firestore, 'registration'), data);
-  }, [registration]);
 
   const validate = useCallback(() => {
     const isInvalid = !!Object.values(registration.current).find(
@@ -40,14 +28,27 @@ export default function Register() {
     return true;
   }, []);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!validate()) return;
     setIsRegistering(true);
-    register().then(() => {
+
+    try {
+      const data: {
+        [index: string]: any;
+      } = {};
+      Object.entries(registration.current).forEach(([key, field]) => {
+        data[key] = field.value;
+      });
+
+      await registerUser(data);
       setIsRegistering(false);
       setIsSuccess(true);
-    });
-  }, [register, validate]);
+    } catch (error) {
+      console.error('Error registering user:', error);
+      setIsRegistering(false);
+      setShowError(true);
+    }
+  }, [validate]);
 
   const checkFormValidity = useCallback(() => {
     let isValid = true;
@@ -64,12 +65,12 @@ export default function Register() {
   }, [registration, fieldIsValidMap, setIsValid]);
 
   return (
-    <div className='p-2'>
-      <p className='text-sm mb-4'>
+    <div className="p-2">
+      <p className="text-sm mb-4">
         아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
         회신해드리겠습니다.
       </p>
-      <p className='text-xs mb-1 italic'>
+      <p className="text-xs mb-1 italic">
         별표 (*) 표시된 항목은 필수 입력 항목입니다.
       </p>
       {Object.entries(registration.current).map(([name, field]) => (
@@ -83,13 +84,13 @@ export default function Register() {
           }}
         />
       ))}
-      <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
+      <button className="w-full mt-4" onClick={onSubmit} disabled={!isValid}>
         신청하기
       </button>
-      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
+      {isRegistering && <Dialog text="신청중입니다" useDotAnimation={true} />}
       {isSuccess && (
-        <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
-          <div className='text-right pr-2'>
+        <Dialog text="신청 완료했습니다." useDotAnimation={false}>
+          <div className="text-right pr-2">
             <ConfirmDialogButton
               onClick={() => {
                 router.back();

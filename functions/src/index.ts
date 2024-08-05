@@ -1,11 +1,7 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and triggers.
-import {logger} from "firebase-functions";
-import {onRequest} from "firebase-functions/v2/https";
-import {onDocumentCreated} from "firebase-functions/v2/firestore";
-
-// The Firebase Admin SDK to access Firestore.
-import {initializeApp} from "firebase-admin/app";
-import {getFirestore} from "firebase-admin/firestore";
+import { logger } from "firebase-functions";
+import { onRequest } from "firebase-functions/v2/https";
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 initializeApp();
 
@@ -22,23 +18,13 @@ exports.addmessage = onRequest({region: ["asia-northeast1"]}, async (req, res) =
   res.json({result: `Message with ID: ${writeResult.id} added.`});
 });
 
-// Listens for new messages added to /messages/:documentId/original
-// and saves an uppercased version of the message
-// to /messages/:documentId/uppercase
-exports.makeuppercase = onDocumentCreated("/messages/{documentId}", (event) => {
-  // Grab the current value of what was written to Firestore.
-  // @ts-ignore
-  const original = event.data.data().original;
-
-  // Access the parameter `{documentId}` with `event.params`
-  logger.log("Uppercasing", event.params.documentId, original);
-
-  const uppercase = original.toUpperCase();
-
-  // You must return a Promise when performing
-  // asynchronous tasks inside a function
-  // such as writing to Firestore.
-  // Setting an 'uppercase' field in Firestore document returns a Promise.
-  // @ts-ignore
-  return event.data.ref.set({uppercase}, {merge: true});
+exports.registerUser = onRequest({ region: ["asia-northeast1"] }, async (req, res) => {
+  try {
+    const data = req.body;  // Get data from the request body
+    const writeResult = await getFirestore().collection("registration").add(data);
+    res.json({ result: `Registration with ID: ${writeResult.id} added.` });
+  } catch (error) {
+    logger.error("Error adding registration:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
