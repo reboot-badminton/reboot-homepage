@@ -1,12 +1,13 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { Field, Registration } from './registration';
+import { Field, FieldType, Registration } from './registration';
 import FieldInput from './FieldInput';
 import { registerUser } from '../firebase/firebase';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
 import { ConfirmDialogButton } from '../components/DialogButtons';
+import TimeSlot from '../data/TimeSlot';
 
 export default function Register() {
   const router = useRouter();
@@ -37,7 +38,19 @@ export default function Register() {
         [index: string]: any;
       } = {};
       Object.entries(registration.current).forEach(([key, field]) => {
-        data[key] = field.value;
+        if (field.type === FieldType.TIME_SLOT) {
+          data[key] = (field.value as TimeSlot[]).map((slot) => ({
+            title: slot.title,
+            lessonMonth: slot.lessonMonth,
+            days: slot.days,
+            time: slot.time,
+            coach: slot.coach,
+            capacity: slot.capacity,
+            students: slot.students,
+          }));
+        } else {
+          data[key] = field.value;
+        }
       });
 
       await registerUser(data);
