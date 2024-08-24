@@ -3,7 +3,8 @@
 import { useCallback, useRef, useState } from 'react';
 import { Field, FieldType, Registration } from './registration';
 import FieldInput from './FieldInput';
-import { registerUser } from '../firebase/firebase';
+import { firestore } from '../firebase/firebase';
+import { addDoc, collection } from 'firebase/firestore';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
 import { ConfirmDialogButton } from '../components/DialogButtons';
@@ -15,8 +16,31 @@ export default function Register() {
   const [showError, setShowError] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
   const [isValid, setIsValid] = useState(false);
   const fieldIsValidMap = useRef(new Map<string, boolean>());
+
+  const register = useCallback(() => {
+    const data: {
+      [index: string]: any;
+    } = {};
+    Object.entries(registration.current).forEach(([key, field]) => {
+      if (field.type === FieldType.TIME_SLOT) {
+        data[key] = (field.value as TimeSlot[]).map((slot) => ({
+          title: slot.title,
+          lessonMonth: slot.lessonMonth,
+          days: slot.days,
+          time: slot.time,
+          coach: slot.coach,
+          capacity: slot.capacity,
+          students: slot.students,
+        }));
+      } else {
+        data[key] = field.value;
+      }
+    });
+    return addDoc(collection(firestore, 'registration'), data);
+  }, [registration]);
 
   const validate = useCallback(() => {
     const isInvalid = !!Object.values(registration.current).find(
@@ -29,39 +53,14 @@ export default function Register() {
     return true;
   }, []);
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(() => {
     if (!validate()) return;
     setIsRegistering(true);
-
-    try {
-      const data: {
-        [index: string]: any;
-      } = {};
-      Object.entries(registration.current).forEach(([key, field]) => {
-        if (field.type === FieldType.TIME_SLOT) {
-          data[key] = (field.value as TimeSlot[]).map((slot) => ({
-            title: slot.title,
-            lessonMonth: slot.lessonMonth,
-            days: slot.days,
-            time: slot.time,
-            coach: slot.coach,
-            capacity: slot.capacity,
-            students: slot.students,
-          }));
-        } else {
-          data[key] = field.value;
-        }
-      });
-
-      await registerUser(data);
+    register().then(() => {
       setIsRegistering(false);
       setIsSuccess(true);
-    } catch (error) {
-      console.error('Error registering user:', error);
-      setIsRegistering(false);
-      setShowError(true);
-    }
-  }, [validate]);
+    });
+  }, [register, validate]);
 
   const checkFormValidity = useCallback(() => {
     let isValid = true;
