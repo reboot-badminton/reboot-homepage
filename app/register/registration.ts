@@ -1,5 +1,3 @@
-import TimeSlot from '../data/TimeSlot';
-
 export enum FieldType {
   TIME_SLOT,
   STRING,
@@ -17,12 +15,6 @@ export interface Field<T> {
 }
 
 export class Registration {
-  times = {
-    name: '관심 레슨',
-    value: <TimeSlot[]>[],
-    isRequired: true,
-    type: FieldType.TIME_SLOT,
-  };
   name = {
     name: '이름',
     value: '',

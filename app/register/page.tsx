@@ -1,14 +1,13 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { Field, FieldType, Registration } from './registration';
+import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
 import { firestore } from '../firebase/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
 import { ConfirmDialogButton } from '../components/DialogButtons';
-import TimeSlot from '../data/TimeSlot';
 
 export default function Register() {
   const router = useRouter();
@@ -25,20 +24,9 @@ export default function Register() {
       [index: string]: any;
     } = {};
     Object.entries(registration.current).forEach(([key, field]) => {
-      if (field.type === FieldType.TIME_SLOT) {
-        data[key] = (field.value as TimeSlot[]).map((slot) => ({
-          title: slot.title,
-          lessonMonth: slot.lessonMonth,
-          days: slot.days,
-          time: slot.time,
-          coach: slot.coach,
-          capacity: slot.capacity,
-          students: slot.students,
-        }));
-      } else {
-        data[key] = field.value;
-      }
+      data[key] = field.value;
     });
+    data.role = 'member';
     return addDoc(collection(firestore, 'registration'), data);
   }, [registration]);
 
@@ -79,7 +67,7 @@ export default function Register() {
   return (
     <div className="p-2">
       <p className="text-sm mb-4">
-        아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
+        아래 양식을 채운 후, 가입하기 버튼을 눌러주세요. 매니저님 확인 후
         회신해드리겠습니다.
       </p>
       <p className="text-xs mb-1 italic">
@@ -97,11 +85,11 @@ export default function Register() {
         />
       ))}
       <button className="w-full mt-4" onClick={onSubmit} disabled={!isValid}>
-        신청하기
+        가입하기
       </button>
-      {isRegistering && <Dialog text="신청중입니다" useDotAnimation={true} />}
+      {isRegistering && <Dialog text="가입중입니다" useDotAnimation={true} />}
       {isSuccess && (
-        <Dialog text="신청 완료했습니다." useDotAnimation={false}>
+        <Dialog text="가입 완료했습니다." useDotAnimation={false}>
           <div className="text-right pr-2">
             <ConfirmDialogButton
               onClick={() => {
