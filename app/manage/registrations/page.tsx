@@ -1,9 +1,10 @@
-import { firestore } from '@/app/firebase/firebase';
+
 import { collection, getDocs } from 'firebase/firestore';
 import { RegistrationDataType } from './getRegistration';
 import { formatDate } from '@/app/date_utils';
 import RegistrationTimeSlot from './RegistrationTimeSlot';
 import AccessControl from '../AccessControl';
+import { firestore } from '@/firebase';
 
 const getRegistrations = async () => {
   try {

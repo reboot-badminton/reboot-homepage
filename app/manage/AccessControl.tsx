@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Dialog from '../components/Dialog';
-import { getRole } from '../firebase/firebase';
+import { getRole } from '@/firebase';
 
 function AccessControl({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);

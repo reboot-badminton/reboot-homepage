@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { getRole, managerSignIn } from '../firebase/firebase';
 import { useCallback, useEffect, useState } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
+import { getRole, managerSignIn } from '@/firebase';
 
 enum SignInStatus {
   SIGNED_OUT,

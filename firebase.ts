@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
-// import { getAnalytics } from 'firebase/analytics';
+import { clientConfig } from './config';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import firebaseConfig from '@/firebase-config';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+export const app = initializeApp(clientConfig);
+export const firestore = getFirestore(app);
 
 export async function getRole() {
   const user = getAuth().currentUser;
@@ -27,10 +28,3 @@ export async function managerSignIn() {
     return false;
   }
 }
-
-export const app = initializeApp(firebaseConfig);
-// export const analytics = getAnalytics(app);
-export const firestore = getFirestore(app);
-
-const functions = getFunctions(app, 'asia-northeast1');
-export const registerUser = httpsCallable(functions, 'registerUser');

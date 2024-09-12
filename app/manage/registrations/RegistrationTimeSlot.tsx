@@ -5,7 +5,7 @@ import TimeSlot from '@/app/data/TimeSlot';
 import { RegistrationDataType } from './getRegistration';
 import { updateSlot } from '../slots/getSlot';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
-import { firestore } from '@/app/firebase/firebase';
+import { firestore } from '@/firebase';
 import Dialog from '@/app/components/Dialog';
 import { ConfirmDialogButton } from '@/app/components/DialogButtons';
 
