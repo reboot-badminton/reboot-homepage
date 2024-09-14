@@ -16,17 +16,6 @@ export async function middleware(request: NextRequest) {
     cookieSerializeOptions: serverConfig.cookieSerializeOptions,
     serviceAccount: serverConfig.serviceAccount,
     handleValidToken: async ({ token, decodedToken }, headers) => {
-      // 메인 페이지는 로그인 없이도 접근 가능
-      if (request.nextUrl.pathname === '/') {
-        return NextResponse.next({ request: { headers } });
-      }
-
-      // '/slots' 페이지는 인증이 필요
-      if (request.nextUrl.pathname === '/slots') {
-        return NextResponse.next({ request: { headers } });
-      }
-
-      // 공개 경로는 로그인 페이지로 리다이렉트
       if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {
         return redirectToHome(request);
       }

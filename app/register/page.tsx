@@ -69,7 +69,7 @@ export default function Register() {
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Create an account
+            회원 가입
           </h1>
           <form
             onSubmit={handleSubmit}
@@ -81,7 +81,7 @@ export default function Register() {
                 htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Name
+                이름
               </label>
               <input
                 type="text"
@@ -90,7 +90,7 @@ export default function Register() {
                 onChange={(e) => setName(e.target.value)}
                 id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="John Doe"
+                placeholder="홍길동"
                 required
               />
             </div>
@@ -99,7 +99,7 @@ export default function Register() {
                 htmlFor="gender"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Gender
+                성별
               </label>
               <select
                 name="gender"
@@ -110,11 +110,10 @@ export default function Register() {
                 required
               >
                 <option value="" disabled>
-                  Select gender
+                  선택
                 </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
               </select>
             </div>
             <div>
@@ -122,7 +121,7 @@ export default function Register() {
                 htmlFor="birthdate"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Birthdate
+                생년월일
               </label>
               <input
                 type="date"
@@ -139,7 +138,7 @@ export default function Register() {
                 htmlFor="phone"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Phone number
+                휴대폰 번호
               </label>
               <input
                 type="tel"
@@ -148,7 +147,7 @@ export default function Register() {
                 onChange={(e) => setPhone(e.target.value)}
                 id="phone"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="+123456789"
+                placeholder="01012345678"
                 required
               />
             </div>
@@ -157,7 +156,7 @@ export default function Register() {
                 htmlFor="email"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Your email
+                아이디
               </label>
               <input
                 type="email"
@@ -166,7 +165,7 @@ export default function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
+                placeholder="email@naver.com"
                 required
               />
             </div>
@@ -175,7 +174,7 @@ export default function Register() {
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Password
+                비밀번호
               </label>
               <input
                 type="password"
@@ -193,7 +192,7 @@ export default function Register() {
                 htmlFor="confirm-password"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Confirm password
+                비밀번호 확인
               </label>
               <input
                 type="password"
@@ -218,15 +217,15 @@ export default function Register() {
               type="submit"
               className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-primary-800"
             >
-              Create an account
+              가입하기
             </button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-              Already have an account?
+              이미 계정이 있으신가요?
               <Link
                 href="/login"
-                className="font-medium text-gray-600 hover:underline dark:text-gray-500"
+                className="ml-2 font-medium text-gray-600 hover:underline dark:text-gray-500"
               >
-                Login here
+                로그인하기
               </Link>
             </p>
           </form>

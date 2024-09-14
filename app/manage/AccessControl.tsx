@@ -6,9 +6,8 @@ import { useRouter } from 'next/navigation';
 import Dialog from '../components/Dialog';
 import { getRole } from '@/firebase';
 
-function AccessControl({ children }: { children: ReactNode }) {
+export default function AccessControl({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
-  const [hasAccess, setHasAccess] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,16 +15,15 @@ function AccessControl({ children }: { children: ReactNode }) {
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push('/');
+        router.push('/login');
         return;
       }
 
       const role = await getRole();
 
-      if (role === 'admin' || role === 'manager') {
-        setHasAccess(true);
-      } else {
+      if (role !== 'admin' && role !== 'manager') {
         router.push('/');
+        return;
       }
 
       setLoading(false);
@@ -38,11 +36,5 @@ function AccessControl({ children }: { children: ReactNode }) {
     return <Dialog text="Loading" useDotAnimation={true} />;
   }
 
-  if (!hasAccess) {
-    return null;
-  }
-
   return <>{children}</>;
 }
-
-export default AccessControl;

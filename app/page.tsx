@@ -1,22 +1,27 @@
+import Link from 'next/link';
+import ImageSlide from './components/ImageSlide';
+import Introduction from './components/Introduction';
+import MainCoaches from './components/MainCoaches';
+import Members from './members';
 
-import { getTokens } from 'next-firebase-auth-edge';
-import { cookies } from 'next/headers';
-import { notFound } from 'next/navigation';
-import { clientConfig, serverConfig } from '../config';
-import HomePage from './HomePage';
+const slideImages = Array.from({ length: 4 }, (_, index) => ({
+  src: `/slide/${index + 1}.jpeg`,
+  alt: `blurred slide Image ${index + 1}`,
+}));
 
 export default async function Home() {
-  const tokens = await getTokens(cookies(), {
-    apiKey: clientConfig.apiKey,
-    cookieName: serverConfig.cookieName,
-    cookieSignatureKeys: serverConfig.cookieSignatureKeys,
-    serviceAccount: serverConfig.serviceAccount,
-  });
-
   return (
-    <>
-    <HomePage email={tokens?.decodedToken.email} />
-    </>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <ImageSlide srcs={slideImages} />
+      <div className="flex align-middle items-center gap-4 m-5">
+        <Link href="/slots" className="button">
+          레슨보기
+        </Link>
+      </div>
+      <hr />
+      <Introduction />
+      <MainCoaches />
+      <Members />
+    </main>
   );
 }
-
