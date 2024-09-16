@@ -1,4 +1,5 @@
 'use client';
+
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -60,8 +61,14 @@ export default function Register() {
         role: 'member',
       });
       router.push('/login');
-    } catch (e) {
-      setError((e as Error).message);
+    } catch (error) {
+      const errorCode = (error as any).code;
+  
+      if (errorCode === 'auth/email-already-in-use') {
+        setError('이미 사용 중인 이메일입니다.');
+      } else {
+        setError((error as Error).message);
+      }
     }
   }
   return (
