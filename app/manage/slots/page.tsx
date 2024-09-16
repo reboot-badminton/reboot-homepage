@@ -27,7 +27,10 @@ export default function ManageSlots() {
   return (
     <AccessControl>
       <div className="p-4">
-        <MonthSelector onLessonMonthChange={setLessonMonth} />
+        <div className="flex justify-between mb-3">
+          <h1 className="text-lg">레슨 슬롯 관리</h1>
+          <MonthSelector onLessonMonthChange={setLessonMonth} />
+        </div>
         <DaySelector onDayChange={setDay} />
         {lessonMonth && (
           <TimeTable
@@ -49,6 +52,7 @@ export default function ManageSlots() {
                 students: [],
               });
             }}
+            isAdmin={true}
           />
         )}
         {clickedSlot && (
