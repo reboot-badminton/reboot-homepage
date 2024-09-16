@@ -22,19 +22,16 @@ export default function MonthSelector({ onLessonMonthChange }: Props) {
   }, [onLessonMonthChange, lessonMonth]);
 
   return (
-    <nav className="flex justify-between mb-3">
-      <h1 className="text-lg">레슨 슬롯 관리</h1>
-      <div>
-        <button onClick={() => setLessonMonth((m) => prevLessonMonth(m))}>
-          ◀
-        </button>
-        <span className="mx-3">
-          {lessonMonth.year}년 {lessonMonth.month}월
-        </span>
-        <button onClick={() => setLessonMonth((m) => nextLessonMonth(m))}>
-          ▶
-        </button>
-      </div>
+    <nav>
+      <button onClick={() => setLessonMonth((m) => prevLessonMonth(m))}>
+        ◀
+      </button>
+      <span className="mx-3">
+        {lessonMonth.year}년 {lessonMonth.month}월
+      </span>
+      <button onClick={() => setLessonMonth((m) => nextLessonMonth(m))}>
+        ▶
+      </button>
     </nav>
   );
 }
