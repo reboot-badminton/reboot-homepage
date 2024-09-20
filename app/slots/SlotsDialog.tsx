@@ -19,8 +19,8 @@ export default function SlotsDialog({ slot, onClose }: Props) {
   const [inquiry, setInquiry] = useState(''); // 문의사항 상태
   const titleRef = useRef(slot.title);
   const daysRef = useRef<number[]>(slot.days);
-  const coachRef = useRef(slot.coach);
   const capacityRef = useRef(slot.capacity);
+  const lessonMonthRef = useRef(slot.lessonMonth);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -34,7 +34,6 @@ export default function SlotsDialog({ slot, onClose }: Props) {
         setIsRegistering(false);
         return;
       }
-
       const result = await getDoc(doc(firestore, 'users', user.uid));
       const userInfo = result.data();
 
@@ -44,26 +43,26 @@ export default function SlotsDialog({ slot, onClose }: Props) {
         return;
       }
 
-      const registrationRef = doc(firestore, 'registration', titleRef.current); // 레슨 제목을 고유 ID로 사용
+      const registrationId = `${lessonMonthRef.current.year}-${lessonMonthRef.current.month}-${titleRef.current}`;
+      const registrationRef = doc(firestore, 'registration', registrationId);
       const registrationSnapshot = await getDoc(registrationRef);
 
       const newUserData = {
         uid: user.uid,
-        inquiry, // 문의사항 추가
+        inquiry,
         createdAt: new Date(),
         ...userInfo,
       };
-      const { price, ...slotWithoutPrice } = slot;
+      const { price, coach, ...slotWithoutPrice } = slot;
 
       if (registrationSnapshot.exists()) {
         // 이미 문의한 사용자인지 확인
-        const registeredUsers = registrationSnapshot.data()?.users || [];
+        const registeredUsers = registrationSnapshot.data()?.users ?? [];
         const hasAlreadyInquired = registeredUsers.some(
-          (u: { uid: string }) => u.uid === user.uid
+          ({ uid }: { uid: string }) => uid === user.uid
         );
 
         if (hasAlreadyInquired) {
-          // 이미 문의한 경우
           setError('이미 이 레슨에 문의하였습니다.');
           setIsRegistering(false);
           return;
@@ -85,6 +84,7 @@ export default function SlotsDialog({ slot, onClose }: Props) {
 
       setIsRegistering(false);
       setIsSuccess(true);
+      setError('');
     } catch (e) {
       console.error(e);
       setError('문의 등록 중 오류가 발생했습니다.');
@@ -102,7 +102,6 @@ export default function SlotsDialog({ slot, onClose }: Props) {
           className="text-base mb-2"
         />
         <SlotDialogDaysField daysRef={daysRef} isEditMode={false} />
-        <SlotDialogField title="코치" valueRef={coachRef} isEditMode={false} />
         <SlotDialogField
           title="정원"
           valueRef={capacityRef}

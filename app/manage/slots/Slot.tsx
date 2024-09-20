@@ -21,11 +21,13 @@ export default function Slot({ slot, onClick, isAdmin }: Props) {
   return (
     <div className="text-sm px-2 py-1" onClick={() => onClick(slot)}>
       <b className="block mb-1">{slot.title}</b>
-      <span>{slot.coach}</span>
       {isAdmin && (
-        <span className="ml-1 text-gray-500">
-          ₩{slot.price.toLocaleString()}
-        </span>
+        <>
+          <span>{slot.coach}</span>
+          <span className="ml-1 text-gray-500">
+            ₩{slot.price.toLocaleString()}
+          </span>
+        </>
       )}
       <span className="block text-xs">
         ({slot.students.length} / {slot.capacity}) {slot.students.join(', ')}
