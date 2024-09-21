@@ -6,7 +6,7 @@ export default function Introduction() {
     <div className="flex justify-center w-full bg-white mt-8 py-4 sm:py-8 lg:py-12">
       <div className="max-w-xl flex">
         <Image
-          src={src('/이용대_짤2.jpg')}
+          src={src('/introduction.jpeg')}
           width={150}
           height={400}
           alt="소개"
