@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  User
 } from 'firebase/auth';
 import { app } from '../firebase/firebase';
 
@@ -17,7 +18,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  async function handleSuccessfulLogin(user: any) {
+  async function handleSuccessfulLogin(user: User) {
     const idToken = await user.getIdToken();
     await fetch('/api/login', {
       headers: { Authorization: `Bearer ${idToken}` },
