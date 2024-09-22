@@ -160,7 +160,7 @@ export default function Login() {
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               계정이 없으신가요?
               <Link
-                href="/signup"
+                href="/register"
                 className="ml-4 font-medium text-gray-600 hover:underline dark:text-gray-500"
               >
                 회원가입하기
