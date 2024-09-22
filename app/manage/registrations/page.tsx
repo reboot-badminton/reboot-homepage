@@ -29,7 +29,7 @@ export default async function ManageRegistrations() {
   const registrations = await getRegistrations();
 
   return (
-    <AccessControl>
+    <AccessControl allowedRoles={['admin', 'manager']}>
       <div className="p-4">
         <h1 className="text-2xl mb-4">등록된 신청서 관리</h1>
         {!registrations?.length ? (

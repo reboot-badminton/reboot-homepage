@@ -5,7 +5,6 @@ interface Props {
   slots: TimeSlot[];
   onSlotClick: (slot: TimeSlot) => void;
   onEmptySlotClick: (time: number) => void;
-  isAdmin: boolean;
 }
 
 const hours = Array.from({ length: 24 }, (_, i) => {
@@ -18,7 +17,6 @@ export default function TimeTable({
   slots,
   onSlotClick,
   onEmptySlotClick,
-  isAdmin,
 }: Props) {
   return (
     <table className="w-full bg-white">
@@ -41,7 +39,6 @@ export default function TimeTable({
                     onEmptySlotClick(time);
                   }
                 }}
-                isAdmin={isAdmin}
               />
             </td>
           </tr>

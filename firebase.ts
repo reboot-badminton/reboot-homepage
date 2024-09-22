@@ -3,9 +3,6 @@ import { clientConfig } from './config';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-export const app = initializeApp(clientConfig);
-export const firestore = getFirestore(app);
-
 export async function getRole() {
   const user = getAuth().currentUser;
   if (user == null) return null;
@@ -28,3 +25,6 @@ export async function GoogleAuthSignIn() {
     return false;
   }
 }
+
+export const app = initializeApp(clientConfig);
+export const firestore = getFirestore(app);

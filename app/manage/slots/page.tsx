@@ -25,7 +25,7 @@ export default function ManageSlots() {
   useEffect(() => refresh(), [refresh]);
 
   return (
-    <AccessControl>
+    <AccessControl allowedRoles={['admin', 'manager']}>
       <div className="p-4">
         <div className="flex justify-between mb-3">
           <h1 className="text-lg">레슨 슬롯 관리</h1>
@@ -52,7 +52,6 @@ export default function ManageSlots() {
                 students: [],
               });
             }}
-            isAdmin={true}
           />
         )}
         {clickedSlot && (
