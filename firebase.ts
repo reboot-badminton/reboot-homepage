@@ -16,7 +16,7 @@ export async function getRole() {
   return result.data().role;
 }
 
-export async function managerSignIn() {
+export async function GoogleAuthSignIn() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   auth.languageCode = 'ko';
