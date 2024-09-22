@@ -14,8 +14,8 @@ export default function Home() {
     <>
       <ImageSlide srcs={slideImages} />
       <div className="text-center m-5">
-        <Link href="/register" className="button">
-          레슨 신청하기
+        <Link href="/slots" className="button">
+          레슨보기
         </Link>
       </div>
       <hr />
