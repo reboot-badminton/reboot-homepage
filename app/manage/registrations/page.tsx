@@ -3,6 +3,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { RegistrationDataType } from './getRegistration';
 import { formatDate } from '@/app/date_utils';
 import RegistrationTimeSlot from './RegistrationTimeSlot';
+import Menu from './Menu';
 
 const getRegistrations = async () => {
   try {
@@ -38,7 +39,10 @@ export default async function ManageRegistrations() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {registrations.map((registration, registrationIndex) => (
             <div key={registration.id} className="p-4 rounded shadow">
-              <div>{'#' + (registrationIndex + 1)}</div>
+              <div className="flex justify-between">
+                <span>{'#' + (registrationIndex + 1)}</span>
+                <Menu />
+              </div>
               <div className="p-2 text-sm whitespace-nowrap">
                 <div className="flex gap-4">
                   <div>이름 :</div>
