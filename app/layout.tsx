@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import { getTokens } from 'next-firebase-auth-edge';
+import { cookies } from 'next/headers';
+import { clientConfig, serverConfig } from '../config';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Image from 'next/image';
-import ManagerSignIn from './components/ManagerSignIn';
+import LogIn from './components/LogIn';
 import { src } from './image_utils';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,11 +30,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const tokens = await getTokens(cookies(), {
+    apiKey: clientConfig.apiKey,
+    cookieName: serverConfig.cookieName,
+    cookieSignatureKeys: serverConfig.cookieSignatureKeys,
+    serviceAccount: serverConfig.serviceAccount,
+  });
+
   return (
     <html lang="ko">
       <body className={inter.className}>
@@ -80,7 +90,7 @@ export default function RootLayout({
           <div className="mb-4 text-xs">
             © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
           </div>
-          <ManagerSignIn />
+          <LogIn uid={tokens?.decodedToken.uid}/>
         </footer>
       </body>
     </html>

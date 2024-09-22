@@ -1,6 +1,6 @@
 import { LessonMonth } from '@/app/data/LessonMonth';
 import TimeSlot from '@/app/data/TimeSlot';
-import { firestore } from '@/app/firebase/firebase';
+import { firestore } from '@/firebase';
 import { doc, DocumentData, getDoc, setDoc } from 'firebase/firestore';
 
 export function getSlotsForDay(slots: TimeSlot[], day: number) {

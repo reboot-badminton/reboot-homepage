@@ -8,6 +8,7 @@ import TimeTable from './TimeTable';
 import TimeSlot from '@/app/data/TimeSlot';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';
 import SlotDialog from './SlotDialog';
+import AccessControl from '../AccessControl';
 
 export default function ManageSlots() {
   const [day, setDay] = useState(0);
@@ -24,43 +25,49 @@ export default function ManageSlots() {
   useEffect(() => refresh(), [refresh]);
 
   return (
-    <div className="p-4">
-      <MonthSelector onLessonMonthChange={setLessonMonth} />
-      <DaySelector onDayChange={setDay} />
-      {lessonMonth && (
-        <TimeTable
-          slots={getSlotsForDay(slots, day)}
-          onSlotClick={(slot) => {
-            setIsAddMode(false);
-            setClickedSlot(slot);
-          }}
-          onEmptySlotClick={(time) => {
-            setIsAddMode(true);
-            setClickedSlot({
-              lessonMonth,
-              days: [day],
-              time,
-              title: '',
-              coach: '',
-              price: 0,
-              capacity: 2,
-              students: [],
-            });
-          }}
-        />
-      )}
-      {clickedSlot && (
-        <SlotDialog
-          slot={clickedSlot}
-          isAddMode={isAddMode}
-          onClose={(isEdited) => {
-            if (isEdited) {
-              refresh();
-            }
-            setClickedSlot(null);
-          }}
-        />
-      )}
-    </div>
+    <AccessControl>
+      <div className="p-4">
+        <div className="flex justify-between mb-3">
+          <h1 className="text-lg">레슨 슬롯 관리</h1>
+          <MonthSelector onLessonMonthChange={setLessonMonth} />
+        </div>
+        <DaySelector onDayChange={setDay} />
+        {lessonMonth && (
+          <TimeTable
+            slots={getSlotsForDay(slots, day)}
+            onSlotClick={(slot) => {
+              setIsAddMode(false);
+              setClickedSlot(slot);
+            }}
+            onEmptySlotClick={(time) => {
+              setIsAddMode(true);
+              setClickedSlot({
+                lessonMonth,
+                days: [day],
+                time,
+                title: '',
+                coach: '',
+                price: 0,
+                capacity: 2,
+                students: [],
+              });
+            }}
+            isAdmin={true}
+          />
+        )}
+        {clickedSlot && (
+          <SlotDialog
+            slot={clickedSlot}
+            isAddMode={isAddMode}
+            onClose={(isEdited) => {
+              if (isEdited) {
+                refresh();
+              }
+              setClickedSlot(null);
+            }}
+          />
+        )}
+      </div>
+    </AccessControl>
   );
 }
