@@ -3,14 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
-import { app, getRole } from '../firebase/firebase';
-
-enum SignInStatus {
-  ADMIN,
-  MANAGER,
-  MEMBER,
-  NONE,
-}
+import { app, getRole, Role } from '../firebase/firebase';
 
 function Button({ text, onClick }: { text: string; onClick: () => void }) {
   return (
@@ -25,33 +18,21 @@ function Button({ text, onClick }: { text: string; onClick: () => void }) {
 
 export default function LogIn() {
   const [uid, setUid] = useState<string | null>(null);
-  const [status, setStatus] = useState<SignInStatus>(SignInStatus.NONE);
+  const [role, setRole] = useState<Role>(Role.NONE);
   const router = useRouter();
 
   const updateRole = useCallback(async () => {
     if (!uid) {
-      setStatus(SignInStatus.NONE);
+      setRole(Role.NONE);
       return;
     }
 
     try {
       const role = await getRole();
-      switch (role) {
-        case 'manager':
-          setStatus(SignInStatus.MANAGER);
-          break;
-        case 'admin':
-          setStatus(SignInStatus.ADMIN);
-          break;
-        case 'member':
-          setStatus(SignInStatus.MEMBER);
-          break;
-        default:
-          setStatus(SignInStatus.NONE);
-      }
+      setRole(role)
     } catch (error) {
       console.error('Failed to fetch user role:', error);
-      setStatus(SignInStatus.NONE);
+      setRole(Role.NONE);
     }
   }, [uid]);
 
@@ -63,19 +44,16 @@ export default function LogIn() {
     await signOut(getAuth(app));
     await fetch('/api/logout', { method: 'POST' });
     setUid(null);
-    setStatus(SignInStatus.NONE);
+    setRole(Role.NONE);
     router.push('/');
     router.refresh();
   }
 
   return (
     <>
-      {!uid && (
-        <Button text="회원 가입" onClick={() => router.push('/signup')} />
-      )}
       {!uid && <Button text="로그인" onClick={() => router.push('/login')} />}
       {uid && <Button text="로그아웃" onClick={handleLogout} />}
-      {(status === SignInStatus.ADMIN || status === SignInStatus.MANAGER) && (
+      {(role === Role.ADMIN || role === Role.MANAGER) && (
         <Button text="관리자페이지" onClick={() => router.push('/manage')} />
       )}
     </>

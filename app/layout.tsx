@@ -80,7 +80,7 @@ export default function RootLayout({
           <div className="mb-4 text-xs">
             © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
           </div>
-          <LogIn/>
+          <LogIn />
         </footer>
       </body>
     </html>
