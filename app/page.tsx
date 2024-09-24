@@ -14,8 +14,8 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <ImageSlide srcs={slideImages} />
       <div className="flex align-middle items-center gap-4 m-5">
-        <Link href="/slots" className="button">
-          레슨보기
+        <Link href="/register" className="button">
+          레슨 신청
         </Link>
       </div>
       <hr />

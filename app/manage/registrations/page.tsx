@@ -4,7 +4,7 @@ import { RegistrationDataType } from './getRegistration';
 import { formatDate } from '@/app/date_utils';
 import RegistrationTimeSlot from './RegistrationTimeSlot';
 import AccessControl from '../AccessControl';
-import { firestore } from '@/firebase';
+import { firestore, Role } from '@/firebase';
 
 const getRegistrations = async () => {
   try {
@@ -30,7 +30,7 @@ export default async function ManageRegistrations() {
   const registrations = await getRegistrations();
 
   return (
-    <AccessControl>
+    <AccessControl allowedRoles={[Role.ADMIN, Role.MANAGER]}>
       <div className="p-4">
         <h1 className="text-2xl mb-4">등록된 신청서 관리</h1>
         {!registrations?.length ? (

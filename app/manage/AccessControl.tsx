@@ -1,36 +1,36 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Dialog from '../components/Dialog';
-import { getRole } from '@/firebase';
+import { useAuth } from '../components/AuthProvider';
+import { Role } from '@/firebase';
 
-export default function AccessControl({ children }: { children: ReactNode }) {
+interface AccessControlProps {
+  children: ReactNode;
+  allowedRoles: Role[];
+}
+
+export default function AccessControl({ children, allowedRoles }: AccessControlProps) {
+  const { uid, role } = useAuth();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const auth = getAuth();
+    if (!uid) {
+      router.push('/login');
+      return;
+    }
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        router.push('/login');
-        return;
-      }
+    if (!role) return;
 
-      const role = await getRole();
+    if (!allowedRoles.includes(role)) {
+      router.back();
+      return;
+    }
 
-      if (role !== 'admin' && role !== 'manager') {
-        router.push('/');
-        return;
-      }
-
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [router]);
+    setLoading(false);
+  }, [uid, role, router, allowedRoles]);
 
   if (loading) {
     return <Dialog text="Loading" useDotAnimation={true} />;

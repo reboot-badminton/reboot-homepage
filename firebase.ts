@@ -3,17 +3,31 @@ import { clientConfig } from './config';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-export const app = initializeApp(clientConfig);
-export const firestore = getFirestore(app);
+export enum Role {
+  ADMIN,
+  MANAGER,
+  MEMBER,
+  NONE,
+}
 
 export async function getRole() {
   const user = getAuth().currentUser;
-  if (user == null) return null;
+  if (user == null) return Role.NONE;
 
   const result = await getDoc(doc(firestore, 'users', user.uid));
-  if (!result.exists()) return null;
-
-  return result.data().role;
+  if (!result.exists()) return Role.NONE;
+  
+  const role = result.data()?.role;
+  switch (role) {
+    case 'manager':
+      return Role.MANAGER;
+    case 'admin':
+      return Role.ADMIN;
+    case 'member':
+      return Role.MEMBER;
+    default:
+      return Role.NONE;
+  }
 }
 
 export async function GoogleAuthSignIn() {
@@ -28,3 +42,6 @@ export async function GoogleAuthSignIn() {
     return false;
   }
 }
+
+export const app = initializeApp(clientConfig);
+export const firestore = getFirestore(app);

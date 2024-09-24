@@ -1,3 +1,5 @@
+import TimeSlot from '../data/TimeSlot';
+
 export enum FieldType {
   TIME_SLOT,
   STRING,
@@ -15,18 +17,11 @@ export interface Field<T> {
 }
 
 export class Registration {
-  name = {
-    name: '이름',
-    value: '',
+  times = {
+    name: '관심 레슨',
+    value: <TimeSlot[]>[],
     isRequired: true,
-    type: FieldType.STRING,
-  };
-  gender = {
-    name: '성별',
-    value: null,
-    isRequired: true,
-    type: FieldType.OPTIONS,
-    data: ['남자', '여자'],
+    type: FieldType.TIME_SLOT,
   };
   level = {
     name: '급수',
@@ -34,12 +29,6 @@ export class Registration {
     isRequired: true,
     type: FieldType.OPTIONS,
     data: ['A', 'B', 'C', 'D', '초심', '입문'],
-  };
-  birthday = {
-    name: '생년월일',
-    value: new Date(),
-    isRequired: true,
-    type: FieldType.DATE,
   };
   phone = {
     name: '전화번호',

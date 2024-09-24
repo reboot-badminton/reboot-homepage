@@ -5,7 +5,9 @@ import {
   redirectToLogin,
 } from 'next-firebase-auth-edge';
 import { clientConfig, serverConfig } from './config';
-const PUBLIC_PATHS = ['/register', '/login'];
+
+const PUBLIC_PATHS = ['/signup', '/login'];
+
 export async function middleware(request: NextRequest) {
   return authMiddleware(request, {
     loginPath: '/api/login',
@@ -24,9 +26,9 @@ export async function middleware(request: NextRequest) {
     },
     handleInvalidToken: async (reason) => {
       console.info('Missing or malformed credentials', { reason });
-      
-      // 인증 실패 시 '/slots' 페이지는 로그인으로 리다이렉트
-      if (request.nextUrl.pathname === '/slots') {
+
+      // 인증 실패 시 '/register' 페이지는 로그인으로 리다이렉트
+      if (request.nextUrl.pathname === '/register') {
         return redirectToLogin(request, {
           path: '/login',
           publicPaths: PUBLIC_PATHS,
