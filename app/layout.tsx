@@ -3,8 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import Image from 'next/image';
-import ManagerSignIn from './components/ManagerSignIn';
 import { src } from './image_utils';
+import LogIn from './components/LogIn';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -80,7 +80,7 @@ export default function RootLayout({
           <div className="mb-4 text-xs">
             © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
           </div>
-          <ManagerSignIn />
+          <LogIn />
         </footer>
       </body>
     </html>
