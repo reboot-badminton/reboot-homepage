@@ -4,9 +4,9 @@ import Introduction from './components/Introduction';
 import MainCoaches from './components/MainCoaches';
 import Members from './members';
 
-const slideImages = Array.from({ length: 4 }, (_, index) => ({
-  src: `/slide/${index + 1}.jpeg`,
-  alt: `blurred slide Image ${index + 1}`,
+const slideImages = Array.from({ length: 5 }, (_, index) => ({
+  src: `/slide/${index}.jpeg`,
+  alt: `blurred slide Image ${index}`,
 }));
 
 export default async function Home() {
