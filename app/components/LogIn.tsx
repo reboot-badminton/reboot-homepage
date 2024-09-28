@@ -60,9 +60,6 @@ export default function LogIn() {
 
   return (
     <>
-      {!uid && (
-        <Button text="회원 가입" onClick={() => router.push('/signup')} />
-      )}
       {!uid && <Button text="로그인" onClick={() => router.push('/login')} />}
       {uid && <Button text="로그아웃" onClick={handleLogout} />}
       {(status === SignInStatus.ADMIN || status === SignInStatus.MANAGER) && (
