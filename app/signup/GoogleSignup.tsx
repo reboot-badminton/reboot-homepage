@@ -1,10 +1,10 @@
 'use client';
 
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { app, Role, toRole } from '../../firebase';
 import { validatePhone } from './validate';
 
@@ -19,14 +19,23 @@ export default function GoogleSignup({ uid }: { uid: string }) {
   const router = useRouter();
   const firestore = getFirestore(app);
 
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user == null || user.uid !== uid) {
+      signOut(auth);
+      router.back();
+    }
+  }, [uid]);
+
   async function signupWithGoogle() {
     try {
-      const userCredential = getAuth().currentUser;
-      if (userCredential == null) {
+      const user = getAuth().currentUser;
+      if (user == null) {
         router.back();
       }
 
-      await setDoc(doc(firestore, 'users', userCredential!.uid), {
+      await setDoc(doc(firestore, 'users', user!.uid), {
         name,
         gender,
         birthday,
