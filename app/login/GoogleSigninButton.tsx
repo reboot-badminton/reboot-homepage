@@ -1,10 +1,10 @@
-import { firestore } from '@/firebase';
+import { app, firestore } from '@/firebase';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
 import Dialog from '../components/Dialog';
 import { CancelDialogButton, ConfirmDialogButton } from '../components/DialogButtons';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   onSuccess: (user: User) => void;
@@ -14,6 +14,8 @@ interface Props {
 export default function GoogleSigninButton({ onSuccess, onError }: Props) {
   const router = useRouter();
   const [showSignupDialog, setShowSignupDialog] = useState(false);
+
+  const uidRef = useRef<string>('');
 
   async function isSignedUp(uid: string): Promise<boolean> {
     const snapshot = await getDoc(doc(firestore, 'users', uid));
@@ -30,7 +32,9 @@ export default function GoogleSigninButton({ onSuccess, onError }: Props) {
     try {
       const result = await signInWithPopup(getAuth(), new GoogleAuthProvider());
       const user = result.user;
+
       if (!await isSignedUp(user.uid)) {
+        uidRef.current = user.uid;
         setShowSignupDialog(true);
       } else {
         onSuccess(user);
@@ -89,9 +93,11 @@ export default function GoogleSigninButton({ onSuccess, onError }: Props) {
             <div className='mt-2 p-1'>서비스 이용을 위해 간편 회원가입을 하시겠습니까?</div>
           </div>
           <div className='flex flex-row-reverse'>
-            <ConfirmDialogButton onClick={() => { }} />
+            <ConfirmDialogButton onClick={() => {
+              router.push(`/signup?uid=${uidRef.current}`);
+            }} />
             <CancelDialogButton onClick={async () => {
-              await signOut(getAuth());
+              await signOut(getAuth(app));
               router.back();
             }} />
           </div>
