@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface MenuItem {
   text: string;
@@ -14,21 +14,27 @@ export default function Menu({ items }: { items: MenuItem[] }) {
     setIsOpen(isOpen => !isOpen);
     e.stopPropagation();
   }, [setIsOpen]);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onClick = () => {
+    const onClickOutside = (event: MouseEvent) => {
+      if (event.target instanceof Node && ref?.current?.contains(event.target)) {
+        // Ignore clicks inside dialog.
+        return;
+      }
+
       if (isOpen) {
         setIsOpen(false);
       }
     };
 
-    document.body.addEventListener('click', onClick);
+    document.addEventListener('click', onClickOutside);
 
-    return () => document.body.removeEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClickOutside);
   }, [isOpen, setIsOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={ref}>
       <div className="rounded-full hover:bg-black/10 cursor-pointer w-6 h-6 flex justify-center items-center" onClick={onClick}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="12px" width="12px" version="1.1" id="Capa_1" viewBox="0 0 32.055 32.055" className="rotate-90">
           <g>
@@ -36,10 +42,13 @@ export default function Menu({ items }: { items: MenuItem[] }) {
           </g>
         </svg>
       </div>
-      {isOpen && <div className="absolute top-4 right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+      {isOpen && <div className="absolute top-4 right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
         {items.map(item => (
           <div className="py-1" role="none" key={`menu-item-${item.text}`}>
-            <div className="block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-0"
+            <div className="block px-4 py-2 text-sm" role="menuitem" id="menu-item-0"
+              onClick={(e) => {
+                item.onClick();
+              }}
               style={{ color: item.color ?? 'black' }}>
               {item.text}
             </div>
