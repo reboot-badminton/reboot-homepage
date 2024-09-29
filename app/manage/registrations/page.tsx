@@ -1,9 +1,9 @@
+import { formatDate } from '@/app/date_utils';
 import { firestore } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { RegistrationDataType } from './getRegistration';
-import { formatDate } from '@/app/date_utils';
+import RegistrationMenu from './RegistrationMenu';
 import RegistrationTimeSlot from './RegistrationTimeSlot';
-import Menu from './Menu';
 
 const getRegistrations = async () => {
   try {
@@ -41,7 +41,7 @@ export default async function ManageRegistrations() {
             <div key={registration.id} className="p-4 rounded shadow">
               <div className="flex justify-between">
                 <span>{'#' + (registrationIndex + 1)}</span>
-                <Menu />
+                <RegistrationMenu uid={'uid'} />
               </div>
               <div className="p-2 text-sm whitespace-nowrap">
                 <div className="flex gap-4">
