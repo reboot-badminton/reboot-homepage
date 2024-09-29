@@ -31,19 +31,6 @@ export async function getRole() {
   }
 }
 
-export async function managerSignIn() {
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth();
-  auth.languageCode = 'ko';
-
-  try {
-    const result = await signInWithPopup(auth, provider);
-    return !!result;
-  } catch (error: any) {
-    return false;
-  }
-}
-
 export const app = initializeApp(firebaseConfig);
 // export const analytics = getAnalytics(app);
 export const firestore = getFirestore(app);
