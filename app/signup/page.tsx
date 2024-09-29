@@ -20,17 +20,7 @@ export default function Signup() {
   const router = useRouter();
   const firestore = getFirestore(app);
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    setError('');
-    // 이메일 형식 검증
-    try {
-      validate(email, phone, password, confirmation);
-    } catch (e) {
-      setError((e as Error).message);
-      return;
-    }
-
+  async function signupWithEmail() {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(app),
@@ -45,16 +35,30 @@ export default function Signup() {
         email,
         role: toRole(Role.MEMBER),
       });
-      router.push('/login');
     } catch (error) {
       const errorCode = (error as any).code;
-  
+
       if (errorCode === 'auth/email-already-in-use') {
         setError('이미 사용 중인 이메일입니다.');
       } else {
         setError((error as Error).message);
       }
     }
+  }
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    setError('');
+    // 이메일 형식 검증
+    try {
+      validate(email, phone, password, confirmation);
+    } catch (e) {
+      setError((e as Error).message);
+      return;
+    }
+
+    await signupWithEmail();
+    router.push('/login');
   }
 
   return (
