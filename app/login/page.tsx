@@ -9,6 +9,7 @@ import {
   User
 } from 'firebase/auth';
 import { app } from '@/firebase';
+import GoogleSigninButton from './GoogleSigninButton';
 
 export default function Login() {
   const [email, setEmail] = useState('');
