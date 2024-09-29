@@ -29,10 +29,10 @@ export default function LogIn() {
 
   return (
     <>
+      {!uid && <Button text="로그인" onClick={() => router.push('/login')} />}
       {!uid && (
         <Button text="회원 가입" onClick={() => router.push('/signup')} />
       )}
-      {!uid && <Button text="로그인" onClick={() => router.push('/login')} />}
       {uid && <Button text="로그아웃" onClick={handleLogout} />}
       {(role === Role.ADMIN || role === Role.MANAGER) && (
         <Button text="관리자페이지" onClick={() => router.push('/manage')} />

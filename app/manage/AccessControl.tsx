@@ -11,7 +11,10 @@ interface AccessControlProps {
   allowedRoles: Role[];
 }
 
-export default function AccessControl({ children, allowedRoles }: AccessControlProps) {
+export default function AccessControl({
+  children,
+  allowedRoles,
+}: AccessControlProps) {
   const { uid, role } = useAuth();
   const [loading, setLoading] = useState(true);
   const router = useRouter();

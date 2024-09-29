@@ -28,10 +28,7 @@ export function AuthProvider({ children, initialUid }: { children: ReactNode, in
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
        if (user) {
         setUid(user.uid);
-
-        // role 정보 가져오기
-        const userRole = await getRole();
-        setRole(userRole);
+        setRole(await getRole());
       } else {
         setUid(null);
         setRole(Role.NONE);

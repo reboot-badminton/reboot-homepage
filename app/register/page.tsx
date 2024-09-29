@@ -66,12 +66,12 @@ export default function Register() {
 
   return (
     <AccessControl allowedRoles={[Role.MEMBER, Role.ADMIN, Role.MANAGER]}>
-      <div  className='p-2'>
-        <p className='text-sm mb-4'>
+      <div className="p-2">
+        <p className="text-sm mb-4">
           아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
           회신해드리겠습니다.
         </p>
-        <p className='text-xs mb-1 italic'>
+        <p className="text-xs mb-1 italic">
           별표 (*) 표시된 항목은 필수 입력 항목입니다.
         </p>
         {Object.entries(registration.current).map(([name, field]) => (
@@ -85,13 +85,13 @@ export default function Register() {
             }}
           />
         ))}
-        <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
+        <button className="w-full mt-4" onClick={onSubmit} disabled={!isValid}>
           신청하기
         </button>
-        {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
+        {isRegistering && <Dialog text="신청중입니다" useDotAnimation={true} />}
         {isSuccess && (
-          <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
-            <div className='text-right pr-2'>
+          <Dialog text="신청 완료했습니다." useDotAnimation={false}>
+            <div className="text-right pr-2">
               <ConfirmDialogButton
                 onClick={() => {
                   router.back();
