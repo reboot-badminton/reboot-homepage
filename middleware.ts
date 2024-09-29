@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase/auth';
-import { getRole } from './app/firebase/firebase';
+import { getRole, Role } from './app/firebase/firebase';
 
 export async function middleware(request: NextRequest) {
   const user = getAuth().currentUser;
@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   const role = await getRole();
 
   if (request.nextUrl.pathname.startsWith('/manage')) {
-    if (role !== 'manager' && role !== 'admin') {
+    if (role !== Role.ADMIN && role !== Role.MANAGER) {
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
