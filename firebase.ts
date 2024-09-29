@@ -9,6 +9,7 @@ export enum Role {
   MANAGER,
   MEMBER,
   NONE,
+  BANNED,
 }
 
 export function toRole(role: Role): string {
@@ -25,6 +26,8 @@ export function toRoleFromString(role: string): Role {
       return Role.MEMBER;
     default:
       return Role.NONE;
+    case 'banned':
+      return Role.BANNED;
   }
 }
 

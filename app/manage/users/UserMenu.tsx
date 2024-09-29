@@ -34,11 +34,17 @@ export default function UserMenu({ uid, role }: { uid: string, role?: Role }) {
         break;
     }
 
-    if (role !== Role.ADMIN) {
+    if (role === Role.BANNED) {
+      newItems.push({
+        text: '밴 해제',
+        color: '#ef4444',
+        onClick: () => updateRole(Role.MEMBER),
+      });
+    } else if (role !== Role.ADMIN) {
       newItems.push({
         text: '유저 밴',
         color: '#ef4444',
-        onClick: () => { },
+        onClick: () => updateRole(Role.BANNED),
       });
     }
 

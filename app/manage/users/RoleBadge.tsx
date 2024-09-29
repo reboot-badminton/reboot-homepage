@@ -3,6 +3,7 @@ import { Role } from "@/firebase";
 const roleToColor = new Map([
   [Role.ADMIN, '#1b31bf'],
   [Role.MANAGER, '#32a852'],
+  [Role.BANNED, '#4a4a4a'],
 ]);
 
 function Badge(badge: {
