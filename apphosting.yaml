@@ -1,0 +1,44 @@
+# Settings for Cloud Run
+runConfig:
+  minInstances: 2
+  maxInstances: 100
+  concurrency: 100
+  cpu: 2
+  memoryMiB: 1024
+
+# Environment variables and secrets
+env:
+  - variable: FIREBASE_ADMIN_CLIENT_EMAIL
+    value: firebase-adminsdk-gbq8v@reboot-badminton.iam.gserviceaccount.com
+
+  - variable: AUTH_COOKIE_NAME
+    value: AuthToken
+
+  - variable: AUTH_COOKIE_SIGNATURE_KEY_CURRENT
+    value: secret1
+
+  - variable: AUTH_COOKIE_SIGNATURE_KEY_PREVIOUS
+    value: secret2
+
+  - variable: USE_SECURE_COOKIES
+    value: true
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: reboot-badminton
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: reboot-badminton.firebaseapp.com
+
+  - variable: NEXT_PUBLIC_FIREBASE_DATABASE_URL
+    value: reboot-badminton.firebaseio.com
+
+  # Variables below are controlled by Cloud Secret Manager
+
+  - variable: FIREBASE_ADMIN_PRIVATE_KEY
+    secret: projects/reboot-badminton/secrets/FIREBASE_ADMIN_PRIVATE_KEY
+
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    secret: projects/reboot-badminton/secrets/NEXT_PUBLIC_FIREBASE_API_KEY
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    secret: projects/reboot-badminton/secrets/NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID

@@ -5,7 +5,7 @@ import TimeSlot from '@/app/data/TimeSlot';
 import { RegistrationDataType } from './getRegistration';
 import { updateSlot } from '../slots/getSlot';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
-import { firestore } from '@/app/firebase/firebase';
+import { firestore } from '@/firebase';
 import Dialog from '@/app/components/Dialog';
 import { ConfirmDialogButton } from '@/app/components/DialogButtons';
 
@@ -102,13 +102,13 @@ export default function RegistrationTimeSlot({
           {slot.isRegistered == null && (
             <div className="flex gap-4 my-1 justify-center sm:justify-start">
               <div
-                className="cursor-pointer hover:text-blue-400"
+                className="cursor-pointer text-blue-400 hover:text-blue-700"
                 onClick={() => updateTimeSlot(true, timeSlotIndex, slot)}
               >
                 수락
               </div>
               <div
-                className="cursor-pointer hover:text-red-400"
+                className="cursor-pointer text-red-400 hover:text-red-700"
                 onClick={() => updateTimeSlot(false, timeSlotIndex)}
               >
                 거절

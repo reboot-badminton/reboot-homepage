@@ -8,16 +8,14 @@ export enum Role {
   MANAGER,
   MEMBER,
   NONE,
+  BANNED,
 }
 
-export async function getRole() {
-  const user = getAuth().currentUser;
-  if (user == null) return Role.NONE;
+export function toRole(role: Role): string {
+  return Role[role].toLowerCase();
+}
 
-  const result = await getDoc(doc(firestore, 'users', user.uid));
-  if (!result.exists()) return Role.NONE;
-  
-  const role = result.data()?.role;
+export function toRoleFromString(role: string): Role {
   switch (role) {
     case 'manager':
       return Role.MANAGER;
@@ -27,20 +25,19 @@ export async function getRole() {
       return Role.MEMBER;
     default:
       return Role.NONE;
+    case 'banned':
+      return Role.BANNED;
   }
 }
 
-export async function GoogleAuthSignIn() {
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth();
-  auth.languageCode = 'ko';
+export async function getRole() {
+  const user = getAuth().currentUser;
+  if (user == null) return Role.NONE;
 
-  try {
-    const result = await signInWithPopup(auth, provider);
-    return !!result;
-  } catch (error: any) {
-    return false;
-  }
+  const result = await getDoc(doc(firestore, 'users', user.uid));
+  if (!result.exists()) return Role.NONE;
+
+  return toRoleFromString(result.data()?.role);
 }
 
 export const app = initializeApp(clientConfig);

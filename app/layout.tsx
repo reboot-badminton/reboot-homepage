@@ -43,11 +43,9 @@ export default async function RootLayout({
     serviceAccount: serverConfig.serviceAccount,
   });
 
-  const initialUid = tokens?.decodedToken?.uid || null;
-
   return (
     <html lang="ko">
-      <AuthProvider initialUid={initialUid}>
+      <AuthProvider initialUid={tokens?.decodedToken?.uid || null}>
         <body className={inter.className}>
           <Header />
           {children}
@@ -94,7 +92,7 @@ export default async function RootLayout({
             <div className="mb-4 text-xs">
               © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
             </div>
-            <LogIn/>
+            <LogIn />
           </footer>
         </body>
       </AuthProvider>
