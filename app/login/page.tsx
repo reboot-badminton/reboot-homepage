@@ -10,7 +10,7 @@ import {
   signInWithPopup,
   User
 } from 'firebase/auth';
-import { app } from '../firebase/firebase';
+import { app } from '../../firebase';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -19,9 +19,7 @@ export default function Login() {
   const router = useRouter();
 
   async function handleSuccessfulLogin(user: User) {
-    console.log('successful login');
     const idToken = await user.getIdToken();
-    console.log('idToken');
     await fetch('/api/login', {
       headers: { Authorization: `Bearer ${idToken}` },
     });

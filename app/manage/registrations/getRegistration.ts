@@ -1,5 +1,5 @@
 import TimeSlot from '@/app/data/TimeSlot';
-import { firestore } from '@/app/firebase/firebase';
+import { firestore } from '@/firebase';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 
 interface Registration {

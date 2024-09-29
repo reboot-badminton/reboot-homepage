@@ -1,4 +1,4 @@
-import { firestore } from '@/app/firebase/firebase';
+import { firestore } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { RegistrationDataType } from './getRegistration';
 import { formatDate } from '@/app/date_utils';

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { app } from '../firebase/firebase';
+import { app } from '../../firebase';
 
 export default function Register() {
   const [email, setEmail] = useState('');

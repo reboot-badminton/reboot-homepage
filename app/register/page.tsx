@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
-import { firestore } from '../firebase/firebase';
+import { firestore } from '../../firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
