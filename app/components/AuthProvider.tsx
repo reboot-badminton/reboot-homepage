@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app, getRole } from '@/firebase';
+import { app, getRole, Role } from '@/firebase';
 
 interface AuthContextType {
   uid: string | null;
-  role: string | null;
+  role: Role;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +21,7 @@ export function useAuth() {
 
 export function AuthProvider({ children, initialUid }: { children: ReactNode, initialUid: string | null }) {
   const [uid, setUid] = useState<string | null>(initialUid);
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState(Role.NONE);
 
   useEffect(() => {
     const auth = getAuth(app);
@@ -34,7 +34,7 @@ export function AuthProvider({ children, initialUid }: { children: ReactNode, in
         setRole(userRole);
       } else {
         setUid(null);
-        setRole(null);
+        setRole(Role.NONE);
       }
     });
 

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import AccessControl from './AccessControl';
+import { Role } from '@/firebase';
 
 export default function Manage() {
   return (
-    <AccessControl allowedRoles={['admin', 'manager']}>
+    <AccessControl allowedRoles={[Role.ADMIN, Role.MANAGER]}>
       <div className="text-center py-4 px-2">
         <Link
           href="/manage/slots"

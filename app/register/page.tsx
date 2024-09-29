@@ -3,11 +3,12 @@
 import { useCallback, useRef, useState } from 'react';
 import { Field, Registration } from './registration';
 import FieldInput from './FieldInput';
-import { firestore } from '@/firebase';
+import { firestore, Role } from '@/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
 import { ConfirmDialogButton } from '../components/DialogButtons';
+import AccessControl from '../manage/AccessControl';
 
 export default function Register() {
   const router = useRouter();
@@ -64,40 +65,42 @@ export default function Register() {
   }, [registration, fieldIsValidMap, setIsValid]);
 
   return (
-    <div className='p-2'>
-      <p className='text-sm mb-4'>
-        아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
-        회신해드리겠습니다.
-      </p>
-      <p className='text-xs mb-1 italic'>
-        별표 (*) 표시된 항목은 필수 입력 항목입니다.
-      </p>
-      {Object.entries(registration.current).map(([name, field]) => (
-        <FieldInput
-          key={'input-' + field.name}
-          field={field}
-          showError={showError}
-          onUpdate={(isValid) => {
-            fieldIsValidMap.current.set(name, isValid);
-            checkFormValidity();
-          }}
-        />
-      ))}
-      <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
-        신청하기
-      </button>
-      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
-      {isSuccess && (
-        <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
-          <div className='text-right pr-2'>
-            <ConfirmDialogButton
-              onClick={() => {
-                router.back();
-              }}
-            />
-          </div>
-        </Dialog>
-      )}
-    </div>
+    <AccessControl allowedRoles={[Role.MEMBER, Role.ADMIN, Role.MANAGER]}>
+      <div  className='p-2'>
+        <p className='text-sm mb-4'>
+          아래 양식을 채운 후, 신청하기 버튼을 눌러주세요. 매니저님 확인 후
+          회신해드리겠습니다.
+        </p>
+        <p className='text-xs mb-1 italic'>
+          별표 (*) 표시된 항목은 필수 입력 항목입니다.
+        </p>
+        {Object.entries(registration.current).map(([name, field]) => (
+          <FieldInput
+            key={'input-' + field.name}
+            field={field}
+            showError={showError}
+            onUpdate={(isValid) => {
+              fieldIsValidMap.current.set(name, isValid);
+              checkFormValidity();
+            }}
+          />
+        ))}
+        <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
+          신청하기
+        </button>
+        {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
+        {isSuccess && (
+          <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
+            <div className='text-right pr-2'>
+              <ConfirmDialogButton
+                onClick={() => {
+                  router.back();
+                }}
+              />
+            </div>
+          </Dialog>
+        )}
+      </div>
+    </AccessControl>
   );
 }

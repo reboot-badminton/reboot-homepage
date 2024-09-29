@@ -9,6 +9,7 @@ import TimeSlot from '@/app/data/TimeSlot';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';
 import SlotDialog from './SlotDialog';
 import AccessControl from '../AccessControl';
+import { Role } from '@/firebase';
 
 export default function ManageSlots() {
   const [day, setDay] = useState(0);
@@ -25,7 +26,7 @@ export default function ManageSlots() {
   useEffect(() => refresh(), [refresh]);
 
   return (
-    <AccessControl allowedRoles={['admin', 'manager']}>
+    <AccessControl allowedRoles={[Role.ADMIN, Role.MANAGER]}>
       <div className="p-4">
         <div className="flex justify-between mb-3">
           <h1 className="text-lg">레슨 슬롯 관리</h1>

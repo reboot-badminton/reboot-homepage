@@ -27,15 +27,6 @@ export async function middleware(request: NextRequest) {
     handleInvalidToken: async (reason) => {
       console.info('Missing or malformed credentials', { reason });
       
-      // 인증 실패 시 '/register' 페이지는 로그인으로 리다이렉트
-      if (request.nextUrl.pathname === '/register') {
-        return redirectToLogin(request, {
-          path: '/login',
-          publicPaths: PUBLIC_PATHS,
-        });
-      }
-
-      // 그 외 경로에서는 그냥 접근 가능
       return NextResponse.next();
     },
     handleError: async (error) => {

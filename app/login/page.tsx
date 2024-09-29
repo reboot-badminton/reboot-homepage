@@ -10,7 +10,7 @@ import {
   signInWithPopup,
   User
 } from 'firebase/auth';
-import { app } from '../firebase/firebase';
+import { app } from '@/firebase';
 
 export default function Login() {
   const [email, setEmail] = useState('');

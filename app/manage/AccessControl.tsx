@@ -4,16 +4,14 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Dialog from '../components/Dialog';
 import { useAuth } from '../components/AuthProvider';
+import { Role } from '@/firebase';
 
 interface AccessControlProps {
   children: ReactNode;
-  allowedRoles: string[];
+  allowedRoles: Role[];
 }
 
-export default function AccessControl({
-  children,
-  allowedRoles,
-}: AccessControlProps) {
+export default function AccessControl({ children, allowedRoles }: AccessControlProps) {
   const { uid, role } = useAuth();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
