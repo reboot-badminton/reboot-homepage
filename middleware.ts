@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   authMiddleware,
-  redirectToHome,
   redirectToLogin,
 } from 'next-firebase-auth-edge';
 import { clientConfig, serverConfig } from './config';
@@ -18,9 +17,6 @@ export async function middleware(request: NextRequest) {
     cookieSerializeOptions: serverConfig.cookieSerializeOptions,
     serviceAccount: serverConfig.serviceAccount,
     handleValidToken: async ({ token, decodedToken }, headers) => {
-      if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {
-        return redirectToHome(request);
-      }
 
       return NextResponse.next({ request: { headers } });
     },

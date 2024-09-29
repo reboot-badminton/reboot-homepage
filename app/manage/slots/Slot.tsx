@@ -1,5 +1,6 @@
 import { useAuth } from '@/app/components/AuthProvider';
 import TimeSlot from '@/app/data/TimeSlot';
+import { Role } from '@/firebase';
 
 interface Props {
   slot: TimeSlot | undefined;
@@ -23,7 +24,7 @@ export default function Slot({ slot, onClick }: Props) {
   return (
     <div className="text-sm px-2 py-1" onClick={() => onClick(slot)}>
       <b className="block mb-1">{slot.title}</b>
-      {(role == 'admin' || role == 'manager') && (
+      {(role == Role.ADMIN || role == Role.MANAGER) && (
         <>
           <span>{slot.coach}</span>
           <span className="ml-1 text-gray-500">
