@@ -6,6 +6,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { app, Role, toRole } from '../../firebase';
+import validate from './validate';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -23,27 +24,13 @@ export default function Signup() {
     event.preventDefault();
     setError('');
     // 이메일 형식 검증
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-    const cleaned = phone.replace(/[^0-9]/g, '');
-
-    // 전화번호 형식 검증
-    const match = cleaned.match(
-      /^(01[016789]|02|0[3-9][0-9])(\d{3,4})(\d{4})$/
-    );
-
-    if (!match) {
-      setError('Please enter a valid phone number.');
+    try {
+      validate(email, phone, password, confirmation);
+    } catch (e) {
+      setError((e as Error).message);
       return;
     }
 
-    if (password !== confirmation) {
-      setError("Passwords don't match");
-      return;
-    }
     try {
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(app),
