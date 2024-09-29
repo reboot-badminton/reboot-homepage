@@ -19,7 +19,9 @@ export default function Login() {
   const router = useRouter();
 
   async function handleSuccessfulLogin(user: User) {
+    console.log('successful login');
     const idToken = await user.getIdToken();
+    console.log('idToken');
     await fetch('/api/login', {
       headers: { Authorization: `Bearer ${idToken}` },
     });
