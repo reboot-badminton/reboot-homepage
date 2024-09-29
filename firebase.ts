@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import firebaseConfig from '@/firebase-config';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 export enum Role {
   ADMIN,
@@ -11,14 +11,7 @@ export enum Role {
   NONE,
 }
 
-export async function getRole() {
-  const user = getAuth().currentUser;
-  if (user == null) return Role.NONE;
-
-  const result = await getDoc(doc(firestore, 'users', user.uid));
-  if (!result.exists()) return Role.NONE;
-  
-  const role = result.data()?.role;
+export function toRole(role: string): Role {
   switch (role) {
     case 'manager':
       return Role.MANAGER;
@@ -29,6 +22,16 @@ export async function getRole() {
     default:
       return Role.NONE;
   }
+}
+
+export async function getRole() {
+  const user = getAuth().currentUser;
+  if (user == null) return Role.NONE;
+
+  const result = await getDoc(doc(firestore, 'users', user.uid));
+  if (!result.exists()) return Role.NONE;
+
+  return toRole(result.data()?.role);
 }
 
 export const app = initializeApp(firebaseConfig);
