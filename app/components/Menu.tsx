@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-interface MenuItem {
+export interface MenuItem {
   text: string;
   color?: string;
   onClick: () => void;
@@ -48,6 +48,7 @@ export default function Menu({ items }: { items: MenuItem[] }) {
             <div className="block px-4 py-2 text-sm" role="menuitem" id="menu-item-0"
               onClick={(e) => {
                 item.onClick();
+                setIsOpen(false);
               }}
               style={{ color: item.color ?? 'black' }}>
               {item.text}

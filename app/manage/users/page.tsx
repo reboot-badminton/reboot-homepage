@@ -1,12 +1,10 @@
-import { firestore, toRole } from '@/firebase';
+import { firestore, toRoleFromString } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import UserItem from './UserItem';
 import React from 'react';
 
 export default async function Manage() {
   const snapshot = (await getDocs(collection(firestore, 'users')));
-
-  console.log('run');
 
   return (
     <div className="py-4 px-2">
@@ -16,7 +14,7 @@ export default async function Manage() {
           <React.Fragment key={doc.id}>
             <UserItem
               id={doc.id}
-              role={toRole(data.role)}
+              role={toRoleFromString(data.role)}
               name={data.name}
               gender={data.gender}
               birthday={data.birthday}

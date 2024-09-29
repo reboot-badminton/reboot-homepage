@@ -11,7 +11,11 @@ export enum Role {
   NONE,
 }
 
-export function toRole(role: string): Role {
+export function toRole(role: Role): string {
+  return Role[role].toLowerCase();
+}
+
+export function toRoleFromString(role: string): Role {
   switch (role) {
     case 'manager':
       return Role.MANAGER;
@@ -31,7 +35,7 @@ export async function getRole() {
   const result = await getDoc(doc(firestore, 'users', user.uid));
   if (!result.exists()) return Role.NONE;
 
-  return toRole(result.data()?.role);
+  return toRoleFromString(result.data()?.role);
 }
 
 export const app = initializeApp(firebaseConfig);

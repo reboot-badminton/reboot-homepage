@@ -26,7 +26,7 @@ export default function UserItem(user: Props) {
           <RoleBadge role={user.role ?? Role.NONE} />
           {user.name}
         </div>
-        <UserMenu uid={user.id} />
+        <UserMenu uid={user.id} role={user.role} />
       </div>
       <div className="text-sm">
         {user.gender === 'male' ? '남' : '여'}
