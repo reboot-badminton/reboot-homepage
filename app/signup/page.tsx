@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { app } from '../../firebase';
+import { app, Role, toRole } from '../../firebase';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -56,7 +56,7 @@ export default function Register() {
         birthday,
         phone,
         email,
-        role: 'member',
+        role: toRole(Role.MEMBER),
       });
       router.push('/login');
     } catch (error) {
