@@ -12,25 +12,25 @@ env:
     value: firebase-adminsdk-gbq8v@reboot-badminton.iam.gserviceaccount.com
 
   - variable: AUTH_COOKIE_NAME
-    secret: AuthToken
+    value: AuthToken
 
   - variable: AUTH_COOKIE_SIGNATURE_KEY_CURRENT
-    secret: secret1
+    value: secret1
 
   - variable: AUTH_COOKIE_SIGNATURE_KEY_PREVIOUS
-    secret: secret2
+    value: secret2
 
   - variable: USE_SECURE_COOKIES
-    secret: true
+    value: true
 
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
-    secret: reboot-badminton
+    value: reboot-badminton
 
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-    secret: reboot-badminton.firebaseapp.com
+    value: reboot-badminton.firebaseapp.com
 
   - variable: NEXT_PUBLIC_FIREBASE_DATABASE_URL
-    secret: reboot-badminton.firebaseio.com
+    value: reboot-badminton.firebaseio.com
 
   # Variables below are controlled by Cloud Secret Manager
 
