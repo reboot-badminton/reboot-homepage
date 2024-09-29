@@ -1,5 +1,6 @@
 import { Role } from '@/firebase';
 import RoleBadge from './RoleBadge';
+import UserMenu from './UserMenu';
 
 interface Props {
   id: string;
@@ -20,9 +21,12 @@ function getAge(year: number): number {
 export default function UserItem(user: Props) {
   return (
     <div>
-      <div className="text-lg flex items-center">
-        <RoleBadge role={user.role ?? Role.NONE} />
-        {user.name}
+      <div className="text-lg flex items-center justify-between">
+        <div>
+          <RoleBadge role={user.role ?? Role.NONE} />
+          {user.name}
+        </div>
+        <UserMenu uid={user.id} />
       </div>
       <div className="text-sm">
         {user.gender === 'male' ? '남' : '여'}
