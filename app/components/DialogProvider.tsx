@@ -2,6 +2,7 @@
 
 import { createContext, PropsWithChildren, ReactNode, useCallback, useContext, useState } from 'react';
 import { CancelDialogButton, ConfirmDialogButton } from './DialogButtons';
+import CircularProgressIndicator from './CircularProgressIndicator';
 
 interface Dialog {
   title?: string;
@@ -31,7 +32,7 @@ export function useDialog() {
 export function DialogProvider({ children }: PropsWithChildren) {
   const [dialog, setDialog] = useState<Dialog>({
     title: '정말로 하시겠습니까?',
-    body: '이 작업은 돌이킬 수 없습니다.',
+    body: <CircularProgressIndicator text="로딩 중입니다" />,
     onCancel: () => true,
     onConfirm: () => true,
   });

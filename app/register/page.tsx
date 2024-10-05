@@ -4,13 +4,11 @@ import { addDoc, collection } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useState } from 'react';
 import { firestore, Role } from '../../firebase';
+import Authorized from '../components/Authorized';
 import { useAuth } from '../components/AuthProvider';
-import Dialog from '../components/Dialog';
-import { ConfirmDialogButton } from '../components/DialogButtons';
+import { useDialog } from '../components/DialogProvider';
 import FieldInput from './FieldInput';
 import { Field, Registration } from './registration';
-import Authorized from '../components/Authorized';
-import { useDialog } from '../components/DialogProvider';
 
 export default function Register() {
   const router = useRouter();
@@ -55,7 +53,7 @@ export default function Register() {
     });
 
     await register();
-    
+
     showDialog({
       title: '신청 완료했습니다',
       onConfirm: () => {

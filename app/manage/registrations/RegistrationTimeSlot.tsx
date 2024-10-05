@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import CircularProgressIndicator from '@/app/components/CircularProgressIndicator';
+import { useDialog } from '@/app/components/DialogProvider';
 import TimeSlot from '@/app/data/TimeSlot';
-import { RegistrationDataType } from './getRegistration';
-import { updateSlot } from '../slots/getSlot';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { firestore } from '@/firebase';
-import Dialog from '@/app/components/Dialog';
-import { ConfirmDialogButton } from '@/app/components/DialogButtons';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { updateSlot } from '../slots/getSlot';
+import { RegistrationDataType } from './getRegistration';
 
 interface RegistrationTimeSlotProps {
   initialRegistrationTimeSlots: TimeSlot[];
@@ -15,7 +15,6 @@ interface RegistrationTimeSlotProps {
   name: string;
 }
 
-const UPDATING_TEXT = '업데이트 중입니다';
 const ACCEPT_TEXT = '수락 완료했습니다';
 const REJECT_TEXT = '거절 완료했습니다';
 
@@ -27,14 +26,16 @@ export default function RegistrationTimeSlot({
   const [registrationTimeSlots, setRegistrationTimeSlots] = useState(
     initialRegistrationTimeSlots
   );
-  const [dialogText, setDialogText] = useState('');
+  const { showDialog } = useDialog();
 
   const updateTimeSlot = async (
     isAccepted: boolean,
     timeSlotIndex: number,
     slot?: TimeSlot
   ) => {
-    setDialogText(UPDATING_TEXT);
+    showDialog({
+      body: <CircularProgressIndicator />,
+    });
     if (isAccepted && slot) {
       const { isRegistered, ...slotWithoutIsRegistered } = slot;
       const newSlot = {
@@ -48,7 +49,10 @@ export default function RegistrationTimeSlot({
     );
     const registrationRef = doc(firestore, 'registration', registrationId);
     await updateDoc(registrationRef, { times: updatedTimes });
-    setDialogText(isAccepted ? ACCEPT_TEXT : REJECT_TEXT);
+    showDialog({
+      title: isAccepted ? ACCEPT_TEXT : REJECT_TEXT,
+      onConfirm: () => true,
+    });
   };
 
   useEffect(() => {
@@ -69,22 +73,6 @@ export default function RegistrationTimeSlot({
       unsubscribe();
     };
   }, []);
-
-  if (dialogText) {
-    return (
-      <Dialog text={dialogText} useDotAnimation={dialogText === UPDATING_TEXT}>
-        <div className="p-4 flex flex-col gap-4 items-center justify-around">
-          {dialogText !== UPDATING_TEXT && (
-            <ConfirmDialogButton
-              onClick={() => {
-                setDialogText('');
-              }}
-            />
-          )}
-        </div>
-      </Dialog>
-    );
-  }
 
   return (
     <div className="text-center">
