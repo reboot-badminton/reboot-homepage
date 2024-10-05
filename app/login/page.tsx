@@ -1,19 +1,18 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   getAuth,
-  signInWithEmailAndPassword,
+  signInWithEmailLink,
   User
 } from 'firebase/auth';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 import { app } from '../../firebase';
 import GoogleSigninButton from './GoogleSigninButton';
 
 export default function Login() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -27,14 +26,14 @@ export default function Login() {
     event.preventDefault();
     setError('');
     try {
-      const credential = await signInWithEmailAndPassword(
+      const credential = await signInWithEmailLink(
         getAuth(app),
         email,
-        password
+        window.location.href,
       );
       await handleSuccessfulLogin(credential.user);
     } catch (e) {
-      setError((e as Error).message);
+      setError('로그인에 실패했습니다. 이메일을 확인해주세요.');
     }
   }
 
@@ -55,7 +54,7 @@ export default function Login() {
                 htmlFor="email"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                아이디
+                이메일
               </label>
               <input
                 type="email"
@@ -65,24 +64,6 @@ export default function Login() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="email@naver.com"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                비밀번호
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                id="password"
-                placeholder="••••••••"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
             </div>

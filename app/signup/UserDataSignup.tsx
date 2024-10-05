@@ -8,7 +8,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { app, Role, toRole } from '../../firebase';
 import { validatePhone } from './validate';
 
-export default function GoogleSignup({ uid }: { uid: string }) {
+export default function UserDataSignup({ uid }: { uid: string }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
