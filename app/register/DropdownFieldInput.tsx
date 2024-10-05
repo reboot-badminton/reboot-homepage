@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Select, { PropsValue } from 'react-select';
+import Select, { PropsValue, SingleValue } from 'react-select';
 import { useAuth } from '../components/AuthProvider';
 import { Field } from './registration';
 
@@ -29,7 +29,7 @@ export default function DropdownFieldInput({
 }: Props) {
   const [selectOptions, setSelectOptions] = useState(toSelectOptions(options));
   const [fixedOptionIndex, setFixedOptionIndex] = useState<number | null>();
-  const [value, setValue] = useState<PropsValue<Option> | null>(fixedOptionIndex != null ? selectOptions[fixedOptionIndex] : null);
+  const [value, setValue] = useState<SingleValue<Option> | null>();
   const { userData } = useAuth();
 
   useEffect(() => {
@@ -38,8 +38,11 @@ export default function DropdownFieldInput({
     const fixedValue = field.fixedValue(userData);
     if (fixedValue == null) return;
 
-    setFixedOptionIndex(options.indexOf(fixedValue));
-  }, [userData, field, setFixedOptionIndex]);
+    const fixedOptionIndex = options.indexOf(fixedValue);
+    setValue(selectOptions[fixedOptionIndex]);
+    setFixedOptionIndex(fixedOptionIndex);
+    onUpdate(true);
+  }, [userData, field, setFixedOptionIndex, onUpdate]);
 
   useEffect(() => {
     setError('값을 선택해 주세요');
@@ -49,6 +52,10 @@ export default function DropdownFieldInput({
     setSelectOptions(toSelectOptions(options));
   }, [options]);
 
+  useEffect(() => {
+    field.value = value?.value ?? null;
+  }, [field, value]);
+
   return (
     <Select
       value={value}
@@ -56,10 +63,10 @@ export default function DropdownFieldInput({
       placeholder="선택해주세요"
       options={selectOptions}
       isDisabled={fixedOptionIndex != null}
-      onChange={(e) => {
-        setValue(e);
+      onChange={(value) => {
+        setValue(value);
 
-        const isValid = !!field.value;
+        const isValid = !field.isRequired || !!value;
         if (isValid) {
           setError('');
         } else {

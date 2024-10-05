@@ -22,16 +22,21 @@ export default function StringFieldInput({ field, setError, onUpdate }: Props) {
     if (fixedValue != null) {
       setValue(fixedValue);
       setIsFixed(true);
+      onUpdate(true);
     }
   }, [userData, field, setValue]);
 
   useEffect(() => {
-    if (field.isRequired && field.value === '') {
+    if (field.isRequired && value === '') {
       setError('값을 입력해 주세요');
     } else {
       setError('');
     }
-  }, [field, setError]);
+  }, [field, value, setError]);
+
+  useEffect(() => {
+    field.value = value;
+  }, [field, value]);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

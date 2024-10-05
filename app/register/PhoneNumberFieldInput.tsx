@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function PhoneNumberFieldInput({ field, setError, onUpdate }: Props) {
-  const [inputValue, setInputValue] = useState(field.value);
+  const [value, setValue] = useState(field.value);
   const [isFixed, setIsFixed] = useState(field.fixedValue != null);
 
   const {userData} = useAuth();
@@ -22,9 +22,9 @@ export default function PhoneNumberFieldInput({ field, setError, onUpdate }: Pro
     const fixedValue = field.fixedValue(userData);
     if (fixedValue == null) return;
 
-    setInputValue(parsePhoneNumber(fixedValue));
+    setValue(parsePhoneNumber(fixedValue));
     setIsFixed(fixedValue != null);
-  }, [userData, field, setInputValue, setIsFixed]);
+  }, [userData, field, setValue, setIsFixed]);
 
   useEffect(() => {
     setError('값을 입력해 주세요');
@@ -53,18 +53,22 @@ export default function PhoneNumberFieldInput({ field, setError, onUpdate }: Pro
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const formattedValue = parsePhoneNumber(e.target.value);
-      setInputValue(formattedValue);
+      setValue(formattedValue);
       field.value = formattedValue;
     },
     [field, parsePhoneNumber]
   );
+
+  useEffect(() => {
+    field.value = value;
+  }, [field, value]);
 
   return (
     <input
       type="tel"
       maxLength={13}
       className="w-full"
-      value={inputValue}
+      value={value}
       onChange={handleChange}
       placeholder="010(또는 지역번호)-1234-5678"
       disabled={isFixed}

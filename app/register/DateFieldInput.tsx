@@ -18,30 +18,14 @@ export default function DateFieldInput({ field, setError, onUpdate }: Props) {
 
   const {userData} = useAuth();
 
-  useEffect(() => {
-    if (userData == null || field.fixedValue == null) return;
-
-    const fixedValue = field.fixedValue(userData);
-    if (fixedValue == null) return;
-
-    setSelectedDate(fixedValue);
-    setIsFixed(fixedValue != null);
-  }, [userData, field, setSelectedDate, setIsFixed]);
-
   const onDateChange = useCallback(() => {
-    const isValid = field.value.getFullYear() <= new Date().getFullYear() - 8;
+    const isValid = selectedDate.getFullYear() <= new Date().getFullYear() - 8;
     if (!isValid) {
       setError('9세 이상 신청 가능합니다');
     } else {
       setError('');
     }
-
-    onUpdate(isValid);
-  }, [field.value, setError, onUpdate]);
-
-  useEffect(() => {
-    onDateChange();
-  }, [onDateChange]);
+  }, [selectedDate, setError]);
 
   const handleChange = useCallback(
     (date: Date | null) => {
@@ -52,6 +36,21 @@ export default function DateFieldInput({ field, setError, onUpdate }: Props) {
     },
     [field, onDateChange]
   );
+
+  useEffect(() => {
+    if (userData == null || field.fixedValue == null) return;
+
+    const fixedValue = field.fixedValue(userData);
+    if (fixedValue == null) return;
+
+    setSelectedDate(fixedValue);
+    setIsFixed(true);
+    onUpdate(true);
+  }, [userData, field, setSelectedDate, setIsFixed, onUpdate]);
+
+  useEffect(() => {
+    onDateChange();
+  }, [onDateChange]);
 
   // noinspection CssUnusedSymbol CSS classes are used in DatePicker
   return (

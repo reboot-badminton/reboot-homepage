@@ -37,6 +37,9 @@ export default function Register() {
     const isInvalid = !!Object.values(registration.current).find(
       (field: Field<any>) => field.isRequired && !field.value
     );
+    console.log(Object.values(registration.current).find(
+      (field: Field<any>) => field.isRequired && !field.value
+    ));
     if (isInvalid) {
       setShowError(true);
       return false;
