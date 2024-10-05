@@ -34,7 +34,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (uid == null) return;
+    if (uid == null) {
+      setUserData(null);
+    }
 
     getUserData().then(setUserData);
   }, [auth, uid, setUserData]);
