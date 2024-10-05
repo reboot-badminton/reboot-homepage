@@ -3,12 +3,15 @@
 import Menu, { MenuItem } from '@/app/components/Menu';
 import { firestore, Role, toRole } from '@/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function UserMenu({ uid, role }: { uid: string, role?: Role }) {
+  const router = useRouter();
+
   const updateRole = useCallback(async (role: Role) => {
     await updateDoc(doc(firestore, 'users', uid), { role: toRole(role) });
-    location.reload();
+    router.refresh();
   }, [uid]);
 
   const [items, setItems] = useState<MenuItem[]>([]);
