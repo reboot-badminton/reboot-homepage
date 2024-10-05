@@ -1,25 +1,62 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useDialog } from '@/app/components/DialogProvider';
 import { LessonMonth } from '@/app/data/LessonMonth';
-import MonthSelector from './MonthSelector';
-import DaySelector from '../../components/DaySelector';
-import TimeTable from './TimeTable';
 import TimeSlot from '@/app/data/TimeSlot';
+import { useCallback, useEffect, useState } from 'react';
+import DaySelector from '../../components/DaySelector';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';
+import MonthSelector from './MonthSelector';
 import SlotDialog from './SlotDialog';
+import TimeTable from './TimeTable';
 
 export default function ManageSlots() {
   const [day, setDay] = useState(0);
   const [lessonMonth, setLessonMonth] = useState<LessonMonth>();
   const [slots, setSlots] = useState<TimeSlot[]>([]);
-  const [clickedSlot, setClickedSlot] = useState<TimeSlot | null>(null);
-  const [isAddMode, setIsAddMode] = useState(false);
+  const { showDialog, closeDialog } = useDialog();
 
   const refresh = useCallback(() => {
     if (!lessonMonth) return;
     getSlotsForMonth(lessonMonth).then((slots) => setSlots(slots));
   }, [lessonMonth]);
+
+  const showSlotDialog = useCallback((slot: TimeSlot, isAddMode: boolean) => {
+    showDialog({
+      title: '레슨 슬롯',
+      body: (
+        <SlotDialog
+          slot={slot}
+          isAddMode={isAddMode}
+          onClose={(isEdited) => {
+            if (isEdited) {
+              refresh();
+            }
+            closeDialog();
+          }}
+        />
+      ),
+    });
+  }, [refresh]);
+
+  const onSlotClick = useCallback((slot: TimeSlot) => {
+    showSlotDialog(slot, false);
+  }, [showSlotDialog]);
+
+  const onEmptySlotClick = useCallback((time: number) => {
+    if (lessonMonth == null) return;
+
+    showSlotDialog({
+      lessonMonth,
+      days: [day],
+      time,
+      title: '',
+      coach: '',
+      price: 0,
+      capacity: 2,
+      students: [],
+    }, true);
+  }, [lessonMonth, day, showSlotDialog]);
 
   useEffect(() => refresh(), [refresh]);
 
@@ -30,35 +67,8 @@ export default function ManageSlots() {
       {lessonMonth && (
         <TimeTable
           slots={getSlotsForDay(slots, day)}
-          onSlotClick={(slot) => {
-            setIsAddMode(false);
-            setClickedSlot(slot);
-          }}
-          onEmptySlotClick={(time) => {
-            setIsAddMode(true);
-            setClickedSlot({
-              lessonMonth,
-              days: [day],
-              time,
-              title: '',
-              coach: '',
-              price: 0,
-              capacity: 2,
-              students: [],
-            });
-          }}
-        />
-      )}
-      {clickedSlot && (
-        <SlotDialog
-          slot={clickedSlot}
-          isAddMode={isAddMode}
-          onClose={(isEdited) => {
-            if (isEdited) {
-              refresh();
-            }
-            setClickedSlot(null);
-          }}
+          onSlotClick={onSlotClick}
+          onEmptySlotClick={onEmptySlotClick}
         />
       )}
     </div>

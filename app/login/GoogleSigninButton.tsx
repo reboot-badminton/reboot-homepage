@@ -1,10 +1,9 @@
 import { app, firestore } from '@/firebase';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, User } from 'firebase/auth';
+import { getAuth, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
-import Dialog from '../components/Dialog';
-import { CancelDialogButton, ConfirmDialogButton } from '../components/DialogButtons';
+import { useRef } from 'react';
+import { useDialog } from '../components/DialogProvider';
 import GoogleButton from '../components/GoogleButton';
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 
 export default function GoogleSigninButton({ onSuccess, onError }: Props) {
   const router = useRouter();
-  const [showSignupDialog, setShowSignupDialog] = useState(false);
+  const { showDialog } = useDialog();
 
   const uidRef = useRef<string>('');
 
@@ -32,7 +31,20 @@ export default function GoogleSigninButton({ onSuccess, onError }: Props) {
     try {
       if (!await isSignedUp(user.uid)) {
         uidRef.current = user.uid;
-        setShowSignupDialog(true);
+
+        showDialog({
+          title: '회원가입이 필요합니다',
+          body: '서비스 이용을 위해 간편 회원가입을 하시겠습니까?',
+          onCancel: async () => {
+            await signOut(getAuth(app));
+            router.back();
+            return true;
+          },
+          onConfirm: () => {
+            router.push(`/signup?uid=${uidRef.current}`);
+            return true;
+          },
+        });
       } else {
         onSuccess(user);
       }
@@ -42,27 +54,9 @@ export default function GoogleSigninButton({ onSuccess, onError }: Props) {
   }
 
   return (
-    <>
-      <GoogleButton
-        onSignedIn={onSignedIn}
-        text="구글 계정으로 로그인"
-      />
-      {showSignupDialog &&
-        <Dialog>
-          <div className='m-2'>
-            <div className='font-bold text-lg'>회원가입이 필요합니다</div>
-            <div className='mt-2 p-1'>서비스 이용을 위해 간편 회원가입을 하시겠습니까?</div>
-          </div>
-          <div className='flex flex-row-reverse'>
-            <ConfirmDialogButton onClick={() => {
-              router.push(`/signup?uid=${uidRef.current}`);
-            }} />
-            <CancelDialogButton onClick={async () => {
-              await signOut(getAuth(app));
-              router.back();
-            }} />
-          </div>
-        </Dialog>}
-    </>
+    <GoogleButton
+      onSignedIn={onSignedIn}
+      text="구글 계정으로 로그인"
+    />
   );
 }

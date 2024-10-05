@@ -10,15 +10,15 @@ import { ConfirmDialogButton } from '../components/DialogButtons';
 import FieldInput from './FieldInput';
 import { Field, Registration } from './registration';
 import Authorized from '../components/Authorized';
+import { useDialog } from '../components/DialogProvider';
 
 export default function Register() {
   const router = useRouter();
   const registration = useRef(new Registration());
   const [showError, setShowError] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const { uid } = useAuth();
+  const { showDialog } = useDialog();
 
   const [isValid, setIsValid] = useState(false);
   const fieldIsValidMap = useRef(new Map<string, boolean>());
@@ -44,12 +44,21 @@ export default function Register() {
     return true;
   }, []);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!validate()) return;
-    setIsRegistering(true);
-    register().then(() => {
-      setIsRegistering(false);
-      setIsSuccess(true);
+
+    showDialog({
+      title: '신청 중입니다',
+    });
+
+    await register();
+    
+    showDialog({
+      title: '신청 완료했습니다',
+      onConfirm: () => {
+        router.back();
+        return true;
+      },
     });
   }, [register, validate]);
 
@@ -93,18 +102,6 @@ export default function Register() {
         <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
           신청하기
         </button>
-        {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true} />}
-        {isSuccess && (
-          <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
-            <div className='text-right pr-2'>
-              <ConfirmDialogButton
-                onClick={() => {
-                  router.back();
-                }}
-              />
-            </div>
-          </Dialog>
-        )}
       </div>
     </Authorized>
   );

@@ -6,6 +6,7 @@ import Header from './components/Header';
 import LogIn from './components/LogIn';
 import './globals.css';
 import { src } from './image_utils';
+import { DialogProvider } from './components/DialogProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,53 +38,55 @@ export default async function RootLayout({
     <html lang="ko">
       <AuthProvider>
         <body className={inter.className}>
-          <Header />
-          {children}
-          <footer className="mt-4 pt-4 border-t text-center  text-gray-500">
-            <h1 className="text-lg mb-2 font-bold">Follow Us</h1>
-            <div className="text-sm mb-4">
-              <a href="https://www.youtube.com/@An_troke" className="mr-6">
-                <Image
-                  src={src('/youtube-icon.png')}
-                  alt="안트로크 유튜브"
-                  width={20}
-                  height={20}
-                  className="inline mr-1"
-                  priority
-                />
-                <span className="hidden sm:inline">유튜브 (@An_troke)</span>
-              </a>
-              <a href="https://www.instagram.com/an_troke" className="mr-6">
-                <Image
-                  src={src('/instagram-icon.png')}
-                  alt="안트로크 인스타그램"
-                  width={20}
-                  height={20}
-                  className="inline mr-1"
-                  priority
-                />
-                <span className="hidden sm:inline">인스타그램 (an_troke)</span>
-              </a>
-              <a href="https://blog.naver.com/dkswls5946">
-                <Image
-                  src={src('/naver-blog-icon.svg')}
-                  alt="안트로크 네이버 블로그"
-                  width={20}
-                  height={20}
-                  className="inline mr-1"
-                  priority
-                />
-                <span className="hidden sm:inline">네이버 블로그</span>
-              </a>
-            </div>
-            <div className="mb-4 text-sm">
-              경기 남양주시 진건읍 진건오남로390번길 89 1층
-            </div>
-            <div className="mb-4 text-xs">
-              © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
-            </div>
-            <LogIn />
-          </footer>
+          <DialogProvider>
+            <Header />
+            {children}
+            <footer className="mt-4 pt-4 border-t text-center  text-gray-500">
+              <h1 className="text-lg mb-2 font-bold">Follow Us</h1>
+              <div className="text-sm mb-4">
+                <a href="https://www.youtube.com/@An_troke" className="mr-6">
+                  <Image
+                    src={src('/youtube-icon.png')}
+                    alt="안트로크 유튜브"
+                    width={20}
+                    height={20}
+                    className="inline mr-1"
+                    priority
+                  />
+                  <span className="hidden sm:inline">유튜브 (@An_troke)</span>
+                </a>
+                <a href="https://www.instagram.com/an_troke" className="mr-6">
+                  <Image
+                    src={src('/instagram-icon.png')}
+                    alt="안트로크 인스타그램"
+                    width={20}
+                    height={20}
+                    className="inline mr-1"
+                    priority
+                  />
+                  <span className="hidden sm:inline">인스타그램 (an_troke)</span>
+                </a>
+                <a href="https://blog.naver.com/dkswls5946">
+                  <Image
+                    src={src('/naver-blog-icon.svg')}
+                    alt="안트로크 네이버 블로그"
+                    width={20}
+                    height={20}
+                    className="inline mr-1"
+                    priority
+                  />
+                  <span className="hidden sm:inline">네이버 블로그</span>
+                </a>
+              </div>
+              <div className="mb-4 text-sm">
+                경기 남양주시 진건읍 진건오남로390번길 89 1층
+              </div>
+              <div className="mb-4 text-xs">
+                © 2024 리부트 배드민턴 전용구장. All Rights Reserved.
+              </div>
+              <LogIn />
+            </footer>
+          </DialogProvider>
         </body>
       </AuthProvider>
     </html>
