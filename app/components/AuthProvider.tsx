@@ -19,8 +19,8 @@ export function useAuth() {
     return context;
 }
 
-export function AuthProvider({ children, initialUid }: { children: ReactNode, initialUid: string | null }) {
-    const [uid, setUid] = useState<string | null>(initialUid);
+export function AuthProvider({ children }: { children: ReactNode }) {
+    const [uid, setUid] = useState<string | null>(null);
     const [role, setRole] = useState<Role | null>(null);
 
     useEffect(() => {

@@ -19,11 +19,6 @@ export default function Login() {
 
   async function handleSuccessfulLogin(user: User) {
     setError('');
-
-    const idToken = await user.getIdToken();
-    await fetch('/api/login', {
-      headers: { Authorization: `Bearer ${idToken}` },
-    });
     router.push('/');
     router.refresh();
   }

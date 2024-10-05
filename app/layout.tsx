@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
-import { getTokens } from 'next-firebase-auth-edge';
-import { cookies } from 'next/headers';
-import { clientConfig, serverConfig } from '../config';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import Header from './components/Header';
 import Image from 'next/image';
-import { src } from './image_utils';
-import LogIn from './components/LogIn';
 import { AuthProvider } from './components/AuthProvider';
+import Header from './components/Header';
+import LogIn from './components/LogIn';
+import './globals.css';
+import { src } from './image_utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,16 +33,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const tokens = await getTokens(cookies(), {
-    apiKey: clientConfig.apiKey,
-    cookieName: serverConfig.cookieName,
-    cookieSignatureKeys: serverConfig.cookieSignatureKeys,
-    serviceAccount: serverConfig.serviceAccount,
-  });
-
   return (
     <html lang="ko">
-      <AuthProvider initialUid={tokens?.decodedToken?.uid || null}>
+      <AuthProvider>
         <body className={inter.className}>
           <Header />
           {children}

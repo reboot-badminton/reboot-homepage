@@ -22,7 +22,6 @@ export default function LogIn() {
 
   async function handleLogout() {
     await signOut(getAuth(app));
-    await fetch('/api/logout', { method: 'POST' });
     router.push('/');
     router.refresh();
   }
