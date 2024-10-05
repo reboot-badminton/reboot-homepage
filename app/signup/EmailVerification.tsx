@@ -3,11 +3,6 @@
 import { getAuth, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, User } from 'firebase/auth';
 import { useCallback, useEffect, useState } from 'react';
 
-const actionCodeSettings = {
-  url: 'https://automatic-halibut-wr9q4wr7x99295wr-3000.app.github.dev/signup',
-  handleCodeInApp: true,
-};
-
 enum State {
   REQUEST,
   PENDING,
@@ -16,14 +11,18 @@ enum State {
 
 interface Props {
   onVerified: (user: User) => void;
+  verificationText: string;
 }
 
-export default function EmailVerification({ onVerified }: Props) {
+export default function EmailVerification({ onVerified, verificationText }: Props) {
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
 
   const sendVerification = useCallback(() => {
-    sendSignInLinkToEmail(getAuth(), email, actionCodeSettings)
+    sendSignInLinkToEmail(getAuth(), email, {
+      url: window.location.href,
+      handleCodeInApp: true,
+    })
       .then(() => {
         window.localStorage.setItem('emailForSignIn', email);
         setState(State.PENDING);
@@ -88,7 +87,7 @@ export default function EmailVerification({ onVerified }: Props) {
         className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-primary-800"
         disabled={state === State.PENDING}
       >
-        {state === State.REQUEST && <>이메일 인증</>}
+        {state === State.REQUEST && <>{verificationText}</>}
         {state === State.PENDING && <>인증 이메일을 발송했습니다</>}
         {state === State.VERIFICATION && <>이메일 인증 완료하기</>}
       </button>

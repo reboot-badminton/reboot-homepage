@@ -34,7 +34,7 @@ export default function SignupLayout({ children }: PropsWithChildren) {
           </h1>
           {uid != null && <UserDataSignup uid={uid} />}
           {uid == null && <>
-            <EmailVerification onVerified={onUserSignedIn} />
+            <EmailVerification onVerified={onUserSignedIn} verificationText='이메일 인증' />
             <GoogleButton onSignedIn={onUserSignedIn} text="구글 계정으로 회원가입" />
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               이미 계정이 있으신가요?
