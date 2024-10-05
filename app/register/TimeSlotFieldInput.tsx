@@ -1,10 +1,11 @@
 'use client';
 
-import { Field } from './registration';
+import { useCallback, useEffect, useState } from 'react';
+import { useDialog } from '../components/DialogProvider';
 import TimeSlot from '../data/TimeSlot';
-import TimeSlotSelectDialog from './TimeSlotSelectDialog';
-import { useEffect, useState } from 'react';
 import { formatHour } from '../time_utils';
+import { Field } from './registration';
+import TimeSlotSelectDialog from './TimeSlotSelectDialog';
 
 interface Props {
   field: Field<TimeSlot[]>;
@@ -13,8 +14,27 @@ interface Props {
 }
 
 export default function TimeSlotFieldInput({ field, setError, onUpdate }: Props) {
-  const [isSelecting, setIsSelecting] = useState(false);
   const [selectedTimeSlots, setSelectedTimeSlots] = useState(field.value);
+
+  const { showDialog, closeDialog } = useDialog();
+
+  const startSelecting = useCallback(() => {
+    showDialog({
+      body: (
+        <TimeSlotSelectDialog
+          selected={selectedTimeSlots}
+          onConfirm={(selected) => {
+            setSelectedTimeSlots(selected);
+            onUpdate(selected.length > 0);
+            closeDialog();
+          }}
+          onCancel={() => {
+            closeDialog();
+          }}
+        />
+      ),
+    });
+  }, [showDialog]);
 
   useEffect(() => {
     field.value = selectedTimeSlots;
@@ -40,22 +60,9 @@ export default function TimeSlotFieldInput({ field, setError, onUpdate }: Props)
             </span>
           </div>
         ))}
-      <button className="sm" onClick={() => setIsSelecting(true)}>
+      <button className="sm" onClick={startSelecting}>
         관심 레슨 선택하기
       </button>
-      {isSelecting && (
-        <TimeSlotSelectDialog
-          selected={selectedTimeSlots}
-          onConfirm={(selected) => {
-            setSelectedTimeSlots(selected);
-            setIsSelecting(false);
-            onUpdate(selected.length > 0);
-          }}
-          onCancel={() => {
-            setIsSelecting(false);
-          }}
-        />
-      )}
     </div>
   );
 }
