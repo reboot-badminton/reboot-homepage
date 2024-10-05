@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Field } from './registration';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAuth } from '../components/AuthProvider';
 
 interface Props {
   field: Field<Date>;
@@ -13,6 +14,19 @@ interface Props {
 
 export default function DateFieldInput({ field, setError, onUpdate }: Props) {
   const [selectedDate, setSelectedDate] = useState<Date>(field.value);
+  const [isFixed, setIsFixed] = useState(field.fixedValue != null);
+
+  const {userData} = useAuth();
+
+  useEffect(() => {
+    if (userData == null || field.fixedValue == null) return;
+
+    const fixedValue = field.fixedValue(userData);
+    if (fixedValue == null) return;
+
+    setSelectedDate(fixedValue);
+    setIsFixed(fixedValue != null);
+  }, [userData, field, setSelectedDate, setIsFixed]);
 
   const onDateChange = useCallback(() => {
     const isValid = field.value.getFullYear() <= new Date().getFullYear() - 8;
@@ -58,6 +72,7 @@ export default function DateFieldInput({ field, setError, onUpdate }: Props) {
         selected={selectedDate}
         onChange={handleChange}
         maxDate={new Date()}
+        disabled={isFixed}
       />
     </>
   );

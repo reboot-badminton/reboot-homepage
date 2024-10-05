@@ -2,6 +2,7 @@
 
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { Field } from './registration';
+import { useAuth } from '../components/AuthProvider';
 
 interface Props {
   field: Field<string>;
@@ -11,6 +12,19 @@ interface Props {
 
 export default function PhoneNumberFieldInput({ field, setError, onUpdate }: Props) {
   const [inputValue, setInputValue] = useState(field.value);
+  const [isFixed, setIsFixed] = useState(field.fixedValue != null);
+
+  const {userData} = useAuth();
+
+  useEffect(() => {
+    if (userData == null || field.fixedValue == null) return;
+
+    const fixedValue = field.fixedValue(userData);
+    if (fixedValue == null) return;
+
+    setInputValue(parsePhoneNumber(fixedValue));
+    setIsFixed(fixedValue != null);
+  }, [userData, field, setInputValue, setIsFixed]);
 
   useEffect(() => {
     setError('값을 입력해 주세요');
@@ -53,6 +67,7 @@ export default function PhoneNumberFieldInput({ field, setError, onUpdate }: Pro
       value={inputValue}
       onChange={handleChange}
       placeholder="010(또는 지역번호)-1234-5678"
+      disabled={isFixed}
     />
   );
 }
