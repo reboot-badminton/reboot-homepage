@@ -1,8 +1,8 @@
 'use client';
 
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Field } from './registration';
 import { useAuth } from '../components/AuthProvider';
+import { Field } from './registration';
 
 interface Props {
   field: Field<string>;
@@ -11,13 +11,19 @@ interface Props {
 }
 
 export default function StringFieldInput({ field, setError, onUpdate }: Props) {
-  const [fixedValue, setFixedValue] = useState<string | null>();
-  const {userData} = useAuth();
+  const [value, setValue] = useState('');
+  const [isFixed, setIsFixed] = useState(false);
+  const { userData } = useAuth();
 
   useEffect(() => {
     if (userData == null || field.fixedValue == null) return;
-    setFixedValue(field.fixedValue(userData));
-  }, [userData, field, setFixedValue]);
+
+    const fixedValue = field.fixedValue(userData);
+    if (fixedValue != null) {
+      setValue(fixedValue);
+      setIsFixed(true);
+    }
+  }, [userData, field, setValue]);
 
   useEffect(() => {
     if (field.isRequired && field.value === '') {
@@ -30,7 +36,7 @@ export default function StringFieldInput({ field, setError, onUpdate }: Props) {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      field.value = value;
+      setValue(value);
 
       const isValid = !field.isRequired || value !== '';
       if (isValid) {
@@ -43,5 +49,5 @@ export default function StringFieldInput({ field, setError, onUpdate }: Props) {
     [field, setError, onUpdate]
   );
 
-  return <input className="w-full" onChange={onChange} disabled={fixedValue != null} value={fixedValue ?? ''} />;
+  return <input className="w-full" onChange={onChange} disabled={isFixed} value={value} />;
 }
