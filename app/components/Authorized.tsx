@@ -6,12 +6,12 @@ import { useAuth } from './AuthProvider';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  requiresSignIn?: boolean;
+  requiresSignOut?: boolean;
   allowedRoles?: Role[];
   onUnauthorized?: () => void;
 }
 
-export default function Authorized({ requiresSignIn, allowedRoles, onUnauthorized, children }: PropsWithChildren<Props>) {
+export default function Authorized({ requiresSignOut, allowedRoles, onUnauthorized, children }: PropsWithChildren<Props>) {
   const auth = useAuth();
   const router = useRouter();
 
@@ -24,11 +24,9 @@ export default function Authorized({ requiresSignIn, allowedRoles, onUnauthorize
   }, [router, onUnauthorized]);
 
   useEffect(() => {
-    if (auth == null) {
-      if (requiresSignIn) {
-        unauthorizedCallback();
-        return;
-      }
+    if (auth.userData != null && requiresSignOut) {
+      unauthorizedCallback();
+      return;
     }
 
     if (allowedRoles != null) {
