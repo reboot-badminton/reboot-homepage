@@ -1,15 +1,20 @@
 'use client';
 
-import Select from 'react-select';
-import { Field } from './registration';
 import { useEffect, useState } from 'react';
+import Select, { PropsValue } from 'react-select';
 import { useAuth } from '../components/AuthProvider';
+import { Field } from './registration';
 
 interface Props {
   field: Field<string | null>;
   options: string[];
   setError: (error: string) => void;
   onUpdate: (isValid: boolean) => void;
+}
+
+interface Option {
+  label: string;
+  value: string;
 }
 
 function toSelectOptions(options: string[]) {
@@ -24,6 +29,7 @@ export default function DropdownFieldInput({
 }: Props) {
   const [selectOptions, setSelectOptions] = useState(toSelectOptions(options));
   const [fixedOptionIndex, setFixedOptionIndex] = useState<number | null>();
+  const [value, setValue] = useState<PropsValue<Option> | null>(fixedOptionIndex != null ? selectOptions[fixedOptionIndex] : null);
   const { userData } = useAuth();
 
   useEffect(() => {
@@ -33,7 +39,6 @@ export default function DropdownFieldInput({
     if (fixedValue == null) return;
 
     setFixedOptionIndex(options.indexOf(fixedValue));
-    console.log('fixed option ', options.indexOf(fixedValue));
   }, [userData, field, setFixedOptionIndex]);
 
   useEffect(() => {
@@ -46,13 +51,13 @@ export default function DropdownFieldInput({
 
   return (
     <Select
-      value={fixedOptionIndex != null ? selectOptions[fixedOptionIndex] : null}
+      value={value}
       instanceId={'select-' + field.name}
       placeholder="선택해주세요"
       options={selectOptions}
       isDisabled={fixedOptionIndex != null}
       onChange={(e) => {
-        field.value = e?.value ?? null;
+        setValue(e);
 
         const isValid = !!field.value;
         if (isValid) {
