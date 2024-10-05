@@ -17,7 +17,7 @@ function Button({ text, onClick }: { text: string; onClick: () => void }) {
 }
 
 export default function LogIn() {
-  const { uid, role } = useAuth();
+  const { uid, userData } = useAuth();
   const router = useRouter();
 
   async function handleLogout() {
@@ -30,7 +30,7 @@ export default function LogIn() {
     <>
       {!uid && <Button text="로그인" onClick={() => router.push('/login')} />}
       {uid && <Button text="로그아웃" onClick={handleLogout} />}
-      {(role === Role.ADMIN || role === Role.MANAGER) && (
+      {(userData?.role === Role.ADMIN || userData?.role === Role.MANAGER) && (
         <Button text="관리자페이지" onClick={() => router.push('/manage')} />
       )}
     </>
