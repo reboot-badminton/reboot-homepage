@@ -1,13 +1,14 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
-import { Field, Registration } from './registration';
-import FieldInput from './FieldInput';
-import { firestore } from '../../firebase';
 import { addDoc, collection } from 'firebase/firestore';
-import Dialog from '../components/Dialog';
 import { useRouter } from 'next/navigation';
+import { useCallback, useRef, useState } from 'react';
+import { firestore } from '../../firebase';
+import { useAuth } from '../components/AuthProvider';
+import Dialog from '../components/Dialog';
 import { ConfirmDialogButton } from '../components/DialogButtons';
+import FieldInput from './FieldInput';
+import { Field, Registration } from './registration';
 
 export default function Register() {
   const router = useRouter();
@@ -16,13 +17,15 @@ export default function Register() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const { uid } = useAuth();
+
   const [isValid, setIsValid] = useState(false);
   const fieldIsValidMap = useRef(new Map<string, boolean>());
 
   const register = useCallback(() => {
     const data: {
       [index: string]: any;
-    } = {};
+    } = { uid };
     Object.entries(registration.current).forEach(([key, field]) => {
       data[key] = field.value;
     });
@@ -86,7 +89,7 @@ export default function Register() {
       <button className='w-full mt-4' onClick={onSubmit} disabled={!isValid}>
         신청하기
       </button>
-      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true}/>}
+      {isRegistering && <Dialog text='신청중입니다' useDotAnimation={true} />}
       {isSuccess && (
         <Dialog text='신청 완료했습니다.' useDotAnimation={false}>
           <div className='text-right pr-2'>
