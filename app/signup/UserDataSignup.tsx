@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
 import { app, Role, toRole } from '../../firebase';
+import { useDialog } from '../components/DialogProvider';
 import { validatePhone } from './validate';
 
 export default function UserDataSignup({ uid }: { uid: string }) {
@@ -17,6 +18,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
   const [error, setError] = useState('');
 
   const router = useRouter();
+  const {showDialog} = useDialog();
   const firestore = getFirestore(app);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
     setEmail(user?.email ?? '');
   }, [uid]);
 
-  async function signupWithGoogle() {
+  async function signupUserData() {
     try {
       const user = getAuth().currentUser;
       if (user == null) {
@@ -61,8 +63,16 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       return;
     }
 
-    await signupWithGoogle();
-    router.push('/login');
+    await signupUserData();
+
+    showDialog({
+      title: '회원 가입이 완료되었습니다.',
+      body: '회원 가입한 계정으로 다시 로그인해 주세요.',
+      onConfirm: () => {
+        router.push('/login');
+        return true;
+      },
+    });
   }
 
   return (
