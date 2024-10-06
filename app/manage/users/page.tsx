@@ -24,7 +24,7 @@ export default function Manage() {
       });
       setUsers(userDataList);
     });
-  });
+  }, [setUsers]);
 
   return (
     <div className="py-4 px-2">
