@@ -6,13 +6,27 @@ interface Props {
   emailVerificationText: string;
   googleVerificationText: string;
   onUserSignedIn: (user: User) => void;
+  onError: (errorMessage: string) => void;
 }
 
-export default function Authentication({ emailVerificationText, googleVerificationText, onUserSignedIn }: Props) {
+export default function Authentication({
+  emailVerificationText,
+  googleVerificationText,
+  onUserSignedIn,
+  onError,
+}: Props) {
   return (
     <>
-      <EmailVerification onVerified={onUserSignedIn} verificationText={emailVerificationText} />
-      <GoogleButton onSignedIn={onUserSignedIn} text={googleVerificationText} />
+      <EmailVerification
+        onVerified={onUserSignedIn}
+        verificationText={emailVerificationText}
+        onError={onError}
+      />
+      <GoogleButton
+        onSignedIn={onUserSignedIn}
+        text={googleVerificationText}
+        onError={onError}
+      />
     </>
   );
 }

@@ -1,15 +1,26 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  User,
+} from 'firebase/auth';
 
 interface Props {
-  onSignedIn: (user: User) => void,
-  text: string,
+  onSignedIn: (user: User) => void;
+  text: string;
+  onError: (errorMessage: string) => void;
 }
 
-export default function GoogleButton({ onSignedIn, text }: Props) {
+export default function GoogleButton({ onSignedIn, text, onError }: Props) {
   async function onClick() {
-    const result = await signInWithPopup(getAuth(), new GoogleAuthProvider());
-    if (result.user != null) {
-      onSignedIn(result.user);
+    try {
+      const result = await signInWithPopup(getAuth(), new GoogleAuthProvider());
+      if (result.user != null) {
+        onSignedIn(result.user);
+      }
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+      onError('구글 로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   }
 
@@ -20,7 +31,8 @@ export default function GoogleButton({ onSignedIn, text }: Props) {
         onClick={(e) => {
           e.preventDefault();
           onClick();
-        }} >
+        }}
+      >
         <svg
           className="w-5 h-5 mr-2"
           viewBox="0 0 21 20"
