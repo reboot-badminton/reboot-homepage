@@ -1,6 +1,6 @@
 import TimeSlot from '@/app/data/TimeSlot';
 import { firestore } from '@/firebase';
-import { doc, Timestamp, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, Timestamp, updateDoc } from 'firebase/firestore';
 
 interface Registration {
   times: TimeSlot[];
@@ -16,6 +16,22 @@ interface Registration {
 export interface RegistrationDataType extends Registration {
   id: string;
 }
+
+export const getRegistrations = async () => {
+  const querySnapshot = await getDocs(collection(firestore, 'registration'));
+  const data = querySnapshot.docs.map((doc) => {
+    const registrationData = doc.data() as RegistrationDataType;
+    registrationData.id = doc.id;
+    if (registrationData.times) {
+      registrationData.times = [
+        ...registrationData.times.filter((time) => time.isRegistered == null),
+        ...registrationData.times.filter((time) => time.isRegistered != null),
+      ];
+    }
+    return registrationData;
+  });
+  return data;
+};
 
 export const updateRegistration = async (
   registrationId: string,
