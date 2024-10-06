@@ -1,6 +1,12 @@
 'use client';
 
-import { getAuth, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, User } from 'firebase/auth';
+import {
+  getAuth,
+  isSignInWithEmailLink,
+  sendSignInLinkToEmail,
+  signInWithEmailLink,
+  User,
+} from 'firebase/auth';
 import { useCallback, useEffect, useState } from 'react';
 
 enum State {
@@ -13,9 +19,14 @@ enum State {
 interface Props {
   onVerified: (user: User) => void;
   verificationText: string;
+  setErrorMessage: (errorMessage: string) => void;
 }
 
-export default function EmailVerification({ onVerified, verificationText }: Props) {
+export default function EmailVerification({
+  onVerified,
+  verificationText,
+  setErrorMessage,
+}: Props) {
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
   const [isEmailFromLocalStorage, setIsEmailFromLocalStorage] = useState(false);
@@ -27,10 +38,14 @@ export default function EmailVerification({ onVerified, verificationText }: Prop
     })
       .then(() => {
         window.localStorage.setItem('emailForSignIn', email);
+        setErrorMessage('');
         setState(State.PENDING);
       })
       .catch((error) => {
-        console.error('error', error);
+        console.error('Error sending verification email:', error);
+        setErrorMessage(
+          '인증 이메일을 보내는 중 오류가 발생했습니다. 다시 시도해주세요.'
+        );
       });
   }, [email]);
 
@@ -76,32 +91,42 @@ export default function EmailVerification({ onVerified, verificationText }: Prop
 
   return (
     <div className="space-y-4 md:space-y-6">
-      {state !== State.VERIFIED && <div>
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          이메일
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="email@naver.com"
-          required
-          disabled={state !== State.REQUEST && isEmailFromLocalStorage}
-        />
-      </div>}
-      {state === State.PENDING && <div>인증 이메일을 발송했습니다.<br />인증 완료 후 아래 버튼을 눌러주세요.</div>}
-      {state === State.VERIFIED && <div>이메일 인증이 완료되었습니다.<br />이전 페이지로 돌아가주세요.</div>}
-      <button
-        onClick={onSubmit}
-        className="w-full"
-        disabled={!email}
-      >
+      {state !== State.VERIFIED && (
+        <div>
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            이메일
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="email@naver.com"
+            required
+            disabled={state !== State.REQUEST && isEmailFromLocalStorage}
+          />
+        </div>
+      )}
+      {state === State.PENDING && (
+        <div>
+          인증 이메일을 발송했습니다.
+          <br />
+          인증 완료 후 아래 버튼을 눌러주세요.
+        </div>
+      )}
+      {state === State.VERIFIED && (
+        <div>
+          이메일 인증이 완료되었습니다.
+          <br />
+          이전 페이지로 돌아가주세요.
+        </div>
+      )}
+      <button onClick={onSubmit} className="w-full" disabled={!email}>
         {state === State.REQUEST && <>{verificationText}</>}
         {state === State.PENDING && <>인증 완료</>}
         {state === State.VERIFICATION && <>이메일 인증 완료하기</>}

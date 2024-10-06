@@ -13,16 +13,20 @@ export default function SignupLayout({ children }: PropsWithChildren) {
   const router = useRouter();
 
   const [uid, setUid] = useState(searchParams.get('uid'));
+  const [error, setError] = useState('');
 
-  const onUserSignedIn = useCallback(async (user: User) => {
-    const userData = await getUserData();
-    if (userData != null) {
-      // Already signed up
-      router.back();
-    }
+  const onUserSignedIn = useCallback(
+    async (user: User) => {
+      const userData = await getUserData();
+      if (userData != null) {
+        // Already signed up
+        router.back();
+      }
 
-    setUid(user.uid);
-  }, [setUid]);
+      setUid(user.uid);
+    },
+    [setUid]
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
@@ -32,21 +36,33 @@ export default function SignupLayout({ children }: PropsWithChildren) {
             회원 가입
           </h1>
           {uid != null && <UserDataSignup uid={uid} />}
-          {uid == null && <>
-            <Authentication
-              emailVerificationText='이메일 인증'
-              googleVerificationText='구글 계정으로 회원가입'
-              onUserSignedIn={onUserSignedIn} />
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-              이미 계정이 있으신가요?
-              <Link
-                href="/login"
-                className="ml-2 font-medium text-gray-600 hover:underline dark:text-gray-500"
-              >
-                로그인하기
-              </Link>
-            </p>
-          </>}
+          {uid == null && (
+            <>
+              <Authentication
+                emailVerificationText="이메일 인증"
+                googleVerificationText="구글 계정으로 회원가입"
+                onUserSignedIn={onUserSignedIn}
+                setErrorMessage={setError}
+              />
+              {error && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                  role="alert"
+                >
+                  <span className="block sm:inline">{error}</span>
+                </div>
+              )}
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                이미 계정이 있으신가요?
+                <Link
+                  href="/login"
+                  className="ml-2 font-medium text-gray-600 hover:underline dark:text-gray-500"
+                >
+                  로그인하기
+                </Link>
+              </p>
+            </>
+          )}
           {children}
         </div>
       </div>
