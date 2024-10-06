@@ -21,6 +21,7 @@ export default function Authorized({
   const router = useRouter();
 
   const unauthorizedCallback = useCallback(() => {
+    console.log('unauthorized', requiresSignOut);
     if (onUnauthorized == null) {
       router.back();
       return;
@@ -50,7 +51,7 @@ export default function Authorized({
         return;
       }
     }
-  }, [isAuthReady, userData, unauthorizedCallback]);
+  }, [isAuthReady, userData, unauthorizedCallback, allowedRoles, requiresSignOut]);
 
   return <>{isAuthReady && children}</>;
 }

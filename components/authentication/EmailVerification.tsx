@@ -1,5 +1,6 @@
 'use client';
 
+import Authorized from '@/app/Authorized';
 import { useDialog } from '@/app/providers/DialogProvider';
 import { firestore } from '@/firebase';
 import {
@@ -132,6 +133,7 @@ export default function EmailVerification({
 
   return (
     <div className="space-y-4 md:space-y-6">
+      <Authorized requiresSignOut={state === State.REQUEST} />
       {state !== State.VERIFIED && (
         <div>
           <label
