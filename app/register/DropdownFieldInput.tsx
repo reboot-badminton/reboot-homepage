@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Select, { PropsValue, SingleValue } from 'react-select';
-import { useAuth } from '../components/AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
 import { Field } from './registration';
 
 interface Props {

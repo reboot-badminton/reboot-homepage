@@ -2,7 +2,7 @@
 
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { Field } from './registration';
-import { useAuth } from '../components/AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
 
 interface Props {
   field: Field<string>;

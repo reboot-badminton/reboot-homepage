@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useDialog } from '../components/DialogProvider';
+import { useDialog } from '../providers/DialogProvider';
 import TimeSlot from '../data/TimeSlot';
 import { formatHour } from '../time_utils';
 import { Field } from './registration';

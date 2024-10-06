@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { src } from '../image_utils';
+import { src } from './image_utils';
 import { Do_Hyeon } from 'next/font/google';
 
 const doHyeon = Do_Hyeon({ weight: '400', subsets: ['latin'] });

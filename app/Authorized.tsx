@@ -2,7 +2,7 @@
 
 import { Role } from '@/firebase';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
-import { useAuth } from './AuthProvider';
+import { useAuth } from './providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 
 interface Props {

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Field } from './registration';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAuth } from '../components/AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
 
 interface Props {
   field: Field<Date>;

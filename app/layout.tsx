@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
-import { AuthProvider } from './components/AuthProvider';
-import Header from './components/Header';
-import LogIn from './components/LogIn';
+import { AuthProvider } from './providers/AuthProvider';
+import Header from './Header';
+import LogIn from './LogIn';
 import './globals.css';
 import { src } from './image_utils';
-import { DialogProvider } from './components/DialogProvider';
+import { DialogProvider } from './providers/DialogProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

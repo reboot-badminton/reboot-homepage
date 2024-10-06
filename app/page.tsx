@@ -1,6 +1,6 @@
 import ImageSlide from './components/ImageSlide';
-import Introduction from './components/Introduction';
-import MainCoaches from './components/MainCoaches';
+import Introduction from './Introduction';
+import MainCoaches from './MainCoaches';
 import Members from './members';
 import RegisterButton from './RegisterButton';
 

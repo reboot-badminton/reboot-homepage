@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
 import { app, Role, toRole } from '../../firebase';
-import { useDialog } from '../components/DialogProvider';
+import { useDialog } from '../providers/DialogProvider';
 import { validatePhone } from './validate';
 
 export default function UserDataSignup({ uid }: { uid: string }) {

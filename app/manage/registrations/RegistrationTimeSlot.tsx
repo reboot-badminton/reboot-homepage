@@ -1,7 +1,7 @@
 'use client';
 
 import CircularProgressIndicator from '@/app/components/CircularProgressIndicator';
-import { useDialog } from '@/app/components/DialogProvider';
+import { useDialog } from '@/app/providers/DialogProvider';
 import TimeSlot from '@/app/data/TimeSlot';
 import { firestore } from '@/firebase';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';

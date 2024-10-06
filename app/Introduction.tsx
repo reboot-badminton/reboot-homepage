@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { src } from '../image_utils';
+import { src } from './image_utils';
 
 export default function Introduction() {
   return (

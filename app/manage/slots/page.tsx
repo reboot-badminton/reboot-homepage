@@ -1,6 +1,6 @@
 'use client';
 
-import { useDialog } from '@/app/components/DialogProvider';
+import { useDialog } from '@/app/providers/DialogProvider';
 import { LessonMonth } from '@/app/data/LessonMonth';
 import TimeSlot from '@/app/data/TimeSlot';
 import { useCallback, useEffect, useState } from 'react';

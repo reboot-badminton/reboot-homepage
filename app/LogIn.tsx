@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { getAuth, signOut } from 'firebase/auth';
 import { app, Role } from '@/firebase';
-import { useAuth } from './AuthProvider';
+import { useAuth } from './providers/AuthProvider';
 
 function Button({ text, onClick }: { text: string; onClick: () => void }) {
   return (

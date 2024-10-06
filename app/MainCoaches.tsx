@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { src } from '../image_utils';
+import { src } from './image_utils';
 import { Open_Sans } from 'next/font/google';
 
 interface Section {

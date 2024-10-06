@@ -3,7 +3,7 @@ import { getAuth, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import { useDialog } from '../components/DialogProvider';
+import { useDialog } from '../providers/DialogProvider';
 import GoogleButton from '../components/GoogleButton';
 
 interface Props {

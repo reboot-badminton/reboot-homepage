@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import EmailVerification from '../signup/EmailVerification';
 import GoogleSigninButton from './GoogleSigninButton';
-import Authorized from '../components/Authorized';
+import Authorized from '../Authorized';
 
 export default function Login() {
   const [error, setError] = useState('');
