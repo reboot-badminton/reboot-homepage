@@ -22,6 +22,15 @@ interface Props {
   setErrorMessage: (errorMessage: string) => void;
 }
 
+function getErrorMessage(errorCode: string) {
+  switch (errorCode) {
+    case 'auth/invalid-email':
+      return '유효한 이메일 주소를 입력해주세요.';
+    default:
+      return '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+  }
+}
+
 export default function EmailVerification({
   onVerified,
   verificationText,
@@ -43,9 +52,7 @@ export default function EmailVerification({
       })
       .catch((error) => {
         console.error('Error sending verification email:', error);
-        setErrorMessage(
-          '인증 이메일을 보내는 중 오류가 발생했습니다. 다시 시도해주세요.'
-        );
+        setErrorMessage(getErrorMessage(error.code));
       });
   }, [email]);
 
