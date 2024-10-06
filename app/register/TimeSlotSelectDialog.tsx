@@ -1,13 +1,13 @@
 'use client';
 
 import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
-import { useEffect, useState } from 'react';
-import { FaRegCircleCheck } from 'react-icons/fa6';
+import { useCallback, useEffect, useState } from 'react';
 import DaySelector from '../../components/DaySelector';
 import { currentLessonMonth } from '../data/LessonMonth';
 import TimeSlot, { isSameSlot } from '../data/TimeSlot';
+import { getRegistrations } from '../manage/registrations/getRegistration';
 import { getSlotsForDay, getSlotsForMonth } from '../manage/slots/getSlot';
-import { formatHour } from '../time_utils';
+import TimeSlotItem from './TimeSlotItem';
 
 interface Props {
   selected: TimeSlot[];
@@ -24,12 +24,32 @@ export default function TimeSlotSelectDialog({
   const [visibleTimeSlots, setVisibleTimeSlots] = useState<TimeSlot[]>([]);
   const [day, setDay] = useState(0);
 
+  const [registeredTimeSlots, setRegisteredTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedTimeSlots, setSelectedTimeSlots] =
     useState<TimeSlot[]>(selected);
 
+  const isSelectedTimeSlot = useCallback((timeSlot: TimeSlot) => {
+    for (const slot of selectedTimeSlots) {
+      if (isSameSlot(timeSlot, slot)) return true;
+    }
+    return false;
+  }, [selectedTimeSlots]);
+
+  const isRegisteredTimeSlot = useCallback((timeSlot: TimeSlot) => {
+    for (const slot of registeredTimeSlots) {
+      if (isSameSlot(timeSlot, slot)) return true;
+    }
+    return false;
+  }, [registeredTimeSlots]);
+
   useEffect(() => {
-    getSlotsForMonth(currentLessonMonth()).then(setAllTimeSlots);
-  }, []);
+    Promise
+      .all([getSlotsForMonth(currentLessonMonth()), getRegistrations()])
+      .then(([timeSlots, registrations]) => {
+        setAllTimeSlots(timeSlots);
+        setRegisteredTimeSlots(registrations.flatMap(r => r.times));
+      });
+  }, [setAllTimeSlots, setRegisteredTimeSlots]);
 
   useEffect(() => {
     setSelectedTimeSlots(selected);
@@ -47,45 +67,19 @@ export default function TimeSlotSelectDialog({
     <>
       <DaySelector onDayChange={setDay} />
       <div className="py-1">
-        {visibleTimeSlots.map((slot) => (
-          <div
-            className="mx-1 my-1 py-1 border-b flex items-center"
-            key={'slot-' + slot.time}
-          >
-            <div className="flex-grow">
-              <h2 className="font-bold text-md">{slot.title}</h2>
-              <span className="block text-sm">
-                {slot.days.map((d) => '월화수목금토일'[d]).join(', ')}{' '}
-                {formatHour(slot.time)}
-              </span>
-              <span className="block text-sm">
-                잔여: {slot.capacity - slot.students.length}
-              </span>
-            </div>
-            <FaRegCircleCheck
-              color={
-                selectedTimeSlots.findIndex((selected) =>
-                  isSameSlot(selected, slot)
-                ) !== -1
-                  ? 'rgb(96 165 250)'
-                  : 'darkgrey'
+        {visibleTimeSlots.map((timeSlot) => (
+          <TimeSlotItem
+            key={'slot-' + timeSlot.time}
+            timeSlot={timeSlot}
+            isRegistered={isRegisteredTimeSlot(timeSlot)}
+            isSelected={isSelectedTimeSlot(timeSlot)}
+            onSelectChanged={(isSelected) => {
+              if (isSelected) {
+                setSelectedTimeSlots((selected) => [timeSlot, ...selected]);
+              } else {
+                setSelectedTimeSlots((selected) => selected.filter((slot) => !isSameSlot(slot, timeSlot)));
               }
-              className="mr-2 p-2 cursor-pointer"
-              size={34}
-              onClick={() => {
-                const index = selectedTimeSlots.findIndex((selected) =>
-                  isSameSlot(selected, slot)
-                );
-                if (index === -1) {
-                  setSelectedTimeSlots((selected) => [slot, ...selected]);
-                } else {
-                  setSelectedTimeSlots((selected) =>
-                    selected.filter((_, i) => i !== index)
-                  );
-                }
-              }}
-            />
-          </div>
+            }} />
         ))}
       </div>
       <div className="flex justify-end">
