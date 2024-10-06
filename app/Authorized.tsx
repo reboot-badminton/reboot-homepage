@@ -52,5 +52,5 @@ export default function Authorized({
     }
   }, [isAuthReady, userData, unauthorizedCallback]);
 
-  return <>{children}</>;
+  return <>{isAuthReady && children}</>;
 }

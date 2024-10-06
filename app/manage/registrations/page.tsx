@@ -1,32 +1,19 @@
+'use client';
+
 import { formatDate } from '@/app/date_utils';
-import { firestore } from '@/firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import { RegistrationDataType } from './getRegistration';
+import { useEffect, useState } from 'react';
+import { getRegistrations, RegistrationDataType } from './getRegistration';
 import RegistrationMenu from './RegistrationMenu';
 import RegistrationTimeSlot from './RegistrationTimeSlot';
 
-const getRegistrations = async () => {
-  try {
-    const querySnapshot = await getDocs(collection(firestore, 'registration'));
-    const data = querySnapshot.docs.map((doc) => {
-      const registrationData = doc.data() as RegistrationDataType;
-      registrationData.id = doc.id;
-      if (registrationData.times) {
-        registrationData.times = [
-          ...registrationData.times.filter((time) => time.isRegistered == null),
-          ...registrationData.times.filter((time) => time.isRegistered != null),
-        ];
-      }
-      return registrationData;
-    });
-    return data;
-  } catch (error) {
-    console.error('Error fetching registrations: ', error);
-  }
-};
+export default function ManageRegistrations() {
+  const [registrations, setRegistrations] = useState<RegistrationDataType[]>([]);
 
-export default async function ManageRegistrations() {
-  const registrations = await getRegistrations();
+  useEffect(() => {
+    getRegistrations()
+      .then((registrations) => setRegistrations(registrations))
+      .catch((error) => console.error('Error fetching registrations: ', error));
+  }, []);
 
   return (
     <div className="p-4">

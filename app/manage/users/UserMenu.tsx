@@ -1,17 +1,20 @@
 'use client';
 
 import Menu, { MenuItem } from '@/components/Menu';
-import { firestore, Role, toRole } from '@/firebase';
+import { firestore, Role, toRoleString } from '@/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-export default function UserMenu({ uid, role }: { uid: string, role?: Role }) {
-  const router = useRouter();
+interface Props {
+  uid: string;
+  role: Role;
+  onUserRoleChange: (newRole: Role) => void;
+}
 
+export default function UserMenu({ uid, role, onUserRoleChange }: Props) {
   const updateRole = useCallback(async (role: Role) => {
-    await updateDoc(doc(firestore, 'users', uid), { role: toRole(role) });
-    router.refresh();
+    await updateDoc(doc(firestore, 'users', uid), { role: toRoleString(role) });
+    onUserRoleChange(role);
   }, [uid]);
 
   const [items, setItems] = useState<MenuItem[]>([]);
