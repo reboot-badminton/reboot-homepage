@@ -1,12 +1,9 @@
 'use client';
 
+import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
 import { useEffect, useState } from 'react';
 import { FaRegCircleCheck } from 'react-icons/fa6';
-import DaySelector from '../components/DaySelector';
-import {
-  CancelDialogButton,
-  ConfirmDialogButton,
-} from '../components/DialogButtons';
+import DaySelector from '../../components/DaySelector';
 import { currentLessonMonth } from '../data/LessonMonth';
 import TimeSlot, { isSameSlot } from '../data/TimeSlot';
 import { getSlotsForDay, getSlotsForMonth } from '../manage/slots/getSlot';

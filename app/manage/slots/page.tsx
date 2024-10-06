@@ -1,10 +1,10 @@
 'use client';
 
-import { useDialog } from '@/app/providers/DialogProvider';
 import { LessonMonth } from '@/app/data/LessonMonth';
 import TimeSlot from '@/app/data/TimeSlot';
+import { useDialog } from '@/app/providers/DialogProvider';
+import DaySelector from '@/components/DaySelector';
 import { useCallback, useEffect, useState } from 'react';
-import DaySelector from '../../components/DaySelector';
 import { getSlotsForDay, getSlotsForMonth } from './getSlot';
 import MonthSelector from './MonthSelector';
 import SlotDialog from './SlotDialog';

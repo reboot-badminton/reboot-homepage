@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { src as imageSrc } from '../image_utils';
+import { src as imageSrc } from '../app/image_utils';
 
 export interface ImageProps {
   src: string;

@@ -1,10 +1,10 @@
+import GoogleButton from '@/components/GoogleButton';
 import { app, firestore } from '@/firebase';
 import { getAuth, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useDialog } from '../providers/DialogProvider';
-import GoogleButton from '../components/GoogleButton';
 
 interface Props {
   onSuccess: (user: User) => void;

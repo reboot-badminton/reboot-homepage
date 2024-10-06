@@ -1,13 +1,13 @@
 'use client';
 
+import GoogleButton from '@/components/GoogleButton';
+import { getUserData } from '@/firebase';
+import { User } from 'firebase/auth';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PropsWithChildren, useCallback, useState } from 'react';
 import EmailVerification from './EmailVerification';
 import UserDataSignup from './UserDataSignup';
-import { User } from 'firebase/auth';
-import GoogleButton from '../components/GoogleButton';
-import { getUserData } from '@/firebase';
-import Link from 'next/link';
 
 export default function SignupLayout({ children }: PropsWithChildren) {
   const searchParams = useSearchParams();

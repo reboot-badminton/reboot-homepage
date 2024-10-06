@@ -1,8 +1,8 @@
 'use client';
 
+import CircularProgressIndicator from '@/components/CircularProgressIndicator';
+import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
 import { createContext, PropsWithChildren, ReactNode, useCallback, useContext, useState } from 'react';
-import { CancelDialogButton, ConfirmDialogButton } from '../components/DialogButtons';
-import CircularProgressIndicator from '../components/CircularProgressIndicator';
 
 interface Dialog {
   title?: string;

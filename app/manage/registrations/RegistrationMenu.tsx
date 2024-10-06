@@ -1,6 +1,6 @@
 'use client'
 
-import Menu from '@/app/components/Menu';
+import Menu from '@/components/Menu';
 import { firestore, Role, toRole } from '@/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
