@@ -82,6 +82,8 @@ export default function EmailVerification({
   const emailLinkSignIn = useCallback(async () => {
     const emailLinkDoc = doc(firestore, 'emailVerifications', email);
     const emailLinkSnapshot = await getDoc(emailLinkDoc);
+    await deleteDoc(emailLinkDoc);
+    
     const emailLink = emailLinkSnapshot.data()?.emailLink;
 
     if (emailLink == null) {
@@ -99,7 +101,6 @@ export default function EmailVerification({
       await signInWithEmailLink(getAuth(), email, emailLink);
       const user = getAuth().currentUser;
       if (user != null) {
-        await deleteDoc(emailLinkDoc);
         onVerified(user);
       }
     } catch (error) {
