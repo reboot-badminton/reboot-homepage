@@ -5,7 +5,7 @@ import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
-import { app, Role, toRole } from '../../firebase';
+import { app, Role, toRoleString } from '../../firebase';
 import { useDialog } from '../providers/DialogProvider';
 import { validatePhone } from './validate';
 
@@ -18,7 +18,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
   const [error, setError] = useState('');
 
   const router = useRouter();
-  const {showDialog} = useDialog();
+  const { showDialog } = useDialog();
   const firestore = getFirestore(app);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
         birthday,
         phone,
         email,
-        role: toRole(Role.MEMBER),
+        role: toRoleString(Role.MEMBER),
       });
     } catch (error) {
       setError((error as Error).message);

@@ -12,7 +12,7 @@ export enum Role {
   BANNED,
 }
 
-export function toRole(role: Role): string {
+export function toRoleString(role: Role): string {
   return Role[role].toLowerCase();
 }
 
