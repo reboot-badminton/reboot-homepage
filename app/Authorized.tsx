@@ -1,9 +1,9 @@
 'use client';
 
 import { Role } from '@/firebase';
+import { usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 import { useAuth } from './providers/AuthProvider';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   requiresSignOut?: boolean;
@@ -19,6 +19,7 @@ export default function Authorized({
 }: PropsWithChildren<Props>) {
   const { userData, isAuthReady } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const unauthorizedCallback = useCallback(() => {
     if (onUnauthorized == null) {
@@ -26,7 +27,7 @@ export default function Authorized({
       return;
     }
     onUnauthorized();
-  }, [router, onUnauthorized]);
+  }, [router, onUnauthorized, pathname]);
 
   useEffect(() => {
     if (!isAuthReady) {
