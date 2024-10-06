@@ -1,12 +1,11 @@
 'use client';
 
-import GoogleButton from '@/components/GoogleButton';
+import Authentication from '@/components/authentication/Authentication';
 import { getUserData } from '@/firebase';
 import { User } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PropsWithChildren, useCallback, useState } from 'react';
-import EmailVerification from './EmailVerification';
 import UserDataSignup from './UserDataSignup';
 
 export default function SignupLayout({ children }: PropsWithChildren) {
@@ -34,8 +33,10 @@ export default function SignupLayout({ children }: PropsWithChildren) {
           </h1>
           {uid != null && <UserDataSignup uid={uid} />}
           {uid == null && <>
-            <EmailVerification onVerified={onUserSignedIn} verificationText='이메일 인증' />
-            <GoogleButton onSignedIn={onUserSignedIn} text="구글 계정으로 회원가입" />
+            <Authentication
+              emailVerificationText='이메일 인증'
+              googleVerificationText='구글 계정으로 회원가입'
+              onUserSignedIn={onUserSignedIn} />
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               이미 계정이 있으신가요?
               <Link
