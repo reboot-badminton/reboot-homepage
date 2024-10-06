@@ -14,12 +14,14 @@ interface Props {
 
 function getErrorMessage(errorCode: string) {
   switch (errorCode) {
+    case 'auth/account-exists-with-different-credential':
+      return '이미 사용 중인 계정입니다. 다시 시도해주세요.';
     case 'auth/popup-closed-by-user':
       return '로그인 창이 닫혔습니다. 다시 시도해주세요.';
+    case 'auth/popup-blocked':
+      return '팝업이 막혀있습니다. 해제 후 다시 시도해주세요.';
     case 'auth/cancelled-popup-request':
       return '이미 로그인 창이 열려 있습니다.';
-    case 'auth/network-request-failed':
-      return '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
     case 'auth/too-many-requests':
       return '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.';
     case '(auth/unauthorized-domain':
