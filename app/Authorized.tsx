@@ -2,7 +2,7 @@
 
 import { Role } from '@/firebase';
 import { usePathname, useRouter } from 'next/navigation';
-import { PropsWithChildren, useCallback, useEffect } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { useAuth } from './providers/AuthProvider';
 import { useDialog } from './providers/DialogProvider';
 
@@ -22,8 +22,14 @@ export default function Authorized({
   const router = useRouter();
   const pathname = usePathname();
   const { showDialog } = useDialog();
-  
-  const unauthorizedCallback = useCallback(() => {
+
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!isAuthReady || isAuthorized == null || isAuthorized) {
+      return;
+    }
+
     if (onUnauthorized == null) {
       showDialog({
         title: '접근 권한이 없습니다',
@@ -35,7 +41,7 @@ export default function Authorized({
       return;
     }
     onUnauthorized();
-  }, [router, onUnauthorized, pathname]);
+  }, [router, onUnauthorized, pathname, isAuthReady, isAuthorized]);
 
   useEffect(() => {
     if (!isAuthReady) {
@@ -43,23 +49,24 @@ export default function Authorized({
     }
 
     if (userData != null && requiresSignOut) {
-      unauthorizedCallback();
+      setIsAuthorized(false);
       return;
     }
 
     if (allowedRoles != null) {
       const role = userData?.role;
       if (role == null) {
-        unauthorizedCallback();
+        setIsAuthorized(false);
         return;
       }
 
       if (allowedRoles.indexOf(role) === -1) {
-        unauthorizedCallback();
+        setIsAuthorized(false);
         return;
       }
     }
-  }, [isAuthReady, userData, unauthorizedCallback, allowedRoles, requiresSignOut]);
+    setIsAuthorized(true);
+  }, [isAuthReady, userData, setIsAuthorized, allowedRoles, requiresSignOut]);
 
-  return <>{isAuthReady && children}</>;
+  return <>{isAuthorized && children}</>;
 }
