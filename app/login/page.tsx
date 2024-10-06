@@ -51,9 +51,9 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
             로그인
           </h1>
           <div className="space-y-4 md:space-y-6">
@@ -61,11 +61,11 @@ export default function Login() {
               emailVerificationText='이메일로 로그인'
               googleVerificationText='구글 계정으로 로그인'
               onUserSignedIn={onUserSignedIn} />
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-500">
               계정이 없으신가요?
               <Link
                 href="/signup"
-                className="ml-4 font-medium text-gray-600 hover:underline dark:text-gray-500"
+                className="ml-4 font-medium text-gray-600 hover:underline"
               >
                 회원가입하기
               </Link>

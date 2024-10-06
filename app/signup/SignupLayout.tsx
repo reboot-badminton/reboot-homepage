@@ -29,9 +29,9 @@ export default function SignupLayout({ children }: PropsWithChildren) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
             회원 가입
           </h1>
           {uid != null && <UserDataSignup uid={uid} />}
@@ -42,11 +42,11 @@ export default function SignupLayout({ children }: PropsWithChildren) {
                 googleVerificationText="구글 계정으로 회원가입"
                 onUserSignedIn={onUserSignedIn}
               />
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-light text-gray-500">
                 이미 계정이 있으신가요?
                 <Link
                   href="/login"
-                  className="ml-2 font-medium text-gray-600 hover:underline dark:text-gray-500"
+                  className="ml-2 font-medium text-gray-600 hover:underline"
                 >
                   로그인하기
                 </Link>

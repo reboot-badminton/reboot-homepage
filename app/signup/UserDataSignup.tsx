@@ -84,7 +84,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       <div>
         <label
           htmlFor="name"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           이름
         </label>
@@ -94,7 +94,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           id="name"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
           placeholder="홍길동"
           required
         />
@@ -102,7 +102,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       <div>
         <label
           htmlFor="gender"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           성별
         </label>
@@ -111,7 +111,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           id="gender"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
           required
         >
           <option value="" disabled>
@@ -124,7 +124,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       <div>
         <label
           htmlFor="birthday"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           생년월일
         </label>
@@ -134,14 +134,14 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           id="birthday"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
           required
         />
       </div>
       <div>
         <label
           htmlFor="phone"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           휴대폰 번호
         </label>
@@ -151,7 +151,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           id="phone"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
           placeholder="01012345678"
           required
         />
@@ -159,7 +159,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       <div>
         <label
           htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           이메일
         </label>
@@ -169,7 +169,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
           placeholder="email@naver.com"
           required
           disabled
@@ -185,15 +185,15 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       )}
       <button
         type="submit"
-        className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-primary-800"
+        className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         가입하기
       </button>
-      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+      <p className="text-sm font-light text-gray-500">
         이미 계정이 있으신가요?
         <Link
           href="/login"
-          className="ml-2 font-medium text-gray-600 hover:underline dark:text-gray-500"
+          className="ml-2 font-medium text-gray-600 hover:underline"
         >
           로그인하기
         </Link>
