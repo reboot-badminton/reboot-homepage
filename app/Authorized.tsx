@@ -21,7 +21,6 @@ export default function Authorized({
   const router = useRouter();
 
   const unauthorizedCallback = useCallback(() => {
-    console.log('unauthorized', requiresSignOut);
     if (onUnauthorized == null) {
       router.back();
       return;
