@@ -47,7 +47,7 @@ export default function ImageSlide({ srcs }: Props) {
 
   return (
     <div
-      className="w-full h-80 relative"
+      className="w-full h-80 tablet:h-96 desktop:h-[500px] relative"
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
