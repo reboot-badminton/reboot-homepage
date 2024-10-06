@@ -9,7 +9,7 @@ import {
 interface Props {
   onSignedIn: (user: User) => void;
   text: string;
-  onError: (errorMessage: string) => void;
+  setErrorMessage: (errorMessage: string) => void;
 }
 
 function getErrorMessage(errorCode: string) {
@@ -31,7 +31,7 @@ function getErrorMessage(errorCode: string) {
   }
 }
 
-export default function GoogleButton({ onSignedIn, text, onError }: Props) {
+export default function GoogleButton({ onSignedIn, text, setErrorMessage }: Props) {
   async function onClick() {
     try {
       const result = await signInWithPopup(getAuth(), new GoogleAuthProvider());
@@ -41,7 +41,7 @@ export default function GoogleButton({ onSignedIn, text, onError }: Props) {
     } catch (error) {
       console.error('Error signing in with Google:', error);
       const firebaseError = error as FirebaseError;
-      onError(getErrorMessage(firebaseError.code));
+      setErrorMessage(getErrorMessage(firebaseError.code));
     }
   }
 
@@ -51,7 +51,7 @@ export default function GoogleButton({ onSignedIn, text, onError }: Props) {
         className="w-full flex items-center justify-center bg-white hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow transition duration-300 ease-in-out"
         onClick={(e) => {
           e.preventDefault();
-          onError('');
+          setErrorMessage('');
           onClick();
         }}
       >

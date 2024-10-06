@@ -19,7 +19,7 @@ enum State {
 interface Props {
   onVerified: (user: User) => void;
   verificationText: string;
-  onError: (errorMessage: string) => void;
+  setErrorMessage: (errorMessage: string) => void;
 }
 
 function getErrorMessage(errorCode: string) {
@@ -34,7 +34,7 @@ function getErrorMessage(errorCode: string) {
 export default function EmailVerification({
   onVerified,
   verificationText,
-  onError,
+  setErrorMessage,
 }: Props) {
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
@@ -47,12 +47,12 @@ export default function EmailVerification({
     })
       .then(() => {
         window.localStorage.setItem('emailForSignIn', email);
+        setErrorMessage('');
         setState(State.PENDING);
-        onError('');
       })
       .catch((error) => {
         console.error('Error sending verification email:', error);
-        onError(getErrorMessage(error.code));
+        setErrorMessage(getErrorMessage(error.code));
       });
   }, [email]);
 

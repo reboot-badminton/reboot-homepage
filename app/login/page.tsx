@@ -62,7 +62,7 @@ export default function Login() {
               emailVerificationText='이메일로 로그인'
               googleVerificationText='구글 계정으로 로그인'
               onUserSignedIn={onUserSignedIn}
-              onError={setError} />
+              setErrorMessage={setError} />
             {error && (
               <div
                 className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"

@@ -42,7 +42,7 @@ export default function SignupLayout({ children }: PropsWithChildren) {
                 emailVerificationText="이메일 인증"
                 googleVerificationText="구글 계정으로 회원가입"
                 onUserSignedIn={onUserSignedIn}
-                onError={setError}
+                setErrorMessage={setError}
               />
               {error && (
                 <div
