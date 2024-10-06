@@ -1,5 +1,7 @@
 'use client';
 
+import { useDialog } from '@/app/providers/DialogProvider';
+import { firestore } from '@/firebase';
 import {
   getAuth,
   isSignInWithEmailLink,
@@ -7,6 +9,7 @@ import {
   signInWithEmailLink,
   User,
 } from 'firebase/auth';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 
 enum State {
@@ -40,6 +43,8 @@ export default function EmailVerification({
   const [email, setEmail] = useState('');
   const [isEmailFromLocalStorage, setIsEmailFromLocalStorage] = useState(false);
 
+  const { showDialog } = useDialog();
+
   const sendVerification = useCallback(() => {
     sendSignInLinkToEmail(getAuth(), email, {
       url: window.location.href,
@@ -56,10 +61,42 @@ export default function EmailVerification({
       });
   }, [email]);
 
+  const uploadEmailLink = useCallback(async () => {
+    const emailLink = window.location.href;
+    await setDoc(doc(firestore, 'emailVerifications', email), { emailLink });
+  }, [email]);
+
+  const emailLinkSignIn = useCallback(async () => {
+    const emailLinkDoc = doc(firestore, 'emailVerifications', email);
+    const emailLinkSnapshot = await getDoc(emailLinkDoc);
+    await deleteDoc(emailLinkDoc);
+
+    const emailLink = emailLinkSnapshot.data()?.emailLink;
+
+    if (emailLink == null) {
+      showDialog({
+        title: '이메일 인증 정보를 불러올 수 없습니다.',
+        body: '다시 시도해 주세요.',
+        onConfirm: () => {
+          window.location.reload();
+          return true;
+        },
+      });
+      return;
+    }
+
+    await signInWithEmailLink(getAuth(), email, emailLink);
+    const user = getAuth().currentUser;
+    if (user != null) {
+      onVerified(user);
+    }
+  }, [email]);
+
   const verify = useCallback(async () => {
     if (state !== State.VERIFICATION) return;
 
-    await signInWithEmailLink(getAuth(), email, window.location.href);
+    await uploadEmailLink();
+
     window.localStorage.removeItem('emailForSignIn');
     setState(State.VERIFIED);
   }, [email]);
@@ -70,10 +107,7 @@ export default function EmailVerification({
         sendVerification();
         break;
       case State.PENDING:
-        const user = getAuth().currentUser;
-        if (user != null) {
-          onVerified(user);
-        }
+        emailLinkSignIn();
         break;
       case State.VERIFICATION:
         verify();
