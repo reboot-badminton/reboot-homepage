@@ -1,45 +1,37 @@
-import { Role } from '@/firebase';
+import { Role, UserData } from '@/firebase';
 import RoleBadge from './RoleBadge';
 import UserMenu from './UserMenu';
 
 interface Props {
-  id: string;
-  role?: Role;
-
-  name?: string;
-  gender?: string;
-  birthday?: string;
-
-  email: string;
-  phone?: string;
+  userData: UserData;
 }
 
 function getAge(year: number): number {
   return new Date().getFullYear() - year + 1;
 }
 
-export default function UserItem(user: Props) {
+export default function UserItem({ userData }: Props) {
   return (
     <div>
       <div className="text-lg flex items-center justify-between">
         <div>
-          <RoleBadge role={user.role ?? Role.NONE} />
-          {user.name}
+          <RoleBadge role={userData.role ?? Role.NONE} />
+          {userData.name}
         </div>
-        <UserMenu uid={user.id} role={user.role} />
+        <UserMenu uid={userData.uid} role={userData.role} />
       </div>
       <div className="text-sm">
-        {user.gender === 'male' ? '남' : '여'}
+        {userData.gender === 'male' ? '남' : '여'}
         &nbsp;/&nbsp;
-        {user.birthday && <>
-          {getAge(parseInt(user.birthday.split('-')[0]))}세 ({user.birthday})
+        {userData.birthday && <>
+          {getAge(parseInt(userData.birthday.split('-')[0]))}세 ({userData.birthday})
         </>}
       </div>
       <div className="text-sm">
-        <b>전화번호</b> {user.phone}
+        <b>전화번호</b> {userData.phone}
       </div>
       <div className="text-sm">
-        <b>이메일</b> {user.email}
+        <b>이메일</b> {userData.email}
       </div>
     </div>
   );
