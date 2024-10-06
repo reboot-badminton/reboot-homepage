@@ -4,6 +4,7 @@ import EmailVerification from '@/components/authentication/EmailVerification';
 import GoogleButton from './GoogleButton';
 import { User } from 'firebase/auth';
 import { useState } from 'react';
+import Authorized from '@/app/Authorized';
 
 interface Props {
   emailVerificationText: string;
@@ -17,9 +18,13 @@ export default function Authentication({
   onUserSignedIn,
 }: Props) {
   const [errorMessage, setErrorMessage] = useState('');
-  
+
   return (
     <>
+      <Authorized
+        requiresSignOut={true}
+        onlyCheckEntry={true}
+        unauthorizedText='이미 로그인 되어 있습니다' />
       <EmailVerification
         onVerified={onUserSignedIn}
         verificationText={emailVerificationText}

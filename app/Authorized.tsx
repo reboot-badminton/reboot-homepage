@@ -9,12 +9,16 @@ import { useDialog } from './providers/DialogProvider';
 interface Props {
   requiresSignOut?: boolean;
   allowedRoles?: Role[];
+  onlyCheckEntry?: boolean;
+  unauthorizedText?: string;
   onUnauthorized?: () => void;
 }
 
 export default function Authorized({
   requiresSignOut,
   allowedRoles,
+  onlyCheckEntry,
+  unauthorizedText,
   onUnauthorized,
   children,
 }: PropsWithChildren<Props>) {
@@ -24,15 +28,22 @@ export default function Authorized({
   const { showDialog } = useDialog();
 
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [isEntry, setIsEntry] = useState(true);
 
   useEffect(() => {
-    if (!isAuthReady || isAuthorized == null || isAuthorized) {
+    if (!isAuthReady || isAuthorized == null) {
       return;
     }
 
+    if (isAuthorized || (!isEntry && onlyCheckEntry)) {
+      setIsEntry(false);
+      return;
+    }
+    setIsEntry(false);
+
     if (onUnauthorized == null) {
       showDialog({
-        title: '접근 권한이 없습니다',
+        title: unauthorizedText ?? '접근 권한이 없습니다',
         onConfirm: () => {
           router.back();
           return true;
@@ -41,7 +52,7 @@ export default function Authorized({
       return;
     }
     onUnauthorized();
-  }, [router, onUnauthorized, pathname, isAuthReady, isAuthorized]);
+  }, [router, onUnauthorized, pathname, isAuthReady, isAuthorized, isEntry, onlyCheckEntry]);
 
   useEffect(() => {
     if (!isAuthReady) {
