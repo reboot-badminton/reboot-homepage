@@ -1,6 +1,5 @@
 'use client';
 
-import Authorized from '@/app/Authorized';
 import { useDialog } from '@/app/providers/DialogProvider';
 import { firestore } from '@/firebase';
 import {
