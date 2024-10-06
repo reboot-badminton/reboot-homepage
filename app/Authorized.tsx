@@ -4,6 +4,7 @@ import { Role } from '@/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 import { useAuth } from './providers/AuthProvider';
+import { useDialog } from './providers/DialogProvider';
 
 interface Props {
   requiresSignOut?: boolean;
@@ -20,10 +21,17 @@ export default function Authorized({
   const { userData, isAuthReady } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-
+  const { showDialog } = useDialog();
+  
   const unauthorizedCallback = useCallback(() => {
     if (onUnauthorized == null) {
-      router.back();
+      showDialog({
+        title: '접근 권한이 없습니다',
+        onConfirm: () => {
+          router.back();
+          return true;
+        },
+      });
       return;
     }
     onUnauthorized();
