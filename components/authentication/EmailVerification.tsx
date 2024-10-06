@@ -3,7 +3,6 @@
 import Authorized from '@/app/Authorized';
 import { useDialog } from '@/app/providers/DialogProvider';
 import { firestore } from '@/firebase';
-import { FirebaseError } from 'firebase/app';
 import {
   getAuth,
   isSignInWithEmailLink,
@@ -33,7 +32,7 @@ function getErrorMessage(errorCode: string) {
   switch (errorCode) {
     case 'auth/invalid-email':
       return '유효한 이메일 주소를 입력해주세요.';
-    case 'auth/auth/invalid-action-code':
+    case 'auth/invalid-action-code':
       return '유효한 코드를 입력해주세요.';
     default:
       return '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
@@ -69,7 +68,7 @@ export default function EmailVerification({
         return () => clearTimeout(timer);
       })
       .catch((error) => {
-        console.error('Error sending verification email:', error);
+        console.error(error);
         setErrorMessage(getErrorMessage(error.code));
       });
   }, [email]);
@@ -83,7 +82,7 @@ export default function EmailVerification({
     const emailLinkDoc = doc(firestore, 'emailVerifications', email);
     const emailLinkSnapshot = await getDoc(emailLinkDoc);
     await deleteDoc(emailLinkDoc);
-    
+
     const emailLink = emailLinkSnapshot.data()?.emailLink;
 
     if (emailLink == null) {
@@ -99,14 +98,11 @@ export default function EmailVerification({
     }
     try {
       await signInWithEmailLink(getAuth(), email, emailLink);
-      const user = getAuth().currentUser;
-      if (user != null) {
-        onVerified(user);
-      }
-    } catch (error) {
-      console.error('Error :', error);
-      const firebaseError = error as FirebaseError;
-      setErrorMessage(getErrorMessage(firebaseError.code));
+      const user = getAuth().currentUser!;
+      onVerified(user);
+    } catch (error: any) {
+      console.error(error);
+      setErrorMessage(getErrorMessage(error.code));
     }
   }, [email]);
 
@@ -147,6 +143,10 @@ export default function EmailVerification({
       }
     }
   }, [setState]);
+
+  useEffect(() => {
+    setIsButtonDisabled(!email);
+  }, [email]);
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -189,7 +189,7 @@ export default function EmailVerification({
       <button
         onClick={onSubmit}
         className="w-full"
-        disabled={!email || isButtonDisabled}
+        disabled={isButtonDisabled}
       >
         {state === State.REQUEST && <>{verificationText}</>}
         {state === State.PENDING && <>인증 완료</>}
