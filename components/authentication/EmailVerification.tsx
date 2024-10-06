@@ -19,13 +19,13 @@ enum State {
 interface Props {
   onVerified: (user: User) => void;
   verificationText: string;
-  onError: (errorMessage: string) => void;
+  setErrorMessage: (errorMessage: string) => void;
 }
 
 export default function EmailVerification({
   onVerified,
   verificationText,
-  onError,
+  setErrorMessage,
 }: Props) {
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
@@ -38,12 +38,12 @@ export default function EmailVerification({
     })
       .then(() => {
         window.localStorage.setItem('emailForSignIn', email);
-        onError('');
+        setErrorMessage('');
         setState(State.PENDING);
       })
       .catch((error) => {
         console.error('Error sending verification email:', error);
-        onError(
+        setErrorMessage(
           '인증 이메일을 보내는 중 오류가 발생했습니다. 다시 시도해주세요.'
         );
       });
