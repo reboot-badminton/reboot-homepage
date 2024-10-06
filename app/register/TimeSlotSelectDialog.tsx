@@ -66,7 +66,7 @@ export default function TimeSlotSelectDialog({
   return (
     <>
       <DaySelector onDayChange={setDay} />
-      <div className="py-1">
+      <div className="py-1 h-[40vh] overflow-y-scroll">
         {visibleTimeSlots.map((timeSlot) => (
           <TimeSlotItem
             key={'slot-' + timeSlot.time}
