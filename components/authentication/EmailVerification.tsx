@@ -67,7 +67,7 @@ export default function EmailVerification({ onVerified, verificationText }: Prop
       setState(State.VERIFICATION);
 
       const email = window.localStorage.getItem('emailForSignIn');
-      if (email) {
+      if (email != null && email?.length > 0) {
         setEmail(email);
         setIsEmailFromLocalStorage(true);
       }
@@ -92,7 +92,7 @@ export default function EmailVerification({ onVerified, verificationText }: Prop
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="email@naver.com"
           required
-          disabled={state !== State.REQUEST || isEmailFromLocalStorage}
+          disabled={state !== State.REQUEST && isEmailFromLocalStorage}
         />
       </div>}
       {state === State.PENDING && <div>인증 이메일을 발송했습니다.<br />인증 완료 후 아래 버튼을 눌러주세요.</div>}
