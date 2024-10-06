@@ -24,8 +24,8 @@ function getErrorMessage(errorCode: string) {
       return '이미 로그인 창이 열려 있습니다.';
     case 'auth/too-many-requests':
       return '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.';
-    case '(auth/unauthorized-domain':
-      return '승인되지 않은 도메인입니다. 다시 시도해주세요.';
+    case 'auth/unauthorized-domain':
+      return '승인되지 않은 도메인입니다.';
     default:
       return '구글 로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
