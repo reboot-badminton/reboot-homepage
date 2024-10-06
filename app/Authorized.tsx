@@ -11,8 +11,13 @@ interface Props {
   onUnauthorized?: () => void;
 }
 
-export default function Authorized({ requiresSignOut, allowedRoles, onUnauthorized, children }: PropsWithChildren<Props>) {
-  const auth = useAuth();
+export default function Authorized({
+  requiresSignOut,
+  allowedRoles,
+  onUnauthorized,
+  children,
+}: PropsWithChildren<Props>) {
+  const { userData, isAuthReady } = useAuth();
   const router = useRouter();
 
   const unauthorizedCallback = useCallback(() => {
@@ -24,13 +29,17 @@ export default function Authorized({ requiresSignOut, allowedRoles, onUnauthoriz
   }, [router, onUnauthorized]);
 
   useEffect(() => {
-    if (auth.userData != null && requiresSignOut) {
+    if (!isAuthReady) {
+      return;
+    }
+
+    if (userData != null && requiresSignOut) {
       unauthorizedCallback();
       return;
     }
 
     if (allowedRoles != null) {
-      const role = auth.userData?.role;
+      const role = userData?.role;
       if (role == null) {
         unauthorizedCallback();
         return;
@@ -41,7 +50,7 @@ export default function Authorized({ requiresSignOut, allowedRoles, onUnauthoriz
         return;
       }
     }
-  }, [auth, unauthorizedCallback]);
+  }, [isAuthReady, userData, unauthorizedCallback]);
 
   return <>{children}</>;
 }
