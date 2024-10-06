@@ -13,7 +13,6 @@ export default function SignupLayout({ children }: PropsWithChildren) {
   const router = useRouter();
 
   const [uid, setUid] = useState(searchParams.get('uid'));
-  const [error, setError] = useState('');
 
   const onUserSignedIn = useCallback(
     async (user: User) => {
@@ -42,16 +41,7 @@ export default function SignupLayout({ children }: PropsWithChildren) {
                 emailVerificationText="이메일 인증"
                 googleVerificationText="구글 계정으로 회원가입"
                 onUserSignedIn={onUserSignedIn}
-                setErrorMessage={setError}
               />
-              {error && (
-                <div
-                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                  role="alert"
-                >
-                  <span className="block sm:inline">{error}</span>
-                </div>
-              )}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 이미 계정이 있으신가요?
                 <Link

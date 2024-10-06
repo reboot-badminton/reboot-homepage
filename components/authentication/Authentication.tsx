@@ -1,20 +1,23 @@
+'use client';
+
 import EmailVerification from '@/components/authentication/EmailVerification';
 import GoogleButton from './GoogleButton';
 import { User } from 'firebase/auth';
+import { useState } from 'react';
 
 interface Props {
   emailVerificationText: string;
   googleVerificationText: string;
   onUserSignedIn: (user: User) => void;
-  setErrorMessage: (errorMessage: string) => void;
 }
 
 export default function Authentication({
   emailVerificationText,
   googleVerificationText,
   onUserSignedIn,
-  setErrorMessage,
 }: Props) {
+  const [errorMessage, setErrorMessage] = useState('');
+  
   return (
     <>
       <EmailVerification
@@ -27,6 +30,14 @@ export default function Authentication({
         text={googleVerificationText}
         setErrorMessage={setErrorMessage}
       />
+      {errorMessage && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-xs"
+          role="alert"
+        >
+          <span className="block sm:inline">{errorMessage}</span>
+        </div>
+      )}
     </>
   );
 }

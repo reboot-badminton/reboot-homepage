@@ -6,19 +6,16 @@ import { getAuth, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useDialog } from '../providers/DialogProvider';
 
 export default function Login() {
-  const [error, setError] = useState('');
-
   const router = useRouter();
   const { showDialog } = useDialog();
 
   const onLoginSuccess = useCallback(() => {
-    setError('');
     router.back();
-  }, [setError, router]);
+  }, [router]);
 
   const isSignedUp = useCallback(async (uid: string) => {
     const snapshot = await getDoc(doc(firestore, 'users', uid));
@@ -61,16 +58,7 @@ export default function Login() {
             <Authentication
               emailVerificationText='이메일로 로그인'
               googleVerificationText='구글 계정으로 로그인'
-              onUserSignedIn={onUserSignedIn}
-              setErrorMessage={setError} />
-            {error && (
-              <div
-                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                role="alert"
-              >
-                <span className="block sm:inline">{error}</span>
-              </div>
-            )}
+              onUserSignedIn={onUserSignedIn} />
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               계정이 없으신가요?
               <Link
