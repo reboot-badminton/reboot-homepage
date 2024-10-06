@@ -67,7 +67,7 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
         {!isEditMode && (
           <>
             <div
-              className="p-2 font-bold text-gray-500"
+              className="p-2 font-bold text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={() => {
                 setIsEditLoading(true);
                 deleteSlot(slot).then(() => {
@@ -79,13 +79,13 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
               삭제
             </div>
             <div
-              className="p-2 font-bold text-gray-500"
+              className="p-2 font-bold text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={() => setIsEditMode(true)}
             >
               수정
             </div>
             <div
-              className="p-2 font-bold text-gray-500"
+              className="p-2 font-bold text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={() => onClose(isEditedRef.current)}
             >
               닫기
