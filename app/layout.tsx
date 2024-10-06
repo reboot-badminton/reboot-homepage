@@ -39,7 +39,7 @@ export default async function RootLayout({
       <AuthProvider>
         <body className={inter.className}>
           <DialogProvider>
-            <div className='container flex flex-col min-h-screen'>
+            <div className='flex flex-col min-h-screen'>
               <Header />
               <main className='flex-grow'>
                 {children}
