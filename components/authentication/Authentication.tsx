@@ -8,14 +8,14 @@ import Authorized from '@/app/Authorized';
 
 interface Props {
   emailVerificationText: string;
-  googleVerificationText: string;
-  onUserSignedIn: (user: User) => void;
+  googleVerificationText?: string;
+  onUserSignedIn?: (user: User) => void;
 }
 
 export default function Authentication({
   emailVerificationText,
   googleVerificationText,
-  onUserSignedIn,
+  onUserSignedIn = () => {},
 }: Props) {
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -30,11 +30,13 @@ export default function Authentication({
         verificationText={emailVerificationText}
         setErrorMessage={setErrorMessage}
       />
-      <GoogleButton
-        onSignedIn={onUserSignedIn}
-        text={googleVerificationText}
-        setErrorMessage={setErrorMessage}
-      />
+      {googleVerificationText &&
+        <GoogleButton
+          onSignedIn={onUserSignedIn}
+          text={googleVerificationText}
+          setErrorMessage={setErrorMessage}
+        />
+      }
       {errorMessage && (
         <div
           className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-xs"

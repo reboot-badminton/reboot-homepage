@@ -53,7 +53,7 @@ export default function EmailVerification({
   const sendVerification = useCallback(() => {
     setIsButtonDisabled(true);
     sendSignInLinkToEmail(getAuth(), email, {
-      url: window.location.href,
+      url: window.location.origin + '/verification',
       handleCodeInApp: true,
     })
       .then(() => {
