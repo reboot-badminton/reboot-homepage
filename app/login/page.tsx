@@ -13,10 +13,6 @@ export default function Login() {
   const router = useRouter();
   const { showDialog } = useDialog();
 
-  const onLoginSuccess = useCallback(() => {
-    router.back();
-  }, [router]);
-
   const isSignedUp = useCallback(async (uid: string) => {
     const snapshot = await getDoc(doc(firestore, 'users', uid));
     if (!snapshot.exists()) {
@@ -29,7 +25,13 @@ export default function Login() {
 
   const onUserSignedIn = useCallback(async (user: User) => {
     if (await isSignedUp(user.uid)) {
-      onLoginSuccess();
+      showDialog({
+        title: '성공적으로 로그인했습니다',
+        onConfirm: () => {
+          router.back();
+          return true;
+        },
+      });
     } else {
       showDialog({
         title: '가입되어 있지 않은 이메일입니다',
@@ -45,7 +47,7 @@ export default function Login() {
         },
       });
     }
-  }, [isSignedUp, onLoginSuccess]);
+  }, [isSignedUp, router]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
