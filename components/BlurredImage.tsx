@@ -20,7 +20,7 @@ export default function BlurredImage({ src, alt, priority }: ImageProps) {
         alt={alt}
         fill
         priority={priority}
-        className="blur-lg z-[-1] object-cover"
+        className="blur-lg object-cover"
       />
       <Image
         src={imageSrc(src)}

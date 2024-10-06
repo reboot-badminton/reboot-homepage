@@ -7,7 +7,9 @@ import { createContext, PropsWithChildren, ReactNode, useCallback, useContext, u
 interface Dialog {
   title?: string;
   body?: ReactNode | string;
+  // Close the dialog if true is returned. Dialog stays open otherwise.
   onConfirm?: () => boolean | Promise<boolean>;
+  // Close the dialog if true is returned. Dialog stays open otherwise.
   onCancel?: () => boolean | Promise<boolean>;
 }
 
