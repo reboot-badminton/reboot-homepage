@@ -24,7 +24,7 @@ export function ConfirmDialogButton({ onClick }: ConfirmDialogButtonProps) {
     <DefaultDialogButton
       text="확인"
       onClick={onClick}
-      className="text-blue-400"
+      className="text-blue-400 hover:text-blue-600"
     />
   );
 }
@@ -37,7 +37,7 @@ export function CancelDialogButton({ onClick }: CancelDialogButtonProps) {
     <DefaultDialogButton
       text="취소"
       onClick={onClick}
-      className="text-gray-500"
+      className="text-gray-500 hover:text-gray-700"
     />
   );
 }

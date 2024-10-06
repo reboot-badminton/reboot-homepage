@@ -9,7 +9,7 @@ export default function Slot({ slot, onClick }: Props) {
   if (slot == null) {
     return (
       <div
-        className="text-xs h-10 flex justify-center items-center"
+        className="text-xs h-10 flex justify-center items-center cursor-pointer hover:bg-slate-100"
         onClick={() => onClick(null)}
       >
         -

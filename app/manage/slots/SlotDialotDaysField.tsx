@@ -27,7 +27,8 @@ export default function SlotDialogDaysField({ daysRef, isEditMode }: Props) {
             <div
               className={
                 'block w-7 h-7 m-1 border rounded-full flex justify-center items-center' +
-                (days.includes(index) ? ' bg-blue-100 text-gray-700' : '')
+                (days.includes(index) ? ' bg-blue-100 text-gray-700' : '') +
+                (isEditMode ? ' cursor-pointer hover:bg-slate-100' : '')
               }
               onClick={() => {
                 if (!isEditMode) return;

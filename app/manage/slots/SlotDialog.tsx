@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from 'react';
 import { deleteSlot, updateSlot } from './getSlot';
 import SlotDialogField from './SlotDialogField';
 import SlotDialogDaysField from './SlotDialotDaysField';
+import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
 
 interface Props {
   slot: TimeSlot;
@@ -63,7 +64,7 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
         </span>
         <span>{slot.students.join(', ')}</span>
       </div>
-      <div className="text-right">
+      <div className="flex flex-row justify-end">
         {!isEditMode && (
           <>
             <div
@@ -94,40 +95,30 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
         )}
         {isEditMode && (
           <>
-            <div
-              className="p-2 font-bold text-gray-500"
-              onClick={() => {
-                if (isAddMode) {
-                  onClose(false);
-                } else {
-                  initialize();
-                  setIsEditMode(false);
-                }
-              }}
-            >
-              취소
-            </div>
-            <div
-              className="p-2 font-bold text-gray-500"
-              onClick={() => {
-                setIsEditLoading(true);
-                updateSlot(
-                  {
-                    ...slot,
-                    title: titleRef.current,
-                    days: daysRef.current,
-                    coach: coachRef.current,
-                    price: priceRef.current,
-                    capacity: capacityRef.current,
-                  },
-                  slot
-                ).then(() => {
-                  onClose(true);
-                });
-              }}
-            >
-              완료
-            </div>
+            <CancelDialogButton onClick={() => {
+              if (isAddMode) {
+                onClose(false);
+              } else {
+                initialize();
+                setIsEditMode(false);
+              }
+            }} />
+            <ConfirmDialogButton onClick={() => {
+              setIsEditLoading(true);
+              updateSlot(
+                {
+                  ...slot,
+                  title: titleRef.current,
+                  days: daysRef.current,
+                  coach: coachRef.current,
+                  price: priceRef.current,
+                  capacity: capacityRef.current,
+                },
+                slot
+              ).then(() => {
+                onClose(true);
+              });
+            }} />
           </>
         )}
       </div>
