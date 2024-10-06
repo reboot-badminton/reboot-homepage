@@ -20,6 +20,7 @@ export default function TimeSlotFieldInput({ field, setError, onUpdate }: Props)
 
   const startSelecting = useCallback(() => {
     showDialog({
+      title: "희망하는 시간대를 선택해 주세요",
       body: (
         <TimeSlotSelectDialog
           selected={selectedTimeSlots}

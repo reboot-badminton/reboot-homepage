@@ -44,8 +44,7 @@ export default function TimeSlotSelectDialog({
   }, [allTimeSlots, day]);
 
   return (
-    <div className="p-2">
-      <h1 className="block">희망하는 시간대를 선택해 주세요.</h1>
+    <>
       <DaySelector onDayChange={setDay} />
       <div className="py-1">
         {visibleTimeSlots.map((slot) => (
@@ -93,6 +92,6 @@ export default function TimeSlotSelectDialog({
         <CancelDialogButton onClick={onCancel} />
         <ConfirmDialogButton onClick={() => onConfirm(selectedTimeSlots)} />
       </div>
-    </div>
+    </>
   );
 }
