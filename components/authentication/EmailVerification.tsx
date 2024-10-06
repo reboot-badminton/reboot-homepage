@@ -26,10 +26,14 @@ interface Props {
   setErrorMessage: (errorMessage: string) => void;
 }
 
+const BUTTON_DELAY_AFTER_VERIFICATION_SEND_MS = 10000;
+
 function getErrorMessage(errorCode: string) {
   switch (errorCode) {
     case 'auth/invalid-email':
       return '유효한 이메일 주소를 입력해주세요.';
+    case 'auth/invalid-action-code':
+      return '인증 정보가 잘못되었습니다. 처음부터 다시 시도해 주세요.';
     default:
       return '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
@@ -43,10 +47,12 @@ export default function EmailVerification({
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
   const [isEmailFromLocalStorage, setIsEmailFromLocalStorage] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const { showDialog } = useDialog();
 
   const sendVerification = useCallback(() => {
+    setIsButtonDisabled(true);
     sendSignInLinkToEmail(getAuth(), email, {
       url: window.location.href,
       handleCodeInApp: true,
@@ -55,9 +61,16 @@ export default function EmailVerification({
         window.localStorage.setItem('emailForSignIn', email);
         setErrorMessage('');
         setState(State.PENDING);
+        const timer = setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, BUTTON_DELAY_AFTER_VERIFICATION_SEND_MS);
+
+        return () => clearTimeout(timer);
       })
       .catch((error) => {
-        console.error('Error sending verification email:', error);
+        setState(State.REQUEST);
+        setIsButtonDisabled(false);
+        console.error(error);
         setErrorMessage(getErrorMessage(error.code));
       });
   }, [email]);
@@ -85,11 +98,13 @@ export default function EmailVerification({
       });
       return;
     }
-
-    await signInWithEmailLink(getAuth(), email, emailLink);
-    const user = getAuth().currentUser;
-    if (user != null) {
+    try {
+      await signInWithEmailLink(getAuth(), email, emailLink);
+      const user = getAuth().currentUser!;
       onVerified(user);
+    } catch (error: any) {
+      console.error(error);
+      setErrorMessage(getErrorMessage(error.code));
     }
   }, [email]);
 
@@ -131,6 +146,10 @@ export default function EmailVerification({
     }
   }, [setState]);
 
+  useEffect(() => {
+    setIsButtonDisabled(!email);
+  }, [email]);
+
   return (
     <div className="space-y-4 md:space-y-6">
       {state !== State.VERIFIED && (
@@ -165,10 +184,10 @@ export default function EmailVerification({
         <div>
           이메일 인증이 완료되었습니다.
           <br />
-          이전 페이지로 돌아가주세요.
+          기존 화면으로 돌아가 인증 완료 버튼을 눌러주세요.
         </div>
       )}
-      <button onClick={onSubmit} className="w-full" disabled={!email}>
+      <button onClick={onSubmit} className="w-full" disabled={isButtonDisabled}>
         {state === State.REQUEST && <>{verificationText}</>}
         {state === State.PENDING && <>인증 완료</>}
         {state === State.VERIFICATION && <>이메일 인증 완료하기</>}
