@@ -30,6 +30,8 @@ function getErrorMessage(errorCode: string) {
   switch (errorCode) {
     case 'auth/invalid-email':
       return '유효한 이메일 주소를 입력해주세요.';
+    case 'auth/auth/invalid-action-code':
+      return '유효한 코드를 입력해주세요.';
     default:
       return '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
@@ -43,6 +45,7 @@ export default function EmailVerification({
   const [state, setState] = useState<State>(State.REQUEST);
   const [email, setEmail] = useState('');
   const [isEmailFromLocalStorage, setIsEmailFromLocalStorage] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const { showDialog } = useDialog();
 
@@ -55,6 +58,12 @@ export default function EmailVerification({
         window.localStorage.setItem('emailForSignIn', email);
         setErrorMessage('');
         setState(State.PENDING);
+        setIsButtonDisabled(true);
+        const timer = setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, 10000); // 10초
+
+        return () => clearTimeout(timer);
       })
       .catch((error) => {
         console.error('Error sending verification email:', error);
@@ -86,11 +95,17 @@ export default function EmailVerification({
       return;
     }
 
-    await signInWithEmailLink(getAuth(), email, emailLink);
-    const user = getAuth().currentUser;
-    if (user != null) {
-      onVerified(user);
-    }
+    signInWithEmailLink(getAuth(), email, emailLink)
+      .then(() => {
+        const user = getAuth().currentUser;
+        if (user != null) {
+          onVerified(user);
+        }
+      })
+      .catch((error) => {
+        console.error('Error :', error);
+        setErrorMessage(getErrorMessage(error.code));
+      });
   }, [email]);
 
   const verify = useCallback(async () => {
@@ -163,13 +178,13 @@ export default function EmailVerification({
         </div>
       )}
       {state === State.VERIFIED && (
-        <div>
-          이메일 인증이 완료되었습니다.
-          <br />
-          이전 페이지로 돌아가주세요.
-        </div>
+        <div>기존 화면으로 돌아가 인증 완료 버튼을 눌러주세요.</div>
       )}
-      <button onClick={onSubmit} className="w-full" disabled={!email}>
+      <button
+        onClick={onSubmit}
+        className="w-full"
+        disabled={!email || isButtonDisabled}
+      >
         {state === State.REQUEST && <>{verificationText}</>}
         {state === State.PENDING && <>인증 완료</>}
         {state === State.VERIFICATION && <>이메일 인증 완료하기</>}
