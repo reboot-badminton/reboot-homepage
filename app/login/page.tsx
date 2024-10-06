@@ -32,8 +32,6 @@ export default function Login() {
   }, []);
 
   const onUserSignedIn = useCallback(async (user: User) => {
-    console.log(await isSignedUp(user.uid));
-
     if (await isSignedUp(user.uid)) {
       onLoginSuccess();
     } else {
