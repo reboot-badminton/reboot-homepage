@@ -44,7 +44,7 @@ export default async function RootLayout({
               <main className='flex-grow'>
                 {children}
               </main>
-              <footer className="w-full pt-4 border-t text-center text-gray-500">
+              <footer className="w-full pt-4 mt-16 border-t text-center text-gray-500">
                 <h1 className="text-lg mb-2 font-bold">Follow Us</h1>
                 <div className="text-sm mb-4">
                   <a href="https://www.youtube.com/@An_troke" className="mr-6">
