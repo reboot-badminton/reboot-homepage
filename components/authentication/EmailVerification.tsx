@@ -3,6 +3,7 @@
 import Authorized from '@/app/Authorized';
 import { useDialog } from '@/app/providers/DialogProvider';
 import { firestore } from '@/firebase';
+import { FirebaseError } from 'firebase/app';
 import {
   getAuth,
   isSignInWithEmailLink,
@@ -25,6 +26,8 @@ interface Props {
   verificationText: string;
   setErrorMessage: (errorMessage: string) => void;
 }
+
+const BUTTON_DELAY_AFTER_VERIFICATION_SEND_MS = 10000;
 
 function getErrorMessage(errorCode: string) {
   switch (errorCode) {
@@ -61,7 +64,7 @@ export default function EmailVerification({
         setIsButtonDisabled(true);
         const timer = setTimeout(() => {
           setIsButtonDisabled(false);
-        }, 10000); // 10초
+        }, BUTTON_DELAY_AFTER_VERIFICATION_SEND_MS);
 
         return () => clearTimeout(timer);
       })
@@ -79,8 +82,6 @@ export default function EmailVerification({
   const emailLinkSignIn = useCallback(async () => {
     const emailLinkDoc = doc(firestore, 'emailVerifications', email);
     const emailLinkSnapshot = await getDoc(emailLinkDoc);
-    await deleteDoc(emailLinkDoc);
-
     const emailLink = emailLinkSnapshot.data()?.emailLink;
 
     if (emailLink == null) {
@@ -94,18 +95,18 @@ export default function EmailVerification({
       });
       return;
     }
-
-    signInWithEmailLink(getAuth(), email, emailLink)
-      .then(() => {
-        const user = getAuth().currentUser;
-        if (user != null) {
-          onVerified(user);
-        }
-      })
-      .catch((error) => {
-        console.error('Error :', error);
-        setErrorMessage(getErrorMessage(error.code));
-      });
+    try {
+      await signInWithEmailLink(getAuth(), email, emailLink);
+      const user = getAuth().currentUser;
+      if (user != null) {
+        await deleteDoc(emailLinkDoc);
+        onVerified(user);
+      }
+    } catch (error) {
+      console.error('Error :', error);
+      const firebaseError = error as FirebaseError;
+      setErrorMessage(getErrorMessage(firebaseError.code));
+    }
   }, [email]);
 
   const verify = useCallback(async () => {
@@ -178,7 +179,11 @@ export default function EmailVerification({
         </div>
       )}
       {state === State.VERIFIED && (
-        <div>기존 화면으로 돌아가 인증 완료 버튼을 눌러주세요.</div>
+        <div>
+          이메일 인증이 완료되었습니다.
+          <br />
+          기존 화면으로 돌아가 인증 완료 버튼을 눌러주세요.
+        </div>
       )}
       <button
         onClick={onSubmit}
