@@ -22,6 +22,23 @@ interface Props {
   onError: (errorMessage: string) => void;
 }
 
+function getErrorMessage(errorCode: string) {
+  switch (errorCode) {
+    case 'auth/invalid-email':
+      return '유효한 이메일 주소를 입력해주세요.';
+    case 'auth/user-disabled':
+      return '이 계정은 비활성화되었습니다. 관리자에게 문의하세요.';
+    case 'auth/user-not-found':
+      return '등록되지 않은 이메일입니다.';
+    case 'auth/network-request-failed':
+      return '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
+    case 'auth/too-many-requests':
+      return '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.';
+    default:
+      return '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+  }
+}
+
 export default function EmailVerification({
   onVerified,
   verificationText,
@@ -38,14 +55,12 @@ export default function EmailVerification({
     })
       .then(() => {
         window.localStorage.setItem('emailForSignIn', email);
-        onError('');
         setState(State.PENDING);
+        onError('');
       })
       .catch((error) => {
         console.error('Error sending verification email:', error);
-        onError(
-          '인증 이메일을 보내는 중 오류가 발생했습니다. 다시 시도해주세요.'
-        );
+        onError(getErrorMessage(error.code));
       });
   }, [email]);
 

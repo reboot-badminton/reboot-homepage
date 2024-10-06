@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
   getAuth,
   GoogleAuthProvider,
@@ -11,6 +12,23 @@ interface Props {
   onError: (errorMessage: string) => void;
 }
 
+function getErrorMessage(errorCode: string) {
+  switch (errorCode) {
+    case 'auth/popup-closed-by-user':
+      return '로그인 창이 닫혔습니다. 다시 시도해주세요.';
+    case 'auth/cancelled-popup-request':
+      return '이미 로그인 창이 열려 있습니다.';
+    case 'auth/network-request-failed':
+      return '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
+    case 'auth/too-many-requests':
+      return '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.';
+    case '(auth/unauthorized-domain':
+      return '승인되지 않은 도메인입니다. 다시 시도해주세요.';
+    default:
+      return '구글 로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+  }
+}
+
 export default function GoogleButton({ onSignedIn, text, onError }: Props) {
   async function onClick() {
     try {
@@ -20,7 +38,8 @@ export default function GoogleButton({ onSignedIn, text, onError }: Props) {
       }
     } catch (error) {
       console.error('Error signing in with Google:', error);
-      onError('구글 로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+      const firebaseError = error as FirebaseError;
+      onError(getErrorMessage(firebaseError.code));
     }
   }
 
@@ -30,6 +49,7 @@ export default function GoogleButton({ onSignedIn, text, onError }: Props) {
         className="w-full flex items-center justify-center bg-white hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow transition duration-300 ease-in-out"
         onClick={(e) => {
           e.preventDefault();
+          onError('');
           onClick();
         }}
       >
