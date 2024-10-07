@@ -111,7 +111,6 @@ function Coach({
       className={
         'bg-cover bg-center'
         + ' not-desktop:absolute not-desktop:top-0 not-desktop:left-0 not-desktop:w-full not-desktop:h-full not-desktop:transition-all not-desktop:duration-300 not-desktop:ease-in-out not-desktop:cursor-pointer'
-        + ' desktop:max-w-xl'
         + (align === 'left' ? ' text-left' : ' text-right')
         + (align === 'right' ? (open ? ' not-desktop:main-coach-right-clip-path-open' : ' not-desktop:main-coach-right-clip-path-close') : '')
       }
@@ -175,7 +174,7 @@ export default function MainCoaches() {
 
   return (
     <>
-      <div className="relative not-desktop:w-full desktop:mx-auto desktop:w-[1160px] mt-24 mobile:h-[480px] tablet:h-[540px] desktop:h-[800px] desktop:grid desktop:grid-cols-2 desktop:gap-8 overflow-hidden">
+      <div className="relative not-desktop:w-full desktop:mx-auto desktop:container mt-24 mobile:h-[480px] tablet:h-[540px] desktop:h-[800px] desktop:grid desktop:grid-cols-2 desktop:gap-8 overflow-hidden">
         <Coach
           coach={an}
           thumbnailSrc="/antroke.jpg"
