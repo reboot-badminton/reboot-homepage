@@ -1,7 +1,7 @@
 import ImageSlide from '@/app/components/ImageSlide';
 import Introduction from './components/Introduction';
 import MainCoaches from './components/MainCoaches';
-import Members from './members';
+import Members from './components/Members';
 
 const slideImages = Array.from({ length: 4 }, (_, index) => ({
   src: `/slide/${index}.webp`,
