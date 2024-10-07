@@ -13,7 +13,10 @@ interface Props {
 // 화살표와 인디케이터로 이미지 간 이동 가능
 // 인디케이터는 총 몇 개의 이미지가 있고, 지금 몇 번째 이미지인지 알 수 있게끔 표시
 // 일정 시간이 지날때마다 다음 이미지로 이동
-export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>) {
+export default function ImageSlide({
+  srcs,
+  children,
+}: PropsWithChildren<Props>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -56,14 +59,13 @@ export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>)
         src={srcs[currentIndex].src}
         alt={srcs[currentIndex].alt}
         fill={true}
-        style={{objectFit:"cover", objectPosition:"center"}}
+        style={{ objectFit: 'cover', objectPosition: 'center' }}
         priority
       />
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
         className="absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hoverable:hover:scale-125 active:scale-125"
         onClick={prevSlide}
-
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" />
       </div>
@@ -77,8 +79,9 @@ export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>)
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-3 w-3 mx-1 rounded-full border-2 ${index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
-              } transition-all duration-500 ease-in-out hover:cursor-pointer`}
+            className={`h-3 w-3 mx-1 rounded-full border-2 ${
+              index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
+            } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}
           ></div>
         ))}
