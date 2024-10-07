@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { ImageProps } from '../components/BlurredImage';
 
@@ -58,19 +57,22 @@ export default function ImageSlide({ srcs }: Props) {
         className="object-cover w-full h-screen desktop:h-[900px]"
       />
       <div
-        className="absolute left-4 top-1/2 p-2 cursor-pointer transition-transform hover:scale-125"
+        className="absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hover:scale-125"
         onClick={prevSlide}
 
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" />
       </div>
       <div
-        className="absolute right-4 top-1/2 p-2 cursor-pointer transition-transform hover:scale-125"
+        className="absolute right-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hover:scale-125"
         onClick={nextSlide}
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" />
       </div>
-      <div className="absolute right-8 bottom-4 -translate-x-1/2 flex justify-center mt-4">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 mobile:w-6 w-8">
+        <img src="/move-down-icon.png" className="animate-bounce" />
+      </div>
+      <div className="absolute right-16 mobile:right-4 bottom-4 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
