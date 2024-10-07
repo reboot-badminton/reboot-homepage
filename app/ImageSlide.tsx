@@ -1,7 +1,8 @@
 'use client';
 
-import BlurredImage, { ImageProps } from './BlurredImage';
-import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+import { ImageProps } from '../components/BlurredImage';
 
 interface Props {
   srcs: ImageProps[];
@@ -47,34 +48,34 @@ export default function ImageSlide({ srcs }: Props) {
 
   return (
     <div
-      className="w-full h-80 tablet:h-96 desktop:h-[500px] relative"
+      className="w-full relative overflow-clip"
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <BlurredImage
+      <img
         src={srcs[currentIndex].src}
         alt={srcs[currentIndex].alt}
-        priority={currentIndex === 0}
+        className="object-cover w-full h-screen desktop:h-[900px]"
       />
-      <button
-        className="absolute left-0 top-1/2 transform h-10 rounded-xl bg-blue-400 hover:bg-blue-300 mx-1 -mt-[10px] -translate-y-1/2 text-white p-2 group"
+      <div
+        className="absolute left-4 top-1/2 p-2 cursor-pointer transition-transform hover:scale-125"
         onClick={prevSlide}
+
       >
-        &#10094;
-      </button>
-      <button
-        className="absolute right-0 top-1/2 transform h-10 rounded-xl bg-blue-400 hover:bg-blue-300 mx-1 -mt-[10px] -translate-y-1/2 text-white p-2 group"
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" />
+      </div>
+      <div
+        className="absolute right-4 top-1/2 p-2 cursor-pointer transition-transform hover:scale-125"
         onClick={nextSlide}
       >
-        &#10095;
-      </button>
-      <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex justify-center mt-4">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" />
+      </div>
+      <div className="absolute right-8 bottom-4 -translate-x-1/2 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-3 w-3 mx-1 rounded-full border-2 ${
-              index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
-            } transition-all duration-500 ease-in-out hover:cursor-pointer`}
+            className={`h-3 w-3 mx-1 rounded-full border-2 ${index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
+              } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}
           ></div>
         ))}

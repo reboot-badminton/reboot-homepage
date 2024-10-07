@@ -1,4 +1,4 @@
-import ImageSlide from '@/components/ImageSlide';
+import ImageSlide from '@/app/ImageSlide';
 import Introduction from './Introduction';
 import MainCoaches from './MainCoaches';
 import Members from './members';
