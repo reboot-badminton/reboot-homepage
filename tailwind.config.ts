@@ -11,6 +11,7 @@ const config: Config = {
       'mobile': { 'max': '639px' },
       'tablet': { 'min': '640px', 'max': '1259px' },
       'desktop': { 'min': '1260px' },
+      'not-desktop': { 'max': '1259px' },
       'hoverable': {'raw': '(hover: hover)'},
     },
     extend: {

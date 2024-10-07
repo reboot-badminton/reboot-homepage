@@ -94,28 +94,29 @@ function Coach({
   backgroundSrc,
   align,
   open,
-  clipPath,
   onClick,
 }: CoachProps) {
-  const [opacity, setOpacity] = useState(open ? '' : ' opacity-0');
+  const [opacity, setOpacity] = useState(open ? '' : ' not-desktop:opacity-0');
 
   useEffect(() => {
     if (open) {
       setOpacity(' transition-opacity duration-300');
     } else {
-      setOpacity(' transition-opacity duration-300 opacity-0');
+      setOpacity(' transition-opacity duration-300 not-desktop:opacity-0');
     }
   }, [open]);
 
   return (
     <div
       className={
-        'absolute top-0 left-0 w-full h-full transition-all duration-300 ease-in-out bg-cover bg-center cursor-pointer ' +
-        (align === 'left' ? 'text-left' : 'text-right')
+        'bg-cover bg-center'
+        + ' not-desktop:absolute not-desktop:top-0 not-desktop:left-0 not-desktop:w-full not-desktop:h-full not-desktop:transition-all not-desktop:duration-300 not-desktop:ease-in-out not-desktop:cursor-pointer'
+        + ' desktop:max-w-xl'
+        + (align === 'left' ? ' text-left' : ' text-right')
+        + (align === 'right' ? (open ? ' not-desktop:main-coach-right-clip-path-open' : ' not-desktop:main-coach-right-clip-path-close') : '')
       }
       style={{
         backgroundImage: `url(${src(backgroundSrc)})`,
-        clipPath: clipPath,
       }}
       onClick={onClick}
     >
@@ -127,46 +128,41 @@ function Coach({
         }}
       />
 
-      <div
-        className={
-          'absolute p-3 sm:p-6 top-0 w-full flex items-center gap-4' +
-          (align === 'left' ? '' : ' flex-row-reverse')
-        }
-      >
-        <div className="max-w-[12vw] aspect-square bg-white max-h-[48px] w-[48px] h-[48px] relative">
-          <Image
-            src={src(thumbnailSrc)}
-            alt={coach.name}
-            layout="fill"
-            objectFit="cover"
-            style={{
-              objectPosition: 'top',
-            }}
-          />
+      <div className={'flex flex-col justify-between'
+        + ' absolute mobile:inset-4 tablet:inset-8 desktop:inset-16'}>
+        <div
+          className={'w-full flex gap-4' + (align === 'left' ? '' : ' flex-row-reverse')}
+        >
+          <div className="w-[48px] h-[48px] desktop:w-[64px] desktop:h-[64px] relative">
+            <Image
+              src={src(thumbnailSrc)}
+              alt={coach.name}
+              layout="fill"
+              objectFit="cover"
+              style={{
+                objectPosition: 'top',
+              }}
+            />
+          </div>
+          <div className={'inline-block text-white' + opacity}>
+            <h2 className="text-2xl desktop:text-3xl font-bold tracking-wider">{coach.name}</h2>
+            <span className="block not-desktop:text-sm desktop:pt-2">{coach.title}</span>
+          </div>
         </div>
-        <div className={'inline-block text-white' + opacity}>
-          <h2 className="text-2xl font-bold tracking-wider">{coach.name}</h2>
-          <span className="text-sm">{coach.title}</span>
+        <div className={'w-full text-white whitespace-nowrap' + opacity}>
+          {coach.sections.map((section) => (
+            <React.Fragment key={coach.name + '-' + section.title}>
+              <h3 className="mobile:text-sm mt-4 mb-2 bold">{section.title}</h3>
+              <ul className="leading-relaxed desktop:leading-loose mobile:text-xs tablet:text-sm">
+                {section.items.map((item) => (
+                  <li key={coach.name + '-' + section.title + '-' + item}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </React.Fragment>
+          ))}
         </div>
-      </div>
-      <div
-        className={
-          'absolute bottom-0 w-full p-4 sm:p-8 text-white whitespace-nowrap' +
-          opacity
-        }
-      >
-        {coach.sections.map((section) => (
-          <React.Fragment key={coach.name + '-' + section.title}>
-            <h3 className="text-sm mt-4 mb-2 bold">{section.title}</h3>
-            <ul className="leading-4 text-xs ml">
-              {section.items.map((item) => (
-                <li key={coach.name + '-' + section.title + '-' + item}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </React.Fragment>
-        ))}
       </div>
     </div>
   );
@@ -179,15 +175,7 @@ export default function MainCoaches() {
 
   return (
     <>
-      <h1
-        className={
-          'ml-1 mt-12 mb-4 text-gray-700 text-center text-xl ' +
-          openSans.className
-        }
-      >
-        Main Coaches
-      </h1>
-      <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[560px] overflow-hidden">
+      <div className="relative not-desktop:w-full desktop:mx-auto desktop:w-[1160px] mt-24 mobile:h-[480px] tablet:h-[540px] desktop:h-[800px] desktop:grid desktop:grid-cols-2 desktop:gap-8 overflow-hidden">
         <Coach
           coach={an}
           thumbnailSrc="/antroke.jpg"
@@ -202,15 +190,10 @@ export default function MainCoaches() {
           backgroundSrc="/slide/2.webp"
           align="right"
           open={expandedSide === 'right'}
-          clipPath={
-            expandedSide === 'left'
-              ? 'polygon(80% 0, 100% 0, 100% 100%, 95% 100%)'
-              : 'polygon(20% 0, 100% 0, 100% 100%, 5% 100%)'
-          }
           onClick={() => setExpandedSide('right')}
         />
       </div>
-      <span className="block text-xs text-end mt-1 mr-2 text-gray-400">
+      <span className="block text-xs text-end mt-1 mr-2 text-gray-400 desktop:hidden">
         ※ 좌우 이미지를 클릭하세요
       </span>
     </>
