@@ -4,7 +4,7 @@ import MainCoaches from './components/MainCoaches';
 import Members from './members';
 
 const slideImages = Array.from({ length: 4 }, (_, index) => ({
-  src: `/slide/${index}.jpeg`,
+  src: `/slide/${index}.webp`,
   alt: `blurred slide Image ${index}`,
 }));
 
