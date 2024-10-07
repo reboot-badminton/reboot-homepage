@@ -70,9 +70,6 @@ export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>)
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" />
       </div>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 mobile:w-6 w-8">
-        <img src="/move-down-icon.png" className="animate-bounce" />
-      </div>
       <div className="absolute right-16 mobile:right-4 bottom-4 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
