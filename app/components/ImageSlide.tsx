@@ -2,6 +2,7 @@
 
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ImageProps } from '../../components/BlurredImage';
+import Image from 'next/image';
 
 interface Props {
   srcs: ImageProps[];
@@ -47,14 +48,16 @@ export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>)
 
   return (
     <div
-      className="w-full relative overflow-clip"
+      className="w-full h-svh relative overflow-clip"
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <img
+      <Image
         src={srcs[currentIndex].src}
         alt={srcs[currentIndex].alt}
-        className="object-cover object-center w-full h-svh"
+        fill={true}
+        style={{objectFit:"cover", objectPosition:"center"}}
+        priority
       />
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
