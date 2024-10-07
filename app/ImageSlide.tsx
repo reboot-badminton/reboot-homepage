@@ -54,7 +54,7 @@ export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>)
       <img
         src={srcs[currentIndex].src}
         alt={srcs[currentIndex].alt}
-        className="object-cover object-center w-full h-vh"
+        className="object-cover object-center w-full h-svh"
       />
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
