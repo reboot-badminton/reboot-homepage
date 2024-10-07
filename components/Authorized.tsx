@@ -3,8 +3,8 @@
 import { Role } from '@/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { useAuth } from './providers/AuthProvider';
-import { useDialog } from './providers/DialogProvider';
+import { useAuth } from '../app/providers/AuthProvider';
+import { useDialog } from '../app/providers/DialogProvider';
 
 interface Props {
   requiresSignOut?: boolean;

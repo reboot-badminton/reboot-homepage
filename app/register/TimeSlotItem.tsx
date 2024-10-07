@@ -1,6 +1,6 @@
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import TimeSlot from '../data/TimeSlot';
-import { formatHour } from '../time_utils';
+import { formatHour } from '../../utils/time_utils';
 
 interface Props {
   timeSlot: TimeSlot;

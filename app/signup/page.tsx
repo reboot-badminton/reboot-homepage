@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import SignupLayout from './SignupLayout';
-import Authorized from '../Authorized';
+import Authorized from '../../components/Authorized';
 
 export default function Signup() {
   return (

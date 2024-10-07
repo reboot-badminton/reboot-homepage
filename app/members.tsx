@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { src } from './image_utils';
+import { src } from '../utils/image_utils';
 import { Open_Sans } from 'next/font/google';
 
 interface MemberProps {

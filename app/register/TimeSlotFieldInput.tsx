@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDialog } from '../providers/DialogProvider';
 import TimeSlot from '../data/TimeSlot';
-import { formatHour } from '../time_utils';
+import { formatHour } from '../../utils/time_utils';
 import { Field } from './registration';
 import TimeSlotSelectDialog from './TimeSlotSelectDialog';
 

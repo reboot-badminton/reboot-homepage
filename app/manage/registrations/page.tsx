@@ -1,6 +1,6 @@
 'use client';
 
-import { formatDate } from '@/app/date_utils';
+import { formatDate } from '@/utils/date_utils';
 import { useEffect, useState } from 'react';
 import { getRegistrations, RegistrationDataType } from './getRegistration';
 import RegistrationMenu from './RegistrationMenu';

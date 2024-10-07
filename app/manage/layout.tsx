@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import Authorized from '../Authorized';
+import Authorized from '../../components/Authorized';
 import { Role } from '@/firebase';
 
 export default function Layout({ children }: PropsWithChildren) {

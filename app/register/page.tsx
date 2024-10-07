@@ -4,7 +4,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useState } from 'react';
 import { firestore, Role } from '../../firebase';
-import Authorized from '../Authorized';
+import Authorized from '../../components/Authorized';
 import { useAuth } from '../providers/AuthProvider';
 import { useDialog } from '../providers/DialogProvider';
 import FieldInput from './FieldInput';

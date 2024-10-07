@@ -3,7 +3,7 @@
 import { Open_Sans } from 'next/font/google';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { src } from './image_utils';
+import { src } from '../../utils/image_utils';
 
 interface Section {
   title: string;

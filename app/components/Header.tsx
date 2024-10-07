@@ -4,7 +4,7 @@ import { Do_Hyeon } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { src } from './image_utils';
+import { src } from '../../utils/image_utils';
 
 const doHyeon = Do_Hyeon({ weight: '400', subsets: ['latin'] });
 

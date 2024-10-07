@@ -1,6 +1,6 @@
-import ImageSlide from '@/app/ImageSlide';
-import Introduction from './Introduction';
-import MainCoaches from './MainCoaches';
+import ImageSlide from '@/app/components/ImageSlide';
+import Introduction from './components/Introduction';
+import MainCoaches from './components/MainCoaches';
 import Members from './members';
 
 const slideImages = Array.from({ length: 4 }, (_, index) => ({

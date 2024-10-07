@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
-import Header from './Header';
-import LogIn from './LogIn';
+import Header from './components/Header';
+import LogIn from './components/LogIn';
 import './globals.css';
-import { src } from './image_utils';
+import { src } from '../utils/image_utils';
 import { AuthProvider } from './providers/AuthProvider';
 import { DialogProvider } from './providers/DialogProvider';
 

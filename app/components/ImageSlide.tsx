@@ -1,7 +1,7 @@
 'use client';
 
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { ImageProps } from '../components/BlurredImage';
+import { ImageProps } from '../../components/BlurredImage';
 
 interface Props {
   srcs: ImageProps[];

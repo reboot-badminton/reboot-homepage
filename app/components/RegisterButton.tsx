@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from './providers/AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
 import { Role } from '@/firebase';
 
 export default function RegisterButton() {

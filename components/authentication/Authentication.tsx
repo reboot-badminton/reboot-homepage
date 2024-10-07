@@ -4,7 +4,7 @@ import EmailVerification from '@/components/authentication/EmailVerification';
 import GoogleButton from './GoogleButton';
 import { User } from 'firebase/auth';
 import { useState } from 'react';
-import Authorized from '@/app/Authorized';
+import Authorized from '@/components/Authorized';
 
 interface Props {
   emailVerificationText: string;
@@ -15,7 +15,7 @@ interface Props {
 export default function Authentication({
   emailVerificationText,
   googleVerificationText,
-  onUserSignedIn = () => {},
+  onUserSignedIn = () => { },
 }: Props) {
   const [errorMessage, setErrorMessage] = useState('');
 
