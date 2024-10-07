@@ -4,7 +4,7 @@ import MainCoaches from './MainCoaches';
 import Members from './members';
 import RegisterButton from './RegisterButton';
 
-const slideImages = Array.from({ length: 5 }, (_, index) => ({
+const slideImages = Array.from({ length: 4 }, (_, index) => ({
   src: `/slide/${index}.jpeg`,
   alt: `blurred slide Image ${index}`,
 }));
@@ -12,10 +12,11 @@ const slideImages = Array.from({ length: 5 }, (_, index) => ({
 export default function Home() {
   return (
     <>
-      <ImageSlide srcs={slideImages} />
+      <ImageSlide srcs={slideImages}>
+        <Introduction />
+      </ImageSlide>
       <RegisterButton />
       <hr />
-      <Introduction />
       <MainCoaches />
       <Members />
     </>

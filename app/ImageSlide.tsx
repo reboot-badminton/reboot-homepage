@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ImageProps } from '../components/BlurredImage';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 // 화살표와 인디케이터로 이미지 간 이동 가능
 // 인디케이터는 총 몇 개의 이미지가 있고, 지금 몇 번째 이미지인지 알 수 있게끔 표시
 // 일정 시간이 지날때마다 다음 이미지로 이동
-export default function ImageSlide({ srcs }: Props) {
+export default function ImageSlide({ srcs, children }: PropsWithChildren<Props>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -56,6 +56,7 @@ export default function ImageSlide({ srcs }: Props) {
         alt={srcs[currentIndex].alt}
         className="object-cover w-full h-screen desktop:h-[900px]"
       />
+      <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
         className="absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hover:scale-125"
         onClick={prevSlide}
