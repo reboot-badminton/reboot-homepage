@@ -1,9 +1,9 @@
 'use client';
 
+import { Open_Sans } from 'next/font/google';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { src } from './image_utils';
-import { Open_Sans } from 'next/font/google';
 
 interface Section {
   title: string;
@@ -122,9 +122,8 @@ function Coach({
       <div
         className={`w-full h-full` + opacity}
         style={{
-          background: `linear-gradient(${
-            align === 'left' ? '75deg' : '-75deg'
-          },rgba(0,0,0,0.9),rgba(0,0,0,0.3))`,
+          background: `linear-gradient(${align === 'left' ? '75deg' : '-75deg'
+            },rgba(0,0,0,0.9),rgba(0,0,0,0.3))`,
         }}
       />
 
@@ -177,19 +176,6 @@ const openSans = Open_Sans({ subsets: ['latin'] });
 
 export default function MainCoaches() {
   const [expandedSide, setExpandedSide] = useState('left');
-  const [leftOpen, setLeftOpen] = useState(true);
-  const [rightOpen, setRightOpen] = useState(true);
-
-  const handleClick = (side: string) => {
-    if (expandedSide === side) {
-      if (side === 'left') {
-        setLeftOpen((open) => !open);
-      } else {
-        setRightOpen((open) => !open);
-      }
-    }
-    setExpandedSide(side);
-  };
 
   return (
     <>
@@ -207,21 +193,21 @@ export default function MainCoaches() {
           thumbnailSrc="/antroke.jpg"
           backgroundSrc="/slide/1.jpeg"
           align="left"
-          open={expandedSide === 'left' && leftOpen}
-          onClick={() => handleClick('left')}
+          open={expandedSide === 'left'}
+          onClick={() => setExpandedSide('left')}
         />
         <Coach
           coach={yoon}
           thumbnailSrc="/yoon.jpeg"
           backgroundSrc="/slide/2.jpeg"
           align="right"
-          open={expandedSide === 'right' && rightOpen}
+          open={expandedSide === 'right'}
           clipPath={
             expandedSide === 'left'
               ? 'polygon(80% 0, 100% 0, 100% 100%, 95% 100%)'
               : 'polygon(20% 0, 100% 0, 100% 100%, 5% 100%)'
           }
-          onClick={() => handleClick('right')}
+          onClick={() => setExpandedSide('right')}
         />
       </div>
       <span className="block text-xs text-end mt-1 mr-2 text-gray-400">
