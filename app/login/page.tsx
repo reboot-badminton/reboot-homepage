@@ -65,7 +65,7 @@ export default function Login() {
               계정이 없으신가요?
               <Link
                 href="/signup"
-                className="ml-4 font-medium text-gray-600 hover:underline"
+                className="ml-4 font-medium text-gray-600 hoverable:hover:underline active:underline"
               >
                 회원가입하기
               </Link>

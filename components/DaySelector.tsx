@@ -31,7 +31,7 @@ export default function DaySelector({ onDayChange }: Props) {
               'flex-grow text-center py-1 cursor-pointer' +
               (index === selectedDay
                 ? ' bg-white rounded-t-md text-blue-600'
-                : ' border-b border-gray-400 hover:bg-white/40')
+                : ' border-b border-gray-400 hoverable:hover:bg-white/40 active:bg-white/40')
             }
             onClick={() => setSelectedDay(index)}
             key={'manage-slot-' + day}

@@ -90,13 +90,13 @@ export default function RegistrationTimeSlot({
           {slot.isRegistered == null && (
             <div className="flex gap-4 my-1 justify-center sm:justify-start">
               <div
-                className="cursor-pointer text-blue-400 hover:text-blue-700"
+                className="cursor-pointer text-blue-400 hoverable:hover:text-blue-700 active:text-blue-700"
                 onClick={() => updateTimeSlot(true, timeSlotIndex, slot)}
               >
                 수락
               </div>
               <div
-                className="cursor-pointer text-red-400 hover:text-red-700"
+                className="cursor-pointer text-red-400 hoverable:hover:text-red-700 active:text-blue-700"
                 onClick={() => updateTimeSlot(false, timeSlotIndex)}
               >
                 거절

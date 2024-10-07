@@ -7,7 +7,7 @@ const doHyeon = Do_Hyeon({ weight: '400', subsets: ['latin'] });
 
 export default function Header() {
   return (
-    <Link href="/" className="flex justify-center items-center py-2 fixed left-0 right-0 top-0 border-b border-white/50 backdrop-blur-md z-[1] transition-colors duration-300 hover:bg-white text-white hover:text-black">
+    <Link href="/" className="flex justify-center items-center py-2 fixed left-0 right-0 top-0 border-b border-white/50 backdrop-blur-md z-[1] transition-colors duration-300 hoverable:hover:bg-white text-white hoverable:hover:text-black">
       <div className="text-center relative">
         <Image
           className="mr-2 rounded-full absolute -left-9 mt-1"

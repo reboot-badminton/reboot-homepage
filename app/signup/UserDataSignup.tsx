@@ -185,7 +185,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       )}
       <button
         type="submit"
-        className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        className="w-full text-white bg-gray-600 hoverable:hover:bg-gray-700 active:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         가입하기
       </button>
@@ -193,7 +193,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
         이미 계정이 있으신가요?
         <Link
           href="/login"
-          className="ml-2 font-medium text-gray-600 hover:underline"
+          className="ml-2 font-medium text-gray-600 hoverable:hover:underline active:underline"
         >
           로그인하기
         </Link>

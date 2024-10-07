@@ -9,7 +9,7 @@ export default function Slot({ slot, onClick }: Props) {
   if (slot == null) {
     return (
       <div
-        className="text-xs h-10 flex justify-center items-center cursor-pointer hover:bg-slate-100"
+        className="text-xs h-10 flex justify-center items-center cursor-pointer hoverable:hover:bg-slate-100 active:bg-slate-100"
         onClick={() => onClick(null)}
       >
         -
@@ -18,7 +18,7 @@ export default function Slot({ slot, onClick }: Props) {
   }
 
   return (
-    <div className="text-sm px-2 py-1 cursor-pointer hover:bg-slate-100" onClick={() => onClick(slot)}>
+    <div className="text-sm px-2 py-1 cursor-pointer hoverable:hover:bg-slate-100 active:bg-slate-100" onClick={() => onClick(slot)}>
       <b className="block mb-1">{slot.title}</b>
       <span>{slot.coach}</span>
       <span className="ml-1 text-gray-500">₩{slot.price.toLocaleString()}</span>
