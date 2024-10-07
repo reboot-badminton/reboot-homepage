@@ -9,7 +9,7 @@ export default function Introduction() {
           프리미엄 맞춤 레슨을 <br className="tablet:hidden desktop:hidden" />제공합니다.
         </p>
         <hr className="w-8 desktop:w-1/3 h-1 my-4 desktop:my-8 mx-auto bg-white" />
-        <span className="text-center desktop:text-xl">남양주 최고의 배드민턴 레슨 시설</span>
+        <span className="block text-center desktop:text-xl">남양주 최고의 배드민턴 레슨 시설</span>
       </div>
       <div className="relative mx-auto">
         <RegisterButton />
