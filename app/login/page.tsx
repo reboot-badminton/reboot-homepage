@@ -66,6 +66,7 @@ export default function Login() {
               <Link
                 href="/signup"
                 className="ml-4 font-medium text-gray-600 hoverable:hover:underline active:underline"
+                replace={true}
               >
                 회원가입하기
               </Link>

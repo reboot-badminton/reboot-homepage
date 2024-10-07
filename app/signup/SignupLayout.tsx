@@ -47,6 +47,7 @@ export default function SignupLayout({ children }: PropsWithChildren) {
                 <Link
                   href="/login"
                   className="ml-2 font-medium text-gray-600 hoverable:hover::underline active:underline"
+                  replace={true}
                 >
                   로그인하기
                 </Link>
