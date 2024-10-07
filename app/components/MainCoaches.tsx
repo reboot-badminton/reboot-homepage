@@ -191,7 +191,7 @@ export default function MainCoaches() {
         <Coach
           coach={an}
           thumbnailSrc="/antroke.jpg"
-          backgroundSrc="/slide/1.jpeg"
+          backgroundSrc="/slide/1.webp"
           align="left"
           open={expandedSide === 'left'}
           onClick={() => setExpandedSide('left')}
@@ -199,7 +199,7 @@ export default function MainCoaches() {
         <Coach
           coach={yoon}
           thumbnailSrc="/yoon.jpeg"
-          backgroundSrc="/slide/2.jpeg"
+          backgroundSrc="/slide/2.webp"
           align="right"
           open={expandedSide === 'right'}
           clipPath={
