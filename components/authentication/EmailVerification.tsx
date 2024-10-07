@@ -150,7 +150,7 @@ export default function EmailVerification({
   }, [email]);
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-2 md:space-y-6">
       {state !== State.VERIFIED && (
         <div>
           <label
