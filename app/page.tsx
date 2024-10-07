@@ -10,13 +10,13 @@ const slideImages = Array.from({ length: 4 }, (_, index) => ({
 
 export default function Home() {
   return (
-    <>
+    <div className={`-mt-[61px]`}>
       <ImageSlide srcs={slideImages}>
         <Introduction />
       </ImageSlide>
       <hr />
       <MainCoaches />
       <Members />
-    </>
+    </div>
   );
 }
