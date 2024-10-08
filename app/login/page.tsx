@@ -1,8 +1,9 @@
 'use client';
 
+import AuthLayout from '@/components/authentication/AuthLayout';
 import Authentication from '@/components/authentication/Authentication';
 import { app, firestore } from '@/firebase';
-import { getAuth, signOut, User } from 'firebase/auth';
+import { User, getAuth, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -50,30 +51,21 @@ export default function Login() {
   }, [isSignedUp, router]);
 
   return (
-    <main className="flex flex-col items-center justify-center p-8">
-      <div className="w-[420px] bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-            로그인
-          </h1>
-          <div className="space-y-4 md:space-y-6">
-            <Authentication
-              emailVerificationText='이메일로 로그인'
-              googleVerificationText='구글 계정으로 로그인'
-              onUserSignedIn={onUserSignedIn} />
-            <p className="text-sm font-light text-gray-500">
-              계정이 없으신가요?
-              <Link
-                href="/signup"
-                className="ml-4 font-medium text-gray-600 hoverable:hover:underline active:underline"
-                replace={true}
-              >
-                회원가입하기
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </main>
+    <AuthLayout title="로그인">
+      <Authentication
+        emailVerificationText="이메일로 로그인"
+        googleVerificationText="구글 계정으로 로그인"
+        onUserSignedIn={onUserSignedIn} />
+      <p className="text-sm font-light text-gray-500">
+        계정이 없으신가요?
+        <Link
+          href="/signup"
+          className="ml-4 font-medium text-gray-600 hoverable:hover:underline active:underline"
+          replace={true}
+        >
+          회원가입하기
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }
