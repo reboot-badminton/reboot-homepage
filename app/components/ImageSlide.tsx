@@ -55,13 +55,19 @@ export default function ImageSlide({
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
-      <Image
-        src={srcs[currentIndex].src}
-        alt={srcs[currentIndex].alt}
-        fill={true}
-        style={{ objectFit: 'cover', objectPosition: 'center' }}
-        priority
-      />
+      {srcs.map((src, index) => (
+        <Image
+          key={index}
+          src={src.src}
+          alt={src.alt}
+          fill={true}
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          priority={index === 0}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === currentIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      ))}
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
         className="absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hoverable:hover:scale-125 active:scale-125"
