@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ImageProps } from '../../components/BlurredImage';
-import Image from 'next/image';
+import ImageFadeIn from './ImageFadeIn';
 
 interface Props {
   srcs: ImageProps[];
@@ -18,60 +18,49 @@ export default function ImageSlide({
   children,
 }: PropsWithChildren<Props>) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isSlidable, setIsSlidable] = useState(false);
 
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + srcs.length) % srcs.length);
-  }, [srcs.length]);
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % srcs.length);
-  }, [srcs.length]);
+  const onFadeEnd = useCallback(() => {
+    console.log('fade end');
+    setIsSlidable(true);
+  }, [setIsSlidable]);
 
-  useEffect(() => {
-    if (isHovered) return;
+  const move = useCallback((delta: number) => {
+    console.log('isSlidable', isSlidable);
+    if (!isSlidable) return;
+    setIsSlidable(false);
+    setCurrentIndex((prevIndex) => (prevIndex + delta + srcs.length) % srcs.length);
+  }, [isSlidable, srcs.length]);
 
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 3000);
+  // useEffect(() => {
+  //   if (!isSlidable) return;
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isHovered, nextSlide]);
+  //   const interval = setInterval(() => {
+  //     move(1);
+  //   }, 3000);
 
-  const handleMouseOver = useCallback(() => {
-    setIsHovered(true);
-  }, []);
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [isSlidable, move]);
+
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
   }, []);
 
   return (
-    <div
-      className="w-full h-svh relative overflow-clip"
-      onMouseOver={handleMouseOver}
-      onMouseLeave={handleMouseLeave}
-    >
-      <Image
-        src={srcs[currentIndex].src}
-        alt={srcs[currentIndex].alt}
-        fill={true}
-        style={{ objectFit: 'cover', objectPosition: 'center' }}
-        priority
-      />
+    <div className="w-full h-svh relative overflow-clip"    >
+      <ImageFadeIn src={srcs[currentIndex]} onFadeEnd={onFadeEnd} />
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
-        className="absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hoverable:hover:scale-125 active:scale-125"
-        onClick={prevSlide}
+        className={'absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform' + (isSlidable ? ' hoverable:hover:scale-125 active:scale-125' : '')}
+        onClick={() => move(-1)}
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" />
       </div>
       <div
-        className="absolute right-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform hoverable:hover:scale-125 active:scale-125"
-        onClick={nextSlide}
+        className={'absolute right-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform' + (isSlidable ? ' hoverable:hover:scale-125 active:scale-125' : '')}
+        onClick={() => move(1)}
       >
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" />
       </div>
@@ -79,9 +68,8 @@ export default function ImageSlide({
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-3 w-3 mx-1 rounded-full border-2 ${
-              index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
-            } transition-all duration-500 ease-in-out hover:cursor-pointer`}
+            className={`h-3 w-3 mx-1 rounded-full border-2 ${index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
+              } transition-all duration-500 ease-in-out hover:cursor-pointer`}
             onClick={() => goToSlide(index)}
           ></div>
         ))}
