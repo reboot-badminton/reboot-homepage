@@ -21,28 +21,26 @@ export default function ImageSlide({
   const [isSlidable, setIsSlidable] = useState(false);
 
   const onFadeEnd = useCallback(() => {
-    console.log('fade end');
     setIsSlidable(true);
   }, [setIsSlidable]);
 
   const move = useCallback((delta: number) => {
-    console.log('isSlidable', isSlidable);
     if (!isSlidable) return;
     setIsSlidable(false);
     setCurrentIndex((prevIndex) => (prevIndex + delta + srcs.length) % srcs.length);
   }, [isSlidable, srcs.length]);
 
-  // useEffect(() => {
-  //   if (!isSlidable) return;
+  useEffect(() => {
+    if (!isSlidable) return;
 
-  //   const interval = setInterval(() => {
-  //     move(1);
-  //   }, 3000);
+    const interval = setInterval(() => {
+      move(1);
+    }, 3000);
 
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [isSlidable, move]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isSlidable, move]);
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);

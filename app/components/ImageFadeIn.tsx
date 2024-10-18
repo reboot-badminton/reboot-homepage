@@ -16,14 +16,12 @@ export default function ImageFadeIn({ src, onFadeEnd }: Props) {
   const nextImageRef = useRef<HTMLImageElement>(null);
 
   const onTransitionEnd = useCallback(() => {
-    console.log('transition end');
     setBack(front);
     setIsFading(false);
     onFadeEnd();
   }, [front, setBack, setIsFading, onFadeEnd]);
 
   useEffect(() => {
-    setBack(front);
     setFront(src);
     setIsFading(true);
   }, [front, src]);
@@ -34,7 +32,7 @@ export default function ImageFadeIn({ src, onFadeEnd }: Props) {
         src={back.src}
         alt={back.alt}
         fill={true}
-        className='object-cover object-center'
+        className='object-cover object-center opacity-100'
         priority
       />
       <Image
@@ -43,7 +41,7 @@ export default function ImageFadeIn({ src, onFadeEnd }: Props) {
         alt={front.alt}
         fill={true}
         onTransitionEnd={onTransitionEnd}
-        className={'object-cover object-center transition-opacity ' + (isFading ? ' duration-300 opacity-100' : ' opacity-0')}
+        className={'object-cover object-center transition-opacity' + (isFading ? ' duration-500 opacity-100' : ' opacity-0')}
       />
     </>
   );
