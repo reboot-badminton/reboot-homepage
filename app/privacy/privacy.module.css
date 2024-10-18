@@ -1,33 +1,33 @@
-section {
+.PrivacyPage.section {
   background-color: white;
   margin: 24px;
   padding: 18px;
   border-radius: 8px;
 }
 
-h1 {
+.PrivacyPage h1 {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
   margin: 14px;
 }
 
-h2 {
+.PrivacyPage h2 {
   font-size: 18px;
   margin: 14px 0 12px;
 }
 
-p {
+.PrivacyPage p {
   margin: 8px 0;
 }
 
-ol>li {
+.PrivacyPage ol>li {
   list-style-type: decimal;
   list-style-position: inside;
   padding-left: 14px;
 }
 
-ul>li {
+.PrivacyPage ul>li {
   list-style-type: circle;
   list-style-position: inside;
   padding-left: 14px;
