@@ -10,8 +10,6 @@ function Analytics() {
       const supported = await isSupported();
       if (supported) {
         getAnalytics(app);
-      } else {
-        console.log('Firebase Analytics is not supported in this environment.');
       }
     }
 
