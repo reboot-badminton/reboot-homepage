@@ -7,6 +7,7 @@ import './globals.css';
 import { src } from '../utils/image_utils';
 import { AuthProvider } from './providers/AuthProvider';
 import { DialogProvider } from './providers/DialogProvider';
+import Analytics from './components/Analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,6 +37,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <Analytics/>
       <AuthProvider>
         <body className={inter.className}>
           <DialogProvider>
