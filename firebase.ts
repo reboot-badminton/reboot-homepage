@@ -72,5 +72,6 @@ export async function getRole() {
   return toRoleFromString(result.data()?.role);
 }
 
+console.log(clientConfig);
 export const app = initializeApp(clientConfig);
 export const firestore = getFirestore(app);
