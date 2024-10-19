@@ -1,5 +1,5 @@
 import { LessonMonth } from '@/app/data/LessonMonth';
-import TimeSlot from '@/app/data/TimeSlot';
+import TimeSlot, { isSameSlot } from '@/app/data/TimeSlot';
 import { firestore } from '@/firebase';
 import { doc, DocumentData, getDoc, setDoc } from 'firebase/firestore';
 
@@ -31,13 +31,10 @@ export async function deleteSlot(timeSlot: TimeSlot) {
 
     const snapshotData: DocumentData = snapshot.data();
 
-    data[month] = snapshotData[month].filter(
-      (slot: TimeSlot) =>
-        slot.lessonMonth.year !== year ||
-        slot.lessonMonth.month !== month ||
-        slot.days.join() !== timeSlot.days.join() ||
-        slot.time !== timeSlot.time
-    );
+    data[month] =
+      snapshotData[month]?.filter(
+        (slot: TimeSlot) => !isSameSlot(slot, timeSlot)
+      ) ?? [];
 
     setDoc(doc(firestore, 'slots', year.toString()), data);
   }
@@ -62,16 +59,14 @@ export async function updateSlot(newTimeSlot: TimeSlot, oldTimeSlot: TimeSlot) {
   if (snapshot.exists()) {
     const snapshotData: DocumentData = snapshot.data();
 
-    data[month] = snapshotData[month]?.filter(
-      (slot: TimeSlot) =>
-        slot.lessonMonth.year !== year ||
-        slot.lessonMonth.month !== month ||
-        slot.days.join() !== oldTimeSlot.days.join() ||
-        slot.time !== oldTimeSlot.time
-    ) ?? [];
+    data[month] =
+      snapshotData[month]?.filter(
+        (slot: TimeSlot) => !isSameSlot(slot, oldTimeSlot)
+      ) ?? [];
   }
 
-  data[month] = [newTimeSlot].concat(...(data[month] ?? []));
+  data[month] = data[month] ?? [];
+  data[month].push(newTimeSlot);
 
   setDoc(doc(firestore, 'slots', year.toString()), data);
 }

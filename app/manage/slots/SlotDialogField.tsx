@@ -51,10 +51,15 @@ export default function SlotDialogField({
             size={10}
             value={value}
             inputMode={
-              typeof valueRef.current === 'number' ? 'numeric' : 'text'
+              typeof valueRef.current === 'number' ? 'decimal' : 'text'
             }
-            onChange={(e) =>
-              setValue((valueRef.current = parse(e.target.value)))
+            onChange={(e) => {
+              const value = parse(e.target.value);
+              if (typeof valueRef.current !== 'number' || !isNaN(value as number)) {
+                valueRef.current = value;
+                setValue(e.target.value);
+              }
+            }
             }
           />
           {suffix && <>{suffix}</>}

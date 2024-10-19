@@ -55,6 +55,7 @@ export default function ManageSlots() {
       price: 0,
       capacity: 2,
       students: [],
+      duration: 1,
     }, true);
   }, [lessonMonth, day, showSlotDialog]);
 

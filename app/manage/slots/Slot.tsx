@@ -1,24 +1,26 @@
 import TimeSlot from '@/app/data/TimeSlot';
+import { MouseEvent, useCallback } from 'react';
 
 interface Props {
-  slot: TimeSlot | undefined;
-  onClick: (slot: TimeSlot | null) => void;
+  slot: TimeSlot;
+  onClick: (slot: TimeSlot) => void;
 }
 
 export default function Slot({ slot, onClick }: Props) {
-  if (slot == null) {
-    return (
-      <div
-        className="text-xs h-10 flex justify-center items-center cursor-pointer hoverable:hover:bg-slate-100 active:bg-slate-100"
-        onClick={() => onClick(null)}
-      >
-        -
-      </div>
-    );
-  }
+  const onSlotClick = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClick(slot);
+  }, [slot, onClick]);
 
   return (
-    <div className="text-sm px-2 py-1 cursor-pointer hoverable:hover:bg-slate-100 active:bg-slate-100" onClick={() => onClick(slot)}>
+    <div
+      className="text-sm px-2 py-1 w-full cursor-pointer bg-blue-300 rounded-lg border"
+      style={{
+        height: (slot.duration ?? 1) * 100 + '%',
+        transform: `translateY(${(slot.time - Math.floor(slot.time)) * 100}%)`
+      }}
+      onClick={onSlotClick}>
       <b className="block mb-1">{slot.title}</b>
       <span>{slot.coach}</span>
       <span className="ml-1 text-gray-500">₩{slot.price.toLocaleString()}</span>

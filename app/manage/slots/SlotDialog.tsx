@@ -1,11 +1,11 @@
 'use client';
 
 import TimeSlot from '@/app/data/TimeSlot';
+import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
 import { useCallback, useRef, useState } from 'react';
 import { deleteSlot, updateSlot } from './getSlot';
 import SlotDialogField from './SlotDialogField';
 import SlotDialogDaysField from './SlotDialotDaysField';
-import { CancelDialogButton, ConfirmDialogButton } from '@/components/DialogButtons';
 
 interface Props {
   slot: TimeSlot;
@@ -23,6 +23,8 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
   const coachRef = useRef(slot.coach);
   const priceRef = useRef(slot.price);
   const capacityRef = useRef(slot.capacity);
+  const timeRef = useRef(slot.time);
+  const durationRef = useRef(slot.duration ?? 1);
 
   const initialize = useCallback(() => {
     titleRef.current = slot.title;
@@ -30,6 +32,8 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
     coachRef.current = slot.coach;
     priceRef.current = slot.price;
     capacityRef.current = slot.capacity;
+    timeRef.current = slot.time;
+    durationRef.current = slot.duration;
   }, [slot]);
 
   return (
@@ -56,6 +60,18 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
         title="정원"
         valueRef={capacityRef}
         suffix="명"
+        isEditMode={isEditMode}
+      />
+      <SlotDialogField
+        title="시작"
+        valueRef={timeRef}
+        suffix="시"
+        isEditMode={isEditMode}
+      />
+      <SlotDialogField
+        title="시간"
+        valueRef={durationRef}
+        suffix="시간"
         isEditMode={isEditMode}
       />
       <div className="mt-2">
@@ -113,6 +129,8 @@ export default function SlotDialog({ slot, isAddMode, onClose }: Props) {
                   coach: coachRef.current,
                   price: priceRef.current,
                   capacity: capacityRef.current,
+                  time: timeRef.current,
+                  duration: durationRef.current,
                 },
                 slot
               ).then(() => {
