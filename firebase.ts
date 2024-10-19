@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app';
-// import { getAnalytics } from 'firebase/analytics';
-import firebaseConfig from '@/firebase-config';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { clientConfig } from './config';
 
 export enum Role {
   ADMIN,
@@ -73,6 +72,5 @@ export async function getRole() {
   return toRoleFromString(result.data()?.role);
 }
 
-export const app = initializeApp(firebaseConfig);
-// export const analytics = getAnalytics(app);
+export const app = initializeApp(clientConfig);
 export const firestore = getFirestore(app);
