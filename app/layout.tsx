@@ -7,6 +7,7 @@ import './globals.css';
 import { src } from '../utils/image_utils';
 import { AuthProvider } from './providers/AuthProvider';
 import { DialogProvider } from './providers/DialogProvider';
+import Analytics from './components/Analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,14 +37,13 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <Analytics />
       <AuthProvider>
         <body className={inter.className}>
           <DialogProvider>
-            <div className='flex flex-col min-h-screen'>
+            <div className="flex flex-col min-h-screen">
               <Header />
-              <main className='flex-grow'>
-                {children}
-              </main>
+              <main className="flex-grow">{children}</main>
               <footer className="w-full pt-4 mt-16 border-t text-center text-gray-500">
                 <h1 className="text-lg mb-2 font-bold">Follow Us</h1>
                 <div className="text-sm mb-4">
@@ -67,7 +67,9 @@ export default async function RootLayout({
                       className="inline mr-1"
                       priority
                     />
-                    <span className="hidden sm:inline">인스타그램 (an_troke)</span>
+                    <span className="hidden sm:inline">
+                      인스타그램 (an_troke)
+                    </span>
                   </a>
                   <a href="https://blog.naver.com/dkswls5946">
                     <Image
