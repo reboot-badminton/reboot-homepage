@@ -16,7 +16,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
-  const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
+  const [didOpenPrivacyPage, setDidOpenPrivacyPage] = useState(false);
 
   const router = useRouter();
   const { showDialog } = useDialog();
@@ -39,7 +39,6 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       if (user == null) {
         router.back();
       }
-      const privacyConsentDate = new Date();
       await setDoc(doc(firestore, 'users', user!.uid), {
         name,
         gender,
@@ -47,7 +46,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
         phone,
         email,
         role: toRoleString(Role.MEMBER),
-        privacy: privacyConsentDate.toISOString(),
+        privacy: new Date().getTime(),
       });
     } catch (error) {
       setError((error as Error).message);
@@ -78,7 +77,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
   }
 
   const handlePrivacyClick = () => {
-    setIsPrivacyChecked(true);
+    setDidOpenPrivacyPage(true);
   };
 
   return (
@@ -190,13 +189,15 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           type="checkbox"
           name="privacy"
           id="privacy"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block"
-          disabled={!isPrivacyChecked}
+          className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block`}
+          disabled={!didOpenPrivacyPage}
           required
         />
         <label
           htmlFor="privacy"
-          className="block text-sm font-medium text-gray-900"
+          className={`block text-sm font-medium ${
+            didOpenPrivacyPage ? 'text-gray-900' : 'text-gray-400'
+          }`}
         >
           개인정보 수집 및 이용 동의
           <Link
@@ -205,7 +206,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
             target="_blank"
             onClick={handlePrivacyClick}
           >
-            약관 보기
+            약관 보기(필수)
           </Link>
         </label>
       </div>
