@@ -189,7 +189,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           type="checkbox"
           name="privacy"
           id="privacy"
-          className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block`}
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block"
           disabled={!didOpenPrivacyPage}
           required
         />
@@ -206,7 +206,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
             target="_blank"
             onClick={handlePrivacyClick}
           >
-            약관 보기(필수)
+            약관 보기 (필수)
           </Link>
         </label>
       </div>
