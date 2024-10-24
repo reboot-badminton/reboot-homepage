@@ -1,5 +1,5 @@
 import NaverMap from './NaverMap';
-import { MdSportsTennis } from 'react-icons/md';
+
 const distanceInfo = [
   {
     transport: '지하철',
@@ -17,20 +17,20 @@ const distanceInfo = [
     location: '진건오남로390번길 89',
   },
 ];
+
 function Location() {
   return (
     <div className="px-12 mb-12">
       <h1 className="ml-1 mt-12 mb-4 text-gray-800 text-xl font-bold flex items-center gap-3">
         <div className="w-1 h-8 bg-blue-300"></div> 오시는 길
       </h1>
-      <div className="flex flex-row items-start md:justify-center gap-6">
-        <div className="w-full md:w-1/2 h-64 md:h-auto">
+      <div className="flex flex-row mobile:flex-col items-start mobile:justify-center gap-6">
+        <div className="w-full h-64 mobile:h-auto">
           <NaverMap />
         </div>
-        <div className="w-full md:w-1/2 text-gray-700 leading-relaxed space-y-4">
-          <div className='mb-8'>
+        <div className="w-full text-gray-700 leading-relaxed space-y-4">
+          <div className="mb-8">
             <h2 className="flex items-center gap-3 text-xl font-semibold mb-3 whitespace-nowrap">
-              <MdSportsTennis />
               리부트 배드민턴 전용구장
             </h2>
             <div className="space-y-2">
@@ -66,7 +66,7 @@ function Location() {
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead>
-                  <tr className='*:text-center'>
+                  <tr className="*:text-center">
                     <th className="px-4 py-2 border-b border-gray-200 text-left text-sm font-semibold text-gray-700">
                       종류
                     </th>

@@ -12,42 +12,44 @@ function NaverMap() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    if (COORDINATES && scriptLoaded) {
-      const position = new window.naver.maps.LatLng(
-        COORDINATES[0],
-        COORDINATES[1]
-      );
+    if (!COORDINATES || !scriptLoaded) {
+      return;
+    }
 
-      const mapOptions = {
-        center: position,
-        zoom: 19,
-        scaleControl: true,
-        mapDataControl: true,
-        logoControlOptions: {
-          position: window.naver.maps.Position.BOTTOM_LEFT,
-        },
-      };
+    const position = new window.naver.maps.LatLng(
+      COORDINATES[0],
+      COORDINATES[1]
+    );
 
-      if (!mapRef.current) {
-        mapRef.current = new window.naver.maps.Map(MAPID, mapOptions);
+    const mapOptions = {
+      center: position,
+      zoom: 19,
+      scaleControl: true,
+      mapDataControl: true,
+      logoControlOptions: {
+        position: window.naver.maps.Position.BOTTOM_LEFT,
+      },
+    };
 
-        // 마커 추가
+    if (!mapRef.current) {
+      mapRef.current = new window.naver.maps.Map(MAPID, mapOptions);
+
+      // 마커 추가
+      markerRef.current = new window.naver.maps.Marker({
+        position: position,
+        map: mapRef.current,
+      });
+    } else {
+      mapRef.current.setCenter(position);
+
+      // 마커 위치 업데이트
+      if (markerRef.current) {
+        markerRef.current.setPosition(position);
+      } else {
         markerRef.current = new window.naver.maps.Marker({
           position: position,
           map: mapRef.current,
         });
-      } else {
-        mapRef.current.setCenter(position);
-
-        // 마커 위치 업데이트
-        if (markerRef.current) {
-          markerRef.current.setPosition(position);
-        } else {
-          markerRef.current = new window.naver.maps.Marker({
-            position: position,
-            map: mapRef.current,
-          });
-        }
       }
     }
   }, [COORDINATES, scriptLoaded]);
