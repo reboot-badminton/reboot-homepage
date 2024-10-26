@@ -22,4 +22,4 @@ export const clientConfig = {
     process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID ?? 'G-GSY1NQHZXE',
 };
 
-export const NEXT_PUBLIC_NAVER_ID = 'b665agx8f3';
+export const NAVER_API_KEY = 'b665agx8f3';
