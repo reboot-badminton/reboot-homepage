@@ -12,7 +12,7 @@ function NaverMap() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    if (!COORDINATES || !scriptLoaded) {
+    if (!scriptLoaded) {
       return;
     }
 
@@ -33,26 +33,18 @@ function NaverMap() {
 
     if (!mapRef.current) {
       mapRef.current = new window.naver.maps.Map(MAPID, mapOptions);
-
+    }
+    if (!markerRef.current) {
       // 마커 추가
       markerRef.current = new window.naver.maps.Marker({
         position: position,
         map: mapRef.current,
       });
-    } else {
-      mapRef.current.setCenter(position);
-
-      // 마커 위치 업데이트
-      if (markerRef.current) {
-        markerRef.current.setPosition(position);
-      } else {
-        markerRef.current = new window.naver.maps.Marker({
-          position: position,
-          map: mapRef.current,
-        });
-      }
     }
-  }, [COORDINATES, scriptLoaded]);
+
+    mapRef.current.setCenter(position);
+    markerRef.current.setPosition(position);
+  }, [scriptLoaded]);
 
   return (
     <>
