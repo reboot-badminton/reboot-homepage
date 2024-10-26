@@ -21,3 +21,5 @@ export const clientConfig = {
   measurementId:
     process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID ?? 'G-GSY1NQHZXE',
 };
+
+export const NEXT_PUBLIC_NAVER_ID = 'b665agx8f3';

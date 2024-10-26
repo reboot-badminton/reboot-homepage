@@ -2,6 +2,7 @@
 
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
+import { NEXT_PUBLIC_NAVER_ID } from '@/config';
 
 const MAPID = 'naver-map';
 const COORDINATES = [37.6689999, 127.2084842];
@@ -35,7 +36,6 @@ function NaverMap() {
       mapRef.current = new window.naver.maps.Map(MAPID, mapOptions);
     }
     if (!markerRef.current) {
-      // 마커 추가
       markerRef.current = new window.naver.maps.Marker({
         position: position,
         map: mapRef.current,
@@ -50,7 +50,7 @@ function NaverMap() {
     <>
       <Script
         type="text/javascript"
-        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_ID}&submodules=geocoder`}
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NEXT_PUBLIC_NAVER_ID}&submodules=geocoder`}
         onLoad={() => setScriptLoaded(true)}
       />
       <div id={MAPID} style={{ width: '100%', height: '400px' }}></div>
