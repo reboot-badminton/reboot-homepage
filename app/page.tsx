@@ -3,6 +3,7 @@ import Introduction from './components/Introduction';
 import MainCoaches from './components/MainCoaches';
 import Members from './components/Members';
 import { Metadata } from 'next';
+import Location from './components/Location';
 
 export const metadata: Metadata = {
   other: {
@@ -24,6 +25,7 @@ export default function Home() {
       <hr />
       <MainCoaches />
       <Members />
+      <Location />
     </div>
   );
 }
