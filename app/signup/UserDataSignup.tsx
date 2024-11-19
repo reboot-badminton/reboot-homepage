@@ -16,6 +16,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
+  const [didOpenPrivacyPage, setDidOpenPrivacyPage] = useState(false);
 
   const router = useRouter();
   const { showDialog } = useDialog();
@@ -38,7 +39,6 @@ export default function UserDataSignup({ uid }: { uid: string }) {
       if (user == null) {
         router.back();
       }
-
       await setDoc(doc(firestore, 'users', user!.uid), {
         name,
         gender,
@@ -46,6 +46,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
         phone,
         email,
         role: toRoleString(Role.MEMBER),
+        privacy: new Date().getTime(),
       });
     } catch (error) {
       setError((error as Error).message);
@@ -75,12 +76,12 @@ export default function UserDataSignup({ uid }: { uid: string }) {
     });
   }
 
+  const handlePrivacyClick = () => {
+    setDidOpenPrivacyPage(true);
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 md:space-y-6"
-      action="#"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
       <div>
         <label
           htmlFor="name"
@@ -183,6 +184,32 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           <span className="block sm:inline">{error}</span>
         </div>
       )}
+      <div className="flex flex-row gap-2 items-center">
+        <input
+          type="checkbox"
+          name="privacy"
+          id="privacy"
+          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block"
+          disabled={!didOpenPrivacyPage}
+          required
+        />
+        <label
+          htmlFor="privacy"
+          className={`block text-sm font-medium ${
+            didOpenPrivacyPage ? 'text-gray-900' : 'text-gray-400'
+          }`}
+        >
+          개인정보 수집 및 이용 동의
+          <Link
+            href="/privacy"
+            className="ml-2 font-medium text-blue-600 hoverable:hover:underline active:underline"
+            target="_blank"
+            onClick={handlePrivacyClick}
+          >
+            약관 보기 (필수)
+          </Link>
+        </label>
+      </div>
       <button
         type="submit"
         className="w-full text-white bg-gray-600 hoverable:hover:bg-gray-700 active:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
