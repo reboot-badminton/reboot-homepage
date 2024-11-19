@@ -87,7 +87,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           htmlFor="name"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          이름
+          이름 (필수)
         </label>
         <input
           type="text"
@@ -105,7 +105,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           htmlFor="gender"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          성별
+          성별 (필수)
         </label>
         <select
           name="gender"
@@ -127,7 +127,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           htmlFor="birthday"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          생년월일
+          생년월일 (필수)
         </label>
         <input
           type="date"
@@ -144,7 +144,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           htmlFor="phone"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          휴대폰 번호
+          휴대폰 번호 (필수)
         </label>
         <input
           type="tel"
@@ -162,7 +162,7 @@ export default function UserDataSignup({ uid }: { uid: string }) {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          이메일
+          이메일 (필수)
         </label>
         <input
           type="email"
@@ -195,9 +195,8 @@ export default function UserDataSignup({ uid }: { uid: string }) {
         />
         <label
           htmlFor="privacy"
-          className={`block text-sm font-medium ${
-            didOpenPrivacyPage ? 'text-gray-900' : 'text-gray-400'
-          }`}
+          className={`block text-sm font-medium ${didOpenPrivacyPage ? 'text-gray-900' : 'text-gray-400'
+            }`}
         >
           개인정보 수집 및 이용 동의
           <Link
