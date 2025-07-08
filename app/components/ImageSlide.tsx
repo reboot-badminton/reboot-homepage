@@ -2,7 +2,6 @@
 
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ImageProps } from '../../components/BlurredImage';
-import ImageFadeIn from './ImageFadeIn';
 
 interface Props {
   srcs: ImageProps[];
@@ -17,61 +16,67 @@ export default function ImageSlide({
   srcs,
   children,
 }: PropsWithChildren<Props>) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isSlidable, setIsSlidable] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
 
-  const onFadeEnd = useCallback(() => {
-    setIsSlidable(true);
-  }, [setIsSlidable]);
-
-  const move = useCallback((delta: number) => {
-    if (!isSlidable) return;
-    setIsSlidable(false);
-    setCurrentIndex((prevIndex) => (prevIndex + delta + srcs.length) % srcs.length);
-  }, [isSlidable, srcs.length]);
+  const handleNext = useCallback(() => {
+    setCurrentImage((prev) => (prev + 1) % srcs.length);
+  }, []);
 
   useEffect(() => {
-    if (!isSlidable) return;
 
     const interval = setInterval(() => {
-      move(1);
+      handleNext();
     }, 3000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [isSlidable, move]);
+  }, [handleNext]);
 
-  const goToSlide = useCallback((index: number) => {
-    setCurrentIndex(index);
+  const handleBack = useCallback(() => {
+    setCurrentImage((prev) => (prev - 1 + srcs.length) % srcs.length);
+  }, [])
+
+  const handleThumbnailClick = useCallback((index: number) => {
+    setCurrentImage(index);
   }, []);
 
   return (
-    <div className="w-full h-svh relative overflow-clip"    >
-      <ImageFadeIn src={srcs[currentIndex]} onFadeEnd={onFadeEnd} />
+    <div className="relative w-full h-svh overflow-clip">
+      <div className="absolute top-0 left-0 w-full h-full">
+        {srcs.map((image, index) => (
+          <img
+            key={index}
+            src={image.src}
+            alt={image.alt}
+            className={`absolute w-full h-full object-cover transition-all duration-500 ease-in-out ${index === currentImage ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+              }`}
+          />
+        ))}
+      </div>
       <div className="absolute top-16 bottom-24 left-0 right-0">{children}</div>
       <div
-        className={'absolute left-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform' + (isSlidable ? ' hoverable:hover:scale-125 active:scale-125' : '')}
-        onClick={() => move(-1)}
+        className="absolute left-4 top-1/2 w-20 h-20 py-4 pl-5 mobile:w-8 p-2 cursor-pointer rounded-full bg-black bg-opacity-20 hover:bg-opacity-50 transition-all duration-300"
+        onClick={handleBack}
       >
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" />
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADhJREFUGNNjYGBg4AFiBhkQYQEiCkDEAyBmPAAkmBuABDtIiI8uyiAsC7gsWB1YB1gv2BQ6KeQBAFwUFG/o5+mVAAAAAElFTkSuQmCC" className="w-[30px] h-[50px]" />
       </div>
       <div
-        className={'absolute right-4 top-1/2 w-12 mobile:w-8 p-2 cursor-pointer transition-transform' + (isSlidable ? ' hoverable:hover:scale-125 active:scale-125' : '')}
-        onClick={() => move(1)}
+        className="absolute right-4 top-1/2 w-20 h-20 py-4 pl-7 mobile:w-8 p-2 cursor-pointer rounded-full bg-black bg-opacity-20 hover:bg-opacity-50 transition-all duration-300"
+        onClick={handleNext}
       >
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" />
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA5AQMAAAAbVwlvAAAABlBMVEVHcEz///+flKJDAAAAAXRSTlMAQObYZgAAADRJREFUGNNjOMAABA9ARAGIsAARMiCCD0SwgwjmBiDBSEeFFnCxBzB1YB3scFNorowBpAwAlX8Wm6/WG/sAAAAASUVORK5CYII=" className="w-[30px] h-[50px]" />
       </div>
       <div className="absolute right-16 mobile:right-4 bottom-4 flex justify-center mt-4">
         {srcs.map((_, index) => (
           <div
             key={index}
-            className={`h-3 w-3 mx-1 rounded-full border-2 ${index === currentIndex ? 'bg-blue-400' : 'bg-gray-300'
-              } transition-all duration-500 ease-in-out hover:cursor-pointer`}
-            onClick={() => goToSlide(index)}
-          ></div>
+            className={`h-3 w-3 mx-1 rounded-full cursor-pointer border-2 ${index === currentImage ? 'bg-blue-400' : 'bg-gray-300'
+              } transition-all duration-500 ease-in-out`}
+            onClick={() => handleThumbnailClick(index)}
+          />
         ))}
       </div>
     </div>
   );
-}
+};
