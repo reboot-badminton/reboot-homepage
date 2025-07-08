@@ -1,8 +1,8 @@
-import ImageSlide from '@/app/components/ImageSlide';
 import { Metadata } from 'next';
 import Introduction from './components/Introduction';
 import MainCoaches from './components/MainCoaches';
 import Location from './components/Location';
+import ImageSlider from './components/ImageSlider';
 
 export const metadata: Metadata = {
   other: {
@@ -18,9 +18,9 @@ const slideImages = Array.from({ length: 4 }, (_, index) => ({
 export default function Home() {
   return (
     <div className={`-mt-[61px]`}>
-      <ImageSlide srcs={slideImages}>
+      <ImageSlider srcs={slideImages}>
         <Introduction />
-      </ImageSlide>
+      </ImageSlider>
       <hr />
       <MainCoaches />
       <Location />
